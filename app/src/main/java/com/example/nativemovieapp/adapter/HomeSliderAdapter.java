@@ -103,7 +103,9 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.HomeS
             ViewGroup rootView = (ViewGroup) itemView.getRootView();
             Drawable windowBackground = itemView.getBackground();
             blurView.setupWith(rootView)
-                    .setBlurRadius(5f)
+                    .setBlurRadius(10f)
+                    .setOverlayColor(R.color.accent)
+                    .setBlurAutoUpdate(true)
                     .setFrameClearDrawable(windowBackground);
         }
 
