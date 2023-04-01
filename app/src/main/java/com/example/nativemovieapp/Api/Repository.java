@@ -2,6 +2,7 @@ package com.example.nativemovieapp.Api;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 
 import java.util.List;
@@ -28,7 +29,15 @@ public class Repository {
         return LiveDataProvider.getListPopular();
     }
 
+    public LiveData<List<Category>> getListCategory() {
+        return LDP.getListCategory();
+    }
+
     public void loadListPopularMovie(String api_key, int page) {
         LDP.loadListPopularMovie(api_key, page);
+    }
+
+    public void loadListCategory(String api_key) {
+        LDP.loadListCategory(api_key);
     }
 }

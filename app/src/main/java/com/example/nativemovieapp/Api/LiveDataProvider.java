@@ -4,9 +4,13 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.nativemovieapp.AppExecutor;
+import com.example.nativemovieapp.Model.Categories;
+import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.Movies;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,7 +23,7 @@ public class LiveDataProvider {
 
     //LiveData
     private static MutableLiveData<List<Movie>> listPopular;
-    private static MutableLiveData<List<Movie>> listFavourite;
+    private static MutableLiveData<List<Category>> listCategory;
 
 
     private static LiveDataProvider _ins;
@@ -33,11 +37,15 @@ public class LiveDataProvider {
 
     public LiveDataProvider() {
         listPopular = new MutableLiveData<>();
-        listFavourite = new MutableLiveData<>();
+        listCategory = new MutableLiveData<>();
     }
 
     public static LiveData<List<Movie>> getListPopular() {
         return listPopular;
+    }
+
+    public static LiveData<List<Category>> getListCategory() {
+        return listCategory;
     }
 
 
@@ -78,7 +86,28 @@ public class LiveDataProvider {
 
     }
 
+    public void loadListCategory(String api_key) {
+        TMDB tmdb = ApiService.getTmdbApi();
 
+        Call<Categories> call = tmdb.getListCategory(api_key);
+
+        call.enqueue(new Callback<Categories>() {
+            @Override
+            public void onResponse(Call<Categories> call, Response<Categories> response) {
+                if (response.body() == null)
+                    Log.d("category", "Null body");
+                else {
+                    listCategory.postValue(response.body().getResult());
+                    Log.d("category", response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Categories> call, Throwable t) {
+
+            }
+        });
+    }
 }
 
     
