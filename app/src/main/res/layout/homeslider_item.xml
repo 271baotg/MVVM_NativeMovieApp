@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/slider_item"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
 >
 
@@ -60,15 +60,17 @@
             />
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-
-                      android:gravity="bottom"
+                      android:layout_toRightOf="@id/movie_rating"
+                      android:layout_alignBottom="@id/movie_rating"
+                      android:layout_gravity="bottom"
                       android:text="7.9"
-                      android:layout_marginLeft="100dp"
-                      android:textSize="12dp"
-                      android:layout_marginTop="46dp"
+                      android:layout_marginLeft="8dp"
+                      android:textSize="14dp"
                       android:fontFamily="@font/myfont"
                       android:id="@+id/movie_point"
-            />
+                      android:layout_marginBottom="-8dp"
+                      android:textStyle="bold"
+                      android:textColor="@color/accent"/>
         </RelativeLayout>
     </eightbitlab.com.blurview.BlurView>
 </RelativeLayout>

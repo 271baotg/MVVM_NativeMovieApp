@@ -1,11 +1,15 @@
 package com.example.nativemovieapp.Api;
 
 import com.example.nativemovieapp.Model.Movie;
+import com.example.nativemovieapp.Model.Categories;
+import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movies;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import java.util.List;
 
 public interface TMDB {
 
@@ -29,4 +33,8 @@ public interface TMDB {
                              @Query("api_key") String key
 
     );
+
+    @GET("/3/genre/movie/list")
+    Call<Categories> getListCategory(@Query("api_key") String key);
+
 }
