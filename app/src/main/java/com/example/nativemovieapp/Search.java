@@ -24,6 +24,8 @@ import com.example.nativemovieapp.viewmodel.SearchViewModels;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.nativemovieapp.Api.LiveDataProvider.movieListFinal;
+
 
 public class Search extends Fragment {
 
@@ -55,13 +57,14 @@ public class Search extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                movieListFinal= new ArrayList<>();
                 searchVM.loadListSearchMovie(query);
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                movieListFinal= new ArrayList<>();
                 searchVM.loadListSearchMovie(newText);
 
                 return false;
