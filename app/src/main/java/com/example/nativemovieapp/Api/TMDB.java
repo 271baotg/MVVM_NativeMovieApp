@@ -20,4 +20,5 @@ public interface TMDB {
 
     @GET("/3/genre/movie/list")
     Call<Categories> getListCategory(@Query("api_key") String key);
+    
 }
