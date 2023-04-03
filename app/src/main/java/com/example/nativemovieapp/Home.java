@@ -62,8 +62,8 @@ public class Home extends Fragment {
         sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
         sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
         sliderView.startAutoCycle();
+        homeVMs.loadListPopularMovie();
         ObserveChange();
-
         return root;
     }
 

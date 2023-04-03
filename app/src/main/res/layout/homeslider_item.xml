@@ -43,9 +43,9 @@
                       android:layout_below="@id/movie_rating"
                       android:text="(2021)"
                       android:textSize="13dp"
-                      android:layout_margin="7dp"
                       android:fontFamily="@font/myfont"
-                      android:id="@+id/movie_year"/>
+                      android:id="@+id/movie_year" android:layout_marginTop="7dp" android:layout_marginStart="7dp"
+                      android:layout_marginEnd="7dp" android:layout_marginBottom="7dp"/>
             <com.chaek.android.RatingBar android:layout_width="wrap_content"
                                          android:layout_height="wrap_content"
                                          android:layout_below="@id/movie_title"
