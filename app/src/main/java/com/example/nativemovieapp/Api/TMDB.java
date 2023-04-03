@@ -20,7 +20,7 @@ public interface TMDB {
                                 @Query("page") int page
     );
 
-    //https://api.themoviedb.org/3/search/movie/550?api_key=e9e9d8da18ae29fc430845952232787c&page=1&query=women
+    //https://api.themoviedb.org/3/search/movie?api_key=e9e9d8da18ae29fc430845952232787c&page=1&query=women
     @GET("3/search/movie")
     Call<Movies> getListSearch(@Query("api_key") String key,
                                 @Query("page") int page,
