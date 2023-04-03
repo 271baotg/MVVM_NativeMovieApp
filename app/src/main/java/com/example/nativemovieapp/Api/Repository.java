@@ -37,7 +37,17 @@ public class Repository {
         LDP.loadListPopularMovie(api_key, page);
     }
 
+
+    public LiveData<List<Movie>> getListSearch() {
+        return LiveDataProvider.getListSearch();
+    }
+
+    public void loadListSearchMovie(String api_key, int page, String query) {
+        LDP.loadListSearch(api_key, page, query);
+    }
+
     public void loadListCategory(String api_key) {
         LDP.loadListCategory(api_key);
     }
 }
+

@@ -61,12 +61,30 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.HomeS
 //                    .load(Credential.imgBaseUrl + movie.getPoster_path())
 //                    .centerCrop()
 //                    .into(viewHolder.img);
-            float starCount = Math.abs((movie.getVote_average() / 10) * 5);
             String point = String.valueOf(movie.getVote_average());
-            viewHolder.ratingBar.setScore(starCount);
             viewHolder.title.setText(movie.getTitle());
             viewHolder.year.setText(movie.getRelease_date());
             viewHolder.point.setText(point);
+            float rating = movie.getVote_average();
+
+// Chuyển đổi điểm đánh giá thành số sao tương ứng
+            float starCount = 0;
+            if (rating >= 8.0f) {
+                starCount = 5.0f;
+            } else if (rating >= 6.0f) {
+                starCount = 4.0f;
+            } else if(rating >=4.0f){
+                starCount = 3.0f;
+            }
+            else if(rating >=2.0f){
+                starCount = 2.0f;
+            }
+            else {
+                starCount = 1.0f;
+            }
+
+// Thực hiện đánh giá bằng cách đặt số sao cho đúng
+            viewHolder.ratingBar.setScore(starCount);
         }
     }
 

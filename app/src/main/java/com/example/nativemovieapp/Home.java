@@ -78,7 +78,6 @@ public class Home extends Fragment {
         sliderView.startAutoCycle();
         homeVMs.loadListPopularMovie();
         ObserveChange();
-
         return root;
     }
 

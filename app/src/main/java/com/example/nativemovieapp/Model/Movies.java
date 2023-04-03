@@ -14,6 +14,7 @@ public class Movies {
     @Expose
     List<Movie> listMovie;
 
+
     public void setPage(int page) {
         this.page = page;
     }
@@ -26,9 +27,10 @@ public class Movies {
         return page;
     }
 
+
     @Override
     public String toString() {
-        return "MovieResponse{" +
+        return "Movies{" +
                 "page=" + page +
                 ", listMovie=" + listMovie +
                 '}';
