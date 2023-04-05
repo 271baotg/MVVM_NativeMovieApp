@@ -115,7 +115,14 @@ public class LiveDataProvider {
                     reponse = call.execute().body();
                     if (reponse != null) {
                         List<Movie> movie = reponse.getListMovie();
-                        loadListSearchConvert(api_key,movie);
+                        for(Movie item:movie)
+                        {
+                            if(item.getImageURL()!=null)
+                            {
+                                movieListFinal.add(item);
+                            }
+                        }
+                        listSearch.postValue(movieListFinal);
                         Log.d("tag1", listSearch.toString());
                     } else {
                         listSearch.postValue(null);
@@ -138,60 +145,6 @@ public class LiveDataProvider {
 
     }
     public static List<Movie> movieListFinal=new ArrayList<>();
-    public static void loadListSearchConvert(String api_key, List<Movie> movie) {
-
-        List<Movie> listMovie = new ArrayList<>();
-        for (Movie item : movie) {
-            if(item.getImageURL()!=null){
-                int id = item.getId();
-                final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
-
-                    TMDB tmdbApi = ApiService.getTmdbApi();
-
-                    Call<Movie> call = tmdbApi.getItemMovie(id,api_key);
-
-                    @Override
-                    public void run() {
-                        Movie reponse = null;
-                        try {
-                            reponse = call.execute().body();
-                            if (reponse != null) {
-                                synchronized (listMovie) {
-                                    listMovie.add(reponse);
-                                    movieListFinal.add(reponse);
-                                }
-                                Log.d("tag1", listMovie.toString());
-                            } else {
-                                listSearchConvert.postValue(null);
-                                Log.d("failed", "null");
-                            }
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                    }
-
-                });
-                AppExecutor.getInstance().getNetworkIo().schedule(new Runnable() {
-                    @Override
-                    public void run() {
-                        handler.cancel(true);
-                    }
-                }, 10000, TimeUnit.MILLISECONDS);
-            }
-        }
-
-        // Wait for all API calls to complete
-        AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (listMovie) {
-                    listSearch.postValue(listMovie);
-                }
-            }
-        });
-
-    }
 
     public void loadListCategory(String api_key) {
         TMDB tmdb = ApiService.getTmdbApi();
