@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+        
+
+
+    
+                 
+                                
+                                                                            
+           
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    tools:context=".Home"
+                    android:layout_centerVertical="true" android:tag="layout/fragment_home_0">
+
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/primary"
+                  android:layout_marginTop="10dp"
+                  android:text="Popular Now"
+                  android:layout_marginLeft="20dp"
+                  android:fontFamily="@font/myfont"
+                  android:textStyle="bold"
+                  android:textSize="25dp"
+                  android:id="@+id/popular_title"/>
+        <androidx.cardview.widget.CardView
+                app:cardCornerRadius="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/slider_container"
+                android:layout_below="@id/popular_title"
+        >
+
+            <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/imageSlider"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorMarginTop="20dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="@android:color/transparent"
+                    app:sliderIndicatorUnselectedColor="@android:color/transparent"
+                    app:sliderScrollTimeInSec="1"
+                    app:sliderStartAutoCycle="true"/>
+        </androidx.cardview.widget.CardView>
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/slider_container"
+                android:layout_centerHorizontal="true"
+                android:text="Load API"
+                android:fontFamily="@font/myfont"
+                android:textStyle="bold"
+                android:id="@+id/testButton"
+                android:tag="binding_1"                                    
+        />
+    </RelativeLayout>
+         

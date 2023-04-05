@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.example.nativemovieapp-mergeDebugResources-51:/layout/fragment_favorite.xml",
+        "source": "com.example.nativemovieapp-main-54:/layout/fragment_favorite.xml"
+    },
+    {
+        "merged": "com.example.nativemovieapp-mergeDebugResources-51:/layout/fragment_home.xml",
+        "source": "com.example.nativemovieapp-main-54:/layout/fragment_home.xml"
+    },
+    {
+        "merged": "com.example.nativemovieapp-mergeDebugResources-51:/layout/homeslider_item.xml",
+        "source": "com.example.nativemovieapp-main-54:/layout/homeslider_item.xml"
+    },
+    {
+        "merged": "com.example.nativemovieapp-mergeDebugResources-51:/layout/fragment_search.xml",
+        "source": "com.example.nativemovieapp-main-54:/layout/fragment_search.xml"
+    },
+    {
+        "merged": "com.example.nativemovieapp-mergeDebugResources-51:/layout/fragment_account.xml",
+        "source": "com.example.nativemovieapp-main-54:/layout/fragment_account.xml"
+    },
+    {
+        "merged": "com.example.nativemovieapp-mergeDebugResources-51:/layout/activity_main.xml",
+        "source": "com.example.nativemovieapp-main-54:/layout/activity_main.xml"
+    }
+]
