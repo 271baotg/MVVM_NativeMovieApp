@@ -51,9 +51,6 @@ public class Repository {
     public LiveData<List<Category>> getListCategory() {
         return LDP.getListCategory();
     }
-
-    public HashMap<Integer, List<Movie>> getMapMovie() {
-        return LDP.getMapMovie();
-    }
+    
 }
 

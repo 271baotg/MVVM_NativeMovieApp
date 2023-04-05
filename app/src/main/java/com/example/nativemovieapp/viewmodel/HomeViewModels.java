@@ -34,10 +34,6 @@ public class HomeViewModels extends ViewModel {
         return DB.getListCategory();
 
     }
-
-    public HashMap<Integer, List<Movie>> getMapMovie() {
-        return DB.getMapMovie();
-    }
-
+    
 
 }
