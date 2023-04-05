@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Api.LiveDataProvider;
@@ -19,6 +20,7 @@ import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.Movies;
 import com.example.nativemovieapp.adapter.HomeSliderAdapter;
 import com.example.nativemovieapp.adapter.SearchAdapter;
+import com.example.nativemovieapp.adapter.UpcomingAdapter;
 import com.example.nativemovieapp.viewmodel.SearchViewModels;
 
 import java.util.ArrayList;
@@ -28,14 +30,14 @@ import static com.example.nativemovieapp.Api.LiveDataProvider.movieListFinal;
 
 
 public class Search extends Fragment {
-
     //khoi tao viewModel
     private SearchViewModels searchVM = new SearchViewModels();
     private SearchAdapter searchAdapter ;
-
+    private UpcomingAdapter upcomingAdapter ;
     private RecyclerView rcvSearch;
-    private TextView tvMinimun;
+    private RecyclerView rcvUpcoming;
     private SearchView searchView;
+    private TextView upcomingTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,19 +46,28 @@ public class Search extends Fragment {
         //Gắn ViewModel
         searchVM = new ViewModelProvider(this).get(SearchViewModels.class);
     }
-
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_search, container, false);
-
         rcvSearch = root.findViewById(R.id.rcv_movie);
+        rcvUpcoming=root.findViewById(R.id.rcv_upcoming);
         searchView = root.findViewById(R.id.sv_search);
+        upcomingTitle = root.findViewById(R.id.upcoming_title);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if(query.isEmpty())
+                {
+                    rcvUpcoming.setVisibility(View.VISIBLE);
+                    upcomingTitle.setVisibility(View.VISIBLE);
+                }
+                else {
+                    rcvUpcoming.setVisibility(View.GONE);
+                    upcomingTitle.setVisibility(View.GONE);
+                }
                 movieListFinal= new ArrayList<>();
                 searchVM.loadListSearchMovie(query);
                 return false;
@@ -64,49 +75,48 @@ public class Search extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(newText.isEmpty())
+                {
+                    rcvUpcoming.setVisibility(View.VISIBLE);
+                    upcomingTitle.setVisibility(View.VISIBLE);
+                }
+                else{
+                    rcvUpcoming.setVisibility(View.GONE);
+                    upcomingTitle.setVisibility(View.GONE);
+                }
                 movieListFinal= new ArrayList<>();
                 searchVM.loadListSearchMovie(newText);
-
                 return false;
             }
 
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(root.getContext(), 2);
-        rcvSearch.setLayoutManager(gridLayoutManager);
-
-//        //Khởi tạo adapter với danh sách phim trống và đặt adapter cho RecyclerView
-//        searchAdapter = new SearchAdapter(getParentFragment().getContext(), new ArrayList<Movie>(), new ArrayList<Movie>());
-//        rcvSearch.setAdapter(searchAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager= new GridLayoutManager(root.getContext(), 2);
+        rcvSearch.setLayoutManager(linearLayoutManager);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext(),RecyclerView.HORIZONTAL,false);
+        rcvUpcoming.setLayoutManager(gridLayoutManager);
         searchVM.loadListSearchMovie("");
+        searchVM.loadListUpcomingMovie();
         ObserveChange();
+        ObserveChangeUpcoming();
         return root;
     }
-
     public void ObserveChange() {
         searchVM.getListSearch().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                searchAdapter = new SearchAdapter(getParentFragment().getContext(),movies,movies);
+                searchAdapter = new SearchAdapter(getParentFragment().getContext(),movies);
                 rcvSearch.setAdapter(searchAdapter);
             }
         });
     }
-//    private void filterList(String newText) {
-//        List<Movie> filteredList = new ArrayList<>();
-//        for(Movie item: LiveDataProvider.getListSearch().getValue())
-//        {
-//            if(item.getTitle().toLowerCase().contains(newText.toLowerCase())){
-//                filteredList.add(item);
-//            }
-//        }
-//
-//        if(filteredList.isEmpty()){
-//            Toast.makeText(getContext(),"no data found",Toast.LENGTH_SHORT).show();
-//            searchAdapter = new SearchAdapter(getParentFragment().getContext(), null);
-//            rcvSearch.setAdapter(searchAdapter);
-//        }
-//        else{
-//            searchAdapter.setFilteredList(filteredList);
-//        }
-//    }
+    public void ObserveChangeUpcoming() {
+        searchVM.getListUpcoming().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                upcomingAdapter = new UpcomingAdapter(getParentFragment().getContext(),movies);
+                rcvUpcoming.setAdapter(upcomingAdapter);
+            }
+        });
+    }
 }

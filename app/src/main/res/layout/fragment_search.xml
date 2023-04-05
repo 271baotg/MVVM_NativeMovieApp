@@ -9,6 +9,7 @@
         android:padding="8dp"
         android:background="@color/black"
         tools:context=".MainActivity">
+
     <androidx.appcompat.widget.SearchView
             android:id="@+id/sv_search"
             android:layout_width="match_parent"
@@ -19,10 +20,25 @@
             app:iconifiedByDefault="false"
             android:background="@drawable/search_view_background"
     />
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="@color/primary"
+              android:layout_marginBottom="16dp"
+              android:text="Upcoming"
+              android:layout_marginLeft="20dp"
+              android:fontFamily="@font/myfont"
+              android:textStyle="bold"
+              android:textSize="25dp"
+              android:id="@+id/upcoming_title"/>
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rcv_upcoming"
+    />
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/rcv_movie"
     />
 

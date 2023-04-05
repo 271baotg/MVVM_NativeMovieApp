@@ -46,6 +46,14 @@ public class Repository {
         LDP.loadListSearch(api_key, page, query);
     }
 
+    public LiveData<List<Movie>> getListUpcoming() {
+        return LiveDataProvider.getListUpcoming();
+    }
+
+    public void loadListUpcomingMovie(String api_key, int page) {
+        LDP.loadListUpcoming(api_key, page);
+    }
+
     public void loadListCategory(String api_key) {
         LDP.loadListCategory(api_key);
     }

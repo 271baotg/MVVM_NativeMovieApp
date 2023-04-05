@@ -20,4 +20,11 @@ public class SearchViewModels extends ViewModel {
         DB.loadListSearchMovie(Credential.apiKey, 1,query);
     }
 
+    public LiveData<List<Movie>> getListUpcoming() {
+        return DB.getListUpcoming();
+    }
+
+    public void loadListUpcomingMovie() {
+        DB.loadListUpcomingMovie(Credential.apiKey, 1);
+    }
 }
