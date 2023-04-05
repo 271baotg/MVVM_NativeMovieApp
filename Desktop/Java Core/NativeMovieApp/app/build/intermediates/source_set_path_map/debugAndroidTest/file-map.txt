@@ -1,9 +1,0 @@
-com.example.nativemovieapp.test.app-jetified-annotation-experimental-1.3.0-0 C:\Users\Tran Gia Bao\.gradle\caches\transforms-3\beafc97b396160e9d53e3d9fc6b6e01b\transformed\jetified-annotation-experimental-1.3.0\res
-com.example.nativemovieapp.test.app-jetified-core-1.5.0-1 C:\Users\Tran Gia Bao\.gradle\caches\transforms-3\c7db7abcfcd6d415152bbddf12ea0332\transformed\jetified-core-1.5.0\res
-com.example.nativemovieapp.test.app-androidTest-2 C:\Users\Tran Gia Bao\Desktop\Java Core\NativeMovieApp\app\build\generated\res\resValues\androidTest\debug
-com.example.nativemovieapp.test.app-androidTest-3 C:\Users\Tran Gia Bao\Desktop\Java Core\NativeMovieApp\app\build\generated\res\rs\androidTest\debug
-com.example.nativemovieapp.test.app-mergeDebugAndroidTestResources-4 C:\Users\Tran Gia Bao\Desktop\Java Core\NativeMovieApp\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-com.example.nativemovieapp.test.app-mergeDebugAndroidTestResources-5 C:\Users\Tran Gia Bao\Desktop\Java Core\NativeMovieApp\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-com.example.nativemovieapp.test.app-merged_res-6 C:\Users\Tran Gia Bao\Desktop\Java Core\NativeMovieApp\app\build\intermediates\merged_res\debugAndroidTest
-com.example.nativemovieapp.test.app-androidTest-7 C:\Users\Tran Gia Bao\Desktop\Java Core\NativeMovieApp\app\src\androidTest\res
-com.example.nativemovieapp.test.app-androidTestDebug-8 C:\Users\Tran Gia Bao\Desktop\Java Core\NativeMovieApp\app\src\androidTestDebug\res
