@@ -2,6 +2,7 @@ package com.example.nativemovieapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 
 import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
+import com.example.nativemovieapp.adapter.HomeHorizontalAdapter;
 import com.example.nativemovieapp.adapter.HomeSliderAdapter;
 import com.example.nativemovieapp.databinding.FragmentHomeBinding;
 import com.example.nativemovieapp.viewmodel.HomeViewModels;
@@ -28,6 +30,7 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -77,6 +80,7 @@ public class Home extends Fragment {
         sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
         sliderView.startAutoCycle();
         homeVMs.loadListPopularMovie();
+
         ObserveChange();
         return root;
     }
@@ -98,12 +102,13 @@ public class Home extends Fragment {
             @Override
             public void onChanged(List<Category> categories) {
                 categoryRecycler.setLayoutManager(layoutManager);
-                categoryAdapter = new HomeCategoryAdapter(getParentFragment().getContext(), categories);
+                categoryAdapter = new HomeCategoryAdapter(homeVMs, categories, getParentFragment().getContext(), getViewLifecycleOwner());
                 categoryRecycler.setAdapter(categoryAdapter);
-
             }
 
         });
+
+
     }
 
 }

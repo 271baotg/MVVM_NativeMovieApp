@@ -37,4 +37,9 @@ public interface TMDB {
     @GET("/3/genre/movie/list")
     Call<Categories> getListCategory(@Query("api_key") String key);
 
+    //https://api.themoviedb.org/3/discover/movie?api_key=e9e9d8da18ae29fc430845952232787c&with_genres=18
+    @GET("/3/discover/movie")
+    Call<Movies> getListByCategory(@Query("api_key") String key,
+                                   @Query("with_genres") int idCategory);
+
 }

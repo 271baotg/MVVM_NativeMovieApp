@@ -58,7 +58,8 @@
                         app:sliderIndicatorSelectedColor="@android:color/white"
                         app:sliderIndicatorUnselectedColor="@android:color/darker_gray"
                         app:sliderScrollTimeInSec="1"
-                        app:sliderStartAutoCycle="true"/>
+                        app:sliderStartAutoCycle="true"
+                />
             </androidx.cardview.widget.CardView>
             <Button android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,6 +70,7 @@
                     android:textStyle="bold"
                     android:id="@+id/testButton"
                     android:onClick="@{() -> viewModel.loadListCategory()}"
+
             />
 
             <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"
