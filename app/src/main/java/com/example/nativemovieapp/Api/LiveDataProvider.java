@@ -1,6 +1,6 @@
 package com.example.nativemovieapp.Api;
 
-import android.security.identity.PresentationSession;
+
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,12 +10,11 @@ import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.Movies;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -29,7 +28,6 @@ public class LiveDataProvider {
 
     private static MutableLiveData<List<Movie>> listSearchConvert;
 
-    private static HashMap<Integer, List<Movie>> mapMovie;
     private static MutableLiveData<Movie> itemMovie;
 
     private static MutableLiveData<List<Movie>> listFavourite;
