@@ -14,7 +14,7 @@ import java.util.List;
 public interface TMDB {
 
 
-    //https://api.themoviedb.org/3/movie/popular?api_key=e9e9d8da18ae29fc430845952232787c&page=1
+    //Example: https://api.themoviedb.org/3/movie/popular?api_key=e9e9d8da18ae29fc430845952232787c&page=1
     @GET("/3/movie/popular")
     Call<Movies> getListPopular(@Query("api_key") String key,
                                 @Query("page") int page

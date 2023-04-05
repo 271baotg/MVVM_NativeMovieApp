@@ -24,13 +24,14 @@ import com.example.nativemovieapp.viewmodel.SearchViewModels;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.nativemovieapp.Api.LiveDataProvider.movieListFinal;
+
 
 public class Search extends Fragment {
 
     //khoi tao viewModel
     private SearchViewModels searchVM = new SearchViewModels();
-    private SearchAdapter searchAdapter;
-    
+    private SearchAdapter searchAdapter ;
 
     private RecyclerView rcvSearch;
     private TextView tvMinimun;
@@ -56,14 +57,16 @@ public class Search extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                movieListFinal= new ArrayList<>();
                 searchVM.loadListSearchMovie(query);
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                movieListFinal= new ArrayList<>();
                 searchVM.loadListSearchMovie(newText);
+
                 return false;
             }
 
@@ -83,7 +86,7 @@ public class Search extends Fragment {
         searchVM.getListSearch().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                searchAdapter = new SearchAdapter(getParentFragment().getContext(), movies, movies);
+                searchAdapter = new SearchAdapter(getParentFragment().getContext(),movies,movies);
                 rcvSearch.setAdapter(searchAdapter);
             }
         });
