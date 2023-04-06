@@ -7,12 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.nativemovieapp.Api.ApiService;
+import com.example.nativemovieapp.Api.Credential;
+import com.example.nativemovieapp.Api.TMDB;
 import com.example.nativemovieapp.Model.Category;
+import com.example.nativemovieapp.Model.Movie;
+import com.example.nativemovieapp.Model.Movies;
 import com.example.nativemovieapp.R;
 import org.jetbrains.annotations.NotNull;
+import retrofit2.Call;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.zip.Inflater;
 
 public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapter.CategoryViewHolder> {
@@ -34,11 +45,29 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = mdata.get(position);
-        if (category == null)
-            Log.d("incategoryadapter", "null ");
-        else {
-            Log.d("success", category.toString());
+        int id = category.getId();
+        if (category != null) {
             holder.categoryTitle.setText(category.getName());
+            TMDB tmdb = ApiService.getTmdbApi();
+            Call<Movies> call = tmdb.getListByCategory(Credential.apiKey, id);
+            ExecutorService executor = Executors.newFixedThreadPool(10);
+            Future<List<Movie>> listFuture = executor.submit(new Callable<List<Movie>>() {
+                @Override
+                public List<Movie> call() throws Exception {
+                    return call.execute().body().getListMovie();
+                }
+            });
+            try {
+                Log.d("Trying to bind", listFuture.get().toString());
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, RecyclerView.HORIZONTAL, false);
+                HomeHorizontalAdapter adapter = new HomeHorizontalAdapter(listFuture.get(), mcontext);
+                holder.categoryRcv.setLayoutManager(linearLayoutManager);
+                holder.categoryRcv.setAdapter(adapter);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                executor.shutdown();
+            }
         }
     }
 
