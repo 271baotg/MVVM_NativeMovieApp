@@ -23,7 +23,7 @@ public interface TMDB {
     //https://api.themoviedb.org/3/search/movie?api_key=e9e9d8da18ae29fc430845952232787c&page=1&query=women
     @GET("3/search/movie")
     Call<Movies> getListSearch(@Query("api_key") String key,
-                                @Query("page") int page,
+                               @Query("page") int page,
                                @Query("query") String query
     );
     //https://api.themoviedb.org/3/movie/297762?api_key=e9e9d8da18ae29fc430845952232787c
@@ -36,5 +36,10 @@ public interface TMDB {
 
     @GET("/3/genre/movie/list")
     Call<Categories> getListCategory(@Query("api_key") String key);
+
+    //https://api.themoviedb.org/3/discover/movie?api_key=e9e9d8da18ae29fc430845952232787c&with_genres=18
+    @GET("/3/discover/movie")
+    Call<Movies> getListByCategory(@Query("api_key") String key,
+                                   @Query("with_genres") int idCategory);
 
 }

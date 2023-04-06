@@ -15,8 +15,7 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class LiveDataProvider {
 
@@ -27,7 +26,7 @@ public class LiveDataProvider {
     private static MutableLiveData<List<Movie>> listSearch;
 
     private static MutableLiveData<List<Movie>> listSearchConvert;
-    private  static MutableLiveData<Movie> itemMovie;
+    private static MutableLiveData<Movie> itemMovie;
 
     private static MutableLiveData<List<Movie>> listFavourite;
     private static LiveDataProvider _ins;
@@ -44,7 +43,7 @@ public class LiveDataProvider {
 
         listFavourite = new MutableLiveData<>();
         listSearch = new MutableLiveData<>();
-        listSearchConvert=new MutableLiveData<>();
+        listSearchConvert = new MutableLiveData<>();
         listCategory = new MutableLiveData<>();
 
     }
@@ -52,11 +51,13 @@ public class LiveDataProvider {
     public static LiveData<List<Movie>> getListPopular() {
         return listPopular;
     }
+
     public static LiveData<List<Movie>> getListSearch() {
-        return  listSearch;
+        return listSearch;
     }
+
     public static LiveData<List<Movie>> getListSearchConvert() {
-        return  listSearchConvert;
+        return listSearchConvert;
     }
 
     public static LiveData<List<Category>> getListCategory() {
@@ -106,7 +107,7 @@ public class LiveDataProvider {
         final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
 
             TMDB tmdbApi = ApiService.getTmdbApi();
-            Call<Movies> call = tmdbApi.getListSearch(api_key, page,query);
+            Call<Movies> call = tmdbApi.getListSearch(api_key, page, query);
 
             @Override
             public void run() {
@@ -115,10 +116,8 @@ public class LiveDataProvider {
                     reponse = call.execute().body();
                     if (reponse != null) {
                         List<Movie> movie = reponse.getListMovie();
-                        for(Movie item:movie)
-                        {
-                            if(item.getImageURL()!=null)
-                            {
+                        for (Movie item : movie) {
+                            if (item.getImageURL() != null) {
                                 movieListFinal.add(item);
                             }
                         }
@@ -144,30 +143,30 @@ public class LiveDataProvider {
         }, 10000, TimeUnit.MILLISECONDS);
 
     }
-    public static List<Movie> movieListFinal=new ArrayList<>();
+
+    public static List<Movie> movieListFinal = new ArrayList<>();
 
     public void loadListCategory(String api_key) {
         TMDB tmdb = ApiService.getTmdbApi();
 
         Call<Categories> call = tmdb.getListCategory(api_key);
+        
 
-        call.enqueue(new Callback<Categories>() {
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+        Future<List<Category>> futurecategory = executor.submit(new Callable<List<Category>>() {
             @Override
-            public void onResponse(Call<Categories> call, Response<Categories> response) {
-                if (response.body() == null)
-                    Log.d("category", "Null body");
-                else {
-                    listCategory.postValue(response.body().getResult());
-                    Log.d("category", response.body().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Categories> call, Throwable t) {
-
+            public List<Category> call() throws Exception {
+                return call.execute().body().getResult();
             }
         });
+
+        try {
+            listCategory.postValue(futurecategory.get());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
+        
 
     
