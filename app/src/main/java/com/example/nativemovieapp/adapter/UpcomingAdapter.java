@@ -1,21 +1,16 @@
 package com.example.nativemovieapp.adapter;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
-import android.view.RoundedCorner;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Movie;
-import com.example.nativemovieapp.Model.RoundedCornerTransformation;
 import com.example.nativemovieapp.R;
-import com.example.nativemovieapp.viewmodel.SearchViewModels;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,45 +23,32 @@ import java.util.Locale;
 
 import static com.example.nativemovieapp.Api.LiveDataProvider.movieListFinal;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
+public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.UpcomingViewHolder>{
     private List<Movie> mdata;
-     Context context;
+    Context context;
 
-    public SearchAdapter(Context context, List<Movie> movies) {
+    public UpcomingAdapter(Context context, List<Movie> movies) {
         this.context=context;
         this.mdata=movies;
     }
-//
-//    public void setFilteredList(List<Movie> filteredList)
-//    {
-//        this.mdata=filteredList;
-//        notifyDataSetChanged();
-//    }
-
-    @NonNull
     @NotNull
     @Override
-    public SearchViewHolder onCreateViewHolder( @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_iteam,parent,false);
-        return new SearchViewHolder(view);
+    public UpcomingViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.upcoming_item,parent,false);
+        return new UpcomingViewHolder(view);
     }
 
 
+
     @Override
-    public void onBindViewHolder( @NotNull SearchViewHolder holder, int position) {
+    public void onBindViewHolder( @NotNull UpcomingViewHolder holder, int position) {
         Movie movie = mdata.get(position);
 
         if(movie==null)return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            Picasso.get().load(Credential.imgBaseUrl+movie.getPoster_path()).transform(new RoundedCornerTransformation(32, 0)).fit().into(holder.searchImage);
-        }
+        Picasso.get().load(Credential.imgBaseUrl+movie.getPoster_path()).fit().into(holder.searchImage);
         holder.searchTitle.setText(movie.getTitle());
         holder.searchScore.setText(String.valueOf(movie.getVote_average()));
-        holder.content.setText(movie.getOverview());
-        Picasso.get().load(Credential.imgBaseUrl+movie.getPoster_path()).transform(new RoundedCornerTransformation(32, 0)).fit().into(holder.searchImage);
-        holder.searchTitle.setText(movie.getTitle());
-        holder.searchScore.setText(String.valueOf(movie.getVote_average()));
-        holder.content.setText(movie.getOverview());
+
         float rating = movie.getVote_average();
 
 // Chuyển đổi điểm đánh giá thành số sao tương ứng
@@ -84,8 +66,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         else {
             starCount = 1.0f;
         }
-
-// Thực hiện đánh giá bằng cách đặt số sao cho đúng
+        // Thực hiện đánh giá bằng cách đặt số sao cho đúng
         holder.ratingBar.setScore(starCount);
         try {
             // Chuyển chuỗi release_date thành đối tượng Date
@@ -104,30 +85,30 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     public int getItemCount() {
         if(mdata!=null)
         {
-            return mdata.size();
+            return 10;
         }
         return 0;
     }
 
 
 
-    public static class SearchViewHolder extends RecyclerView.ViewHolder {
+    public static class UpcomingViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView searchImage;
         private TextView searchTitle;
         private TextView searchScore;
         private TextView year;
         private RatingBar ratingBar;
-        private TextView content;
-        public SearchViewHolder( @NotNull View itemView) {
+        public UpcomingViewHolder( @NotNull View itemView) {
             super(itemView);
 
-            searchImage = itemView.findViewById(R.id.search_image);
-            searchTitle = itemView.findViewById(R.id.search_title);
-            searchScore = itemView.findViewById(R.id.search_score);
-            year = itemView.findViewById(R.id.movie_year);
-            ratingBar = itemView.findViewById(R.id.movie_rating);
-            content = itemView.findViewById(R.id.search_content);
+            searchImage = itemView.findViewById(R.id.search_image_upcoming);
+            searchTitle = itemView.findViewById(R.id.search_title_upcoming);
+            searchScore = itemView.findViewById(R.id.search_score_upcoming);
+            year = itemView.findViewById(R.id.movie_year_upcoming);
+            ratingBar = itemView.findViewById(R.id.movie_rating_upcoming);
         }
     }
+
+
 }

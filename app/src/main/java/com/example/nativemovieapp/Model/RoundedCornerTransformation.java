@@ -1,8 +1,11 @@
 package com.example.nativemovieapp.Model;
 
 import android.graphics.*;
+import android.os.Build;
+import androidx.annotation.RequiresApi;
 import com.squareup.picasso.Transformation;
 
+@RequiresApi(api = Build.VERSION_CODES.O_MR1)
 public class RoundedCornerTransformation implements Transformation {
 
     private int radius;

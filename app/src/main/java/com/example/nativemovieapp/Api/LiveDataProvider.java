@@ -1,6 +1,8 @@
 package com.example.nativemovieapp.Api;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.nativemovieapp.AppExecutor;
@@ -24,9 +26,9 @@ public class LiveDataProvider {
     private static MutableLiveData<List<Category>> listCategory;
 
     private static MutableLiveData<List<Movie>> listSearch;
-
-    private static MutableLiveData<List<Movie>> listSearchConvert;
-    private static MutableLiveData<Movie> itemMovie;
+    private static MutableLiveData<List<Movie>> listUpcoming;
+    private  static MutableLiveData<Movie> itemMovie;
+    private static MutableLiveData<List<Movie>> listTopRate;
 
     private static MutableLiveData<List<Movie>> listFavourite;
     private static LiveDataProvider _ins;
@@ -43,8 +45,9 @@ public class LiveDataProvider {
 
         listFavourite = new MutableLiveData<>();
         listSearch = new MutableLiveData<>();
-        listSearchConvert = new MutableLiveData<>();
+        listUpcoming=new MutableLiveData<>();
         listCategory = new MutableLiveData<>();
+        listTopRate = new MutableLiveData<>();
 
     }
 
@@ -55,11 +58,14 @@ public class LiveDataProvider {
     public static LiveData<List<Movie>> getListSearch() {
         return listSearch;
     }
-
-    public static LiveData<List<Movie>> getListSearchConvert() {
-        return listSearchConvert;
+    public static LiveData<List<Movie>> getListUpcoming() {
+        return  listUpcoming;
+    }
+    public static LiveData<List<Movie>> getListTopRate() {
+        return  listTopRate;
     }
 
+    public static List<Movie> movieListFinal=new ArrayList<>();
     public static LiveData<List<Category>> getListCategory() {
         return listCategory;
     }
@@ -102,7 +108,7 @@ public class LiveDataProvider {
 
     }
 
-    public static void loadListSearch(String api_key, int page, String query) {
+    public static void loadListSearch(String api_key, int page, String query, Context context) {
 
         final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
 
@@ -114,7 +120,7 @@ public class LiveDataProvider {
                 Movies reponse = null;
                 try {
                     reponse = call.execute().body();
-                    if (reponse != null) {
+                    if (reponse.getListMovie().isEmpty()==false) {
                         List<Movie> movie = reponse.getListMovie();
                         for (Movie item : movie) {
                             if (item.getImageURL() != null) {
@@ -125,6 +131,7 @@ public class LiveDataProvider {
                         Log.d("tag1", listSearch.toString());
                     } else {
                         listSearch.postValue(null);
+                        Toast.makeText(context, "Results found do not match your search term", Toast.LENGTH_SHORT).show();
                         Log.d("failed", "null");
                     }
                 } catch (IOException e) {
@@ -144,7 +151,80 @@ public class LiveDataProvider {
 
     }
 
-    public static List<Movie> movieListFinal = new ArrayList<>();
+    public void loadListUpcoming(String api_key, int page) {
+
+
+        final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
+
+            TMDB tmdbApi = ApiService.getTmdbApi();
+            Call<Movies> call = tmdbApi.getListUpcoming(api_key, page);
+
+            @Override
+            public void run() {
+                Movies reponse = null;
+                try {
+                    reponse = call.execute().body();
+                    if (reponse != null) {
+                        listUpcoming.postValue(reponse.getListMovie());
+                        Log.d("tag1", listUpcoming.toString());
+                    } else {
+                        listUpcoming.postValue(null);
+                        Log.d("failed", "null");
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        });
+
+        AppExecutor.getInstance().getNetworkIo().schedule(new Runnable() {
+            @Override
+            public void run() {
+                handler.cancel(true);
+            }
+        }, 10000, TimeUnit.MILLISECONDS);
+
+    }
+
+    public void loadListTopRate(String api_key, int page) {
+
+
+        final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
+
+            TMDB tmdbApi = ApiService.getTmdbApi();
+            Call<Movies> call = tmdbApi.getListTopRate(api_key, page);
+
+            @Override
+            public void run() {
+                Movies reponse = null;
+                try {
+                    reponse = call.execute().body();
+                    if (reponse != null) {
+                        listTopRate.postValue(reponse.getListMovie());
+                        Log.d("tag1", listTopRate.toString());
+                    } else {
+                        listTopRate.postValue(null);
+                        Log.d("failed", "null");
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        });
+
+        AppExecutor.getInstance().getNetworkIo().schedule(new Runnable() {
+            @Override
+            public void run() {
+                handler.cancel(true);
+            }
+        }, 10000, TimeUnit.MILLISECONDS);
+
+    }
+
 
     public void loadListCategory(String api_key) {
         TMDB tmdb = ApiService.getTmdbApi();

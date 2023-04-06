@@ -1,5 +1,6 @@
 package com.example.nativemovieapp.Api;
 
+import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.nativemovieapp.Model.Category;
@@ -42,10 +43,25 @@ public class Repository {
         return LiveDataProvider.getListSearch();
     }
 
-    public void loadListSearchMovie(String api_key, int page, String query) {
-        LDP.loadListSearch(api_key, page, query);
+    public void loadListSearchMovie(String api_key, int page, String query, Context context) {
+        LDP.loadListSearch(api_key, page, query,context);
     }
 
+    public LiveData<List<Movie>> getListUpcoming() {
+        return LiveDataProvider.getListUpcoming();
+    }
+
+    public void loadListUpcomingMovie(String api_key, int page) {
+        LDP.loadListUpcoming(api_key, page);
+    }
+
+    public LiveData<List<Movie>> getListTopRate() {
+        return LiveDataProvider.getListTopRate();
+    }
+
+    public void loadListTopRateMovie(String api_key, int page) {
+        LDP.loadListTopRate(api_key, page);
+    }
     public void loadListCategory(String api_key) {
         LDP.loadListCategory(api_key);
     }
