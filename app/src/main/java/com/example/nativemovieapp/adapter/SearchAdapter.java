@@ -63,6 +63,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.searchTitle.setText(movie.getTitle());
         holder.searchScore.setText(String.valueOf(movie.getVote_average()));
         holder.content.setText(movie.getOverview());
+        Picasso.get().load(Credential.imgBaseUrl+movie.getPoster_path()).transform(new RoundedCornerTransformation(32, 0)).fit().into(holder.searchImage);
+        holder.searchTitle.setText(movie.getTitle());
+        holder.searchScore.setText(String.valueOf(movie.getVote_average()));
+        holder.content.setText(movie.getOverview());
         float rating = movie.getVote_average();
 
 // Chuyển đổi điểm đánh giá thành số sao tương ứng

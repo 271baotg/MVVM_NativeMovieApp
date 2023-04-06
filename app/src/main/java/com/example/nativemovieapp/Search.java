@@ -93,8 +93,8 @@ public class Search extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
         GridLayoutManager gridLayoutManager= new GridLayoutManager(root.getContext(), 2);
         rcvSearch.setLayoutManager(linearLayoutManager);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(root.getContext(),RecyclerView.HORIZONTAL,false);
         rcvUpcoming.setLayoutManager(gridLayoutManager);
+
         searchVM.loadListSearchMovie("");
         searchVM.loadListUpcomingMovie();
         ObserveChange();
