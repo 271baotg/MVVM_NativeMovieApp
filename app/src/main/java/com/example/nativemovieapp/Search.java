@@ -1,6 +1,7 @@
 package com.example.nativemovieapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.Movies;
 import com.example.nativemovieapp.adapter.HomeSliderAdapter;
 import com.example.nativemovieapp.adapter.SearchAdapter;
+import com.example.nativemovieapp.adapter.TopRateAdapter;
 import com.example.nativemovieapp.adapter.UpcomingAdapter;
 import com.example.nativemovieapp.viewmodel.SearchViewModels;
 
@@ -34,10 +36,14 @@ public class Search extends Fragment {
     private SearchViewModels searchVM = new SearchViewModels();
     private SearchAdapter searchAdapter ;
     private UpcomingAdapter upcomingAdapter ;
+    private TopRateAdapter topRateAdapter;
     private RecyclerView rcvSearch;
     private RecyclerView rcvUpcoming;
+
+    private RecyclerView rcvRateTop;
     private SearchView searchView;
     private TextView upcomingTitle;
+    private TextView toprateTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,8 +59,10 @@ public class Search extends Fragment {
         View root = inflater.inflate(R.layout.fragment_search, container, false);
         rcvSearch = root.findViewById(R.id.rcv_movie);
         rcvUpcoming=root.findViewById(R.id.rcv_upcoming);
+        rcvRateTop = root.findViewById(R.id.rcv_toprate);
         searchView = root.findViewById(R.id.sv_search);
         upcomingTitle = root.findViewById(R.id.upcoming_title);
+        toprateTitle = root.findViewById(R.id.ratetop_title);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -63,42 +71,56 @@ public class Search extends Fragment {
                 {
                     rcvUpcoming.setVisibility(View.VISIBLE);
                     upcomingTitle.setVisibility(View.VISIBLE);
+                    rcvRateTop.setVisibility(View.VISIBLE);
+                    toprateTitle.setVisibility(View.VISIBLE);
                 }
                 else {
                     rcvUpcoming.setVisibility(View.GONE);
                     upcomingTitle.setVisibility(View.GONE);
+                    rcvRateTop.setVisibility(View.GONE);
+                    toprateTitle.setVisibility(View.GONE);
                 }
                 movieListFinal= new ArrayList<>();
-                searchVM.loadListSearchMovie(query);
+                searchVM.loadListSearchMovie(query, root.getContext());
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(newText.isEmpty())
                 {
                     rcvUpcoming.setVisibility(View.VISIBLE);
                     upcomingTitle.setVisibility(View.VISIBLE);
+                    rcvRateTop.setVisibility(View.VISIBLE);
+                    toprateTitle.setVisibility(View.VISIBLE);
                 }
-                else{
+                else
+                {
                     rcvUpcoming.setVisibility(View.GONE);
                     upcomingTitle.setVisibility(View.GONE);
+                    rcvRateTop.setVisibility(View.GONE);
+                    toprateTitle.setVisibility(View.GONE);
                 }
                 movieListFinal= new ArrayList<>();
-                searchVM.loadListSearchMovie(newText);
+                searchVM.loadListSearchMovie(newText, root.getContext());
                 return false;
             }
 
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
-        GridLayoutManager gridLayoutManager= new GridLayoutManager(root.getContext(), 2);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(root.getContext(),LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManager3 = new LinearLayoutManager(root.getContext(),LinearLayoutManager.HORIZONTAL,false);
         rcvSearch.setLayoutManager(linearLayoutManager);
-        rcvUpcoming.setLayoutManager(gridLayoutManager);
+        rcvUpcoming.setLayoutManager(linearLayoutManager2);
+        rcvRateTop.setLayoutManager(linearLayoutManager3);
 
-        searchVM.loadListSearchMovie("");
+        searchVM.loadListSearchMovie("", root.getContext());
+        Context context= getParentFragment().getContext();
+        Context context1=getParentFragment().getContext();
         searchVM.loadListUpcomingMovie();
+        searchVM.loadListTopRateMovie();
         ObserveChange();
         ObserveChangeUpcoming();
+        ObserveChangeTopRate();
         return root;
     }
     public void ObserveChange() {
@@ -116,6 +138,15 @@ public class Search extends Fragment {
             public void onChanged(List<Movie> movies) {
                 upcomingAdapter = new UpcomingAdapter(getParentFragment().getContext(),movies);
                 rcvUpcoming.setAdapter(upcomingAdapter);
+            }
+        });
+    }
+    public void ObserveChangeTopRate() {
+        searchVM.getListTopRate().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                topRateAdapter = new TopRateAdapter(getParentFragment().getContext(),movies);
+                rcvRateTop.setAdapter(topRateAdapter);
             }
         });
     }

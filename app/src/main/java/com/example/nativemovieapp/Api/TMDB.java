@@ -42,4 +42,8 @@ public interface TMDB {
     @GET("3/movie/upcoming")
     Call<Movies> getListUpcoming(@Query("api_key") String key,
                                  @Query("page") int page);
+    //https://api.themoviedb.org/3/movie/top_rated?api_key=e9e9d8da18ae29fc430845952232787c&language=en-US&page=1
+    @GET("3/movie/top_rated")
+    Call<Movies> getListTopRate(@Query("api_key") String key,
+                                 @Query("page") int page);
 }

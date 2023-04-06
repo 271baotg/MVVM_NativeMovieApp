@@ -1,5 +1,6 @@
 package com.example.nativemovieapp.viewmodel;
 
+import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.nativemovieapp.Api.Credential;
@@ -16,8 +17,8 @@ public class SearchViewModels extends ViewModel {
     }
 
 
-    public void loadListSearchMovie(String query) {
-        DB.loadListSearchMovie(Credential.apiKey, 1,query);
+    public void loadListSearchMovie(String query, Context context) {
+        DB.loadListSearchMovie(Credential.apiKey, 1,query,context);
     }
 
     public LiveData<List<Movie>> getListUpcoming() {
@@ -26,5 +27,11 @@ public class SearchViewModels extends ViewModel {
 
     public void loadListUpcomingMovie() {
         DB.loadListUpcomingMovie(Credential.apiKey, 1);
+    }
+    public LiveData<List<Movie>> getListTopRate() {
+        return DB.getListTopRate();
+    }
+    public void loadListTopRateMovie() {
+        DB.loadListTopRateMovie(Credential.apiKey, 1);
     }
 }
