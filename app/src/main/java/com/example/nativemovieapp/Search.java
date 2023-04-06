@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Api.LiveDataProvider;
@@ -71,9 +72,9 @@ public class Search extends Fragment {
             }
 
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(root.getContext(), 2);
-        rcvSearch.setLayoutManager(gridLayoutManager);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        rcvSearch.setLayoutManager(linearLayoutManager);
 //        //Khởi tạo adapter với danh sách phim trống và đặt adapter cho RecyclerView
 //        searchAdapter = new SearchAdapter(getParentFragment().getContext(), new ArrayList<Movie>(), new ArrayList<Movie>());
 //        rcvSearch.setAdapter(searchAdapter);
