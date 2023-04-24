@@ -6,10 +6,7 @@ import android.widget.Toast;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.example.nativemovieapp.AppExecutor;
-import com.example.nativemovieapp.Model.Categories;
-import com.example.nativemovieapp.Model.Category;
-import com.example.nativemovieapp.Model.Movie;
-import com.example.nativemovieapp.Model.Movies;
+import com.example.nativemovieapp.Model.*;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,11 +20,13 @@ public class LiveDataProvider {
 
     //LiveData
     private static MutableLiveData<List<Movie>> listPopular;
+
+    private static MutableLiveData<MovieDetail> movieDetail;
     private static MutableLiveData<List<Category>> listCategory;
 
     private static MutableLiveData<List<Movie>> listSearch;
     private static MutableLiveData<List<Movie>> listUpcoming;
-    private  static MutableLiveData<Movie> itemMovie;
+    private static MutableLiveData<Movie> itemMovie;
     private static MutableLiveData<List<Movie>> listTopRate;
 
     private static MutableLiveData<List<Movie>> listFavourite;
@@ -45,10 +44,16 @@ public class LiveDataProvider {
 
         listFavourite = new MutableLiveData<>();
         listSearch = new MutableLiveData<>();
-        listUpcoming=new MutableLiveData<>();
+        listUpcoming = new MutableLiveData<>();
         listCategory = new MutableLiveData<>();
         listTopRate = new MutableLiveData<>();
+        movieDetail = new MutableLiveData<>();
 
+    }
+
+
+    public static MutableLiveData<MovieDetail> getMovieDetail() {
+        return movieDetail;
     }
 
     public static LiveData<List<Movie>> getListPopular() {
@@ -58,14 +63,17 @@ public class LiveDataProvider {
     public static LiveData<List<Movie>> getListSearch() {
         return listSearch;
     }
+
     public static LiveData<List<Movie>> getListUpcoming() {
-        return  listUpcoming;
-    }
-    public static LiveData<List<Movie>> getListTopRate() {
-        return  listTopRate;
+        return listUpcoming;
     }
 
-    public static List<Movie> movieListFinal=new ArrayList<>();
+    public static LiveData<List<Movie>> getListTopRate() {
+        return listTopRate;
+    }
+
+    public static List<Movie> movieListFinal = new ArrayList<>();
+
     public static LiveData<List<Category>> getListCategory() {
         return listCategory;
     }
@@ -120,7 +128,7 @@ public class LiveDataProvider {
                 Movies reponse = null;
                 try {
                     reponse = call.execute().body();
-                    if (reponse.getListMovie().isEmpty()==false) {
+                    if (reponse.getListMovie().isEmpty() == false) {
                         List<Movie> movie = reponse.getListMovie();
                         for (Movie item : movie) {
                             if (item.getImageURL() != null) {
@@ -227,25 +235,60 @@ public class LiveDataProvider {
 
 
     public void loadListCategory(String api_key) {
-        TMDB tmdb = ApiService.getTmdbApi();
 
-        Call<Categories> call = tmdb.getListCategory(api_key);
-        
+        final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
+            TMDB tmdbApi = ApiService.getTmdbApi();
+            Call<Categories> call = tmdbApi.getListCategory(api_key);
 
-        ExecutorService executor = Executors.newFixedThreadPool(10);
-        Future<List<Category>> futurecategory = executor.submit(new Callable<List<Category>>() {
             @Override
-            public List<Category> call() throws Exception {
-                return call.execute().body().getResult();
-            }
-        });
+            public void run() {
+                Categories response = null;
+                try {
+                    response = call.execute().body();
+                    if (response != null) {
+                        listCategory.postValue(response.getResult());
 
-        try {
-            listCategory.postValue(futurecategory.get());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+                    } else {
+                        listCategory.postValue(null);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        });
     }
+
+    public void loadMovieDetail(int id, String api_key) {
+        TMDB tmdb = ApiService.getTmdbApi();
+        Call<MovieDetail> call = tmdb.getMovieById(id, api_key);
+
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        final Future handler = executor.submit(new Runnable() {
+            @Override
+            public void run() {
+                MovieDetail response = null;
+                try {
+                    response = call.execute().body();
+                    if (response != null) {
+                        movieDetail.postValue(response);
+                        Log.d("Detail", response.toString());
+                    } else {
+                        movieDetail.postValue(null);
+                        Log.d("Detail null", "null");
+                    }
+
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+
+        });
+    }
+
 }
         
 
