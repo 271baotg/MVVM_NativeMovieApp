@@ -21,17 +21,20 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAd
 
     List<Movie> mdata;
 
-    public HomeHorizontalAdapter(List<Movie> mdata, Context mcontex) {
+    private final RcvInterfce rcvInterfce;
+
+    public HomeHorizontalAdapter(List<Movie> mdata, RcvInterfce rcvInterfce) {
+
         this.mdata = mdata;
-        this.mcontex = mcontex;
+        this.rcvInterfce = rcvInterfce;
+
     }
 
-    Context mcontex;
 
     @Override
     public HorizontalViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.homemoviecard_item, parent, false);
-        return new HorizontalViewHolder(root);
+        return new HorizontalViewHolder(root, rcvInterfce);
     }
 
     @Override
@@ -53,14 +56,30 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAd
         return mdata != null ? mdata.size() : 0;
     }
 
+    public Movie getCurrent(int position) {
+        return mdata.get(position);
+    }
+
     public class HorizontalViewHolder extends RecyclerView.ViewHolder {
 
         ImageView img;
 
-        public HorizontalViewHolder(@NonNull @NotNull View itemView) {
+        public HorizontalViewHolder(@NonNull @NotNull View itemView, RcvInterfce rcvInterfce) {
             super(itemView);
 
             img = itemView.findViewById(R.id.movie_card);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (rcvInterfce != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                            rcvInterfce.onMovieClick(getCurrent(position));
+                    }
+                }
+            });
+
+
         }
     }
 }

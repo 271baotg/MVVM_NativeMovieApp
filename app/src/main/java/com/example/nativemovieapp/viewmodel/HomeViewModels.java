@@ -25,12 +25,12 @@ public class HomeViewModels extends ViewModel {
 
 
     public void loadListPopularMovie() {
-        DB.loadListPopularMovie(Credential.apiKey, 2);
+        DB.loadListPopularMovie(Credential.apiKey, 1);
     }
 
     public void loadListCategory() {
         DB.loadListCategory(Credential.apiKey);
     }
-    
+
 
 }

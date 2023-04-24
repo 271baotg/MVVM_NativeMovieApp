@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'androidx.navigation.safeargs'
 }
 
 
@@ -50,7 +51,6 @@ dependencies {
     def nav_version = "2.5.3"
     def lifecycle_version = "2.6.1"
 
-
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -90,6 +90,9 @@ dependencies {
 
     //Rating bar
     implementation 'com.github.shallcheek:RatingBar:v1.0'
+
+    //Material - UI
+    implementation 'com.google.android.material:material:1.5.0-beta01'
 }
 
 

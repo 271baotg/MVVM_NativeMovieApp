@@ -60,22 +60,12 @@
                         app:sliderScrollTimeInSec="1"
                         app:sliderStartAutoCycle="true"/>
             </androidx.cardview.widget.CardView>
-            <Button android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/slider_container"
-                    android:layout_centerHorizontal="true"
-                    android:text="Load API"
-                    android:fontFamily="@font/myfont"
-                    android:textStyle="bold"
-                    android:id="@+id/testButton"
-                    android:onClick="@{() -> viewModel.loadListCategory()}"
-            />
 
             <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"
                                                        android:layout_height="wrap_content"
                                                        android:id="@+id/verticalRcv"
-                                                       android:layout_below="@id/testButton"
-                                                       android:layout_marginTop="5dp"
+                                                       android:layout_below="@id/slider_container"
+                                                       android:layout_marginTop="30dp"
             />
 
         </RelativeLayout>
