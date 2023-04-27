@@ -24,15 +24,12 @@ public class LiveDataProvider {
     //LiveData
     private static MutableLiveData<List<Movie>> listPopular;
     private static MutableLiveData<List<Category>> listCategory;
-
     private static MutableLiveData<List<Movie>> listSearch;
     private static MutableLiveData<List<Movie>> listUpcoming;
-    private  static MutableLiveData<Movie> itemMovie;
+    private static MutableLiveData<Movie> itemMovie;
     private static MutableLiveData<List<Movie>> listTopRate;
-
     private static MutableLiveData<List<Movie>> listFavourite;
     private static LiveDataProvider _ins;
-
 
     public static LiveDataProvider getInstance() {
         if (_ins == null)
