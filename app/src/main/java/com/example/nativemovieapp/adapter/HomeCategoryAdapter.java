@@ -31,9 +31,12 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     List<Category> mdata;
     Context mcontext;
 
-    public HomeCategoryAdapter(Context mcontext, List<Category> mdata) {
+    private final RcvInterfce rcvInterfce;
+
+    public HomeCategoryAdapter(Context mcontext, List<Category> mdata, RcvInterfce rcvInterfce) {
         this.mdata = mdata;
         this.mcontext = mcontext;
+        this.rcvInterfce = rcvInterfce;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
             try {
                 Log.d("Trying to bind", listFuture.get().toString());
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, RecyclerView.HORIZONTAL, false);
-                HomeHorizontalAdapter adapter = new HomeHorizontalAdapter(listFuture.get(), mcontext);
+                HomeHorizontalAdapter adapter = new HomeHorizontalAdapter(listFuture.get(), rcvInterfce);
                 holder.categoryRcv.setLayoutManager(linearLayoutManager);
                 holder.categoryRcv.setAdapter(adapter);
             } catch (Exception e) {
@@ -85,6 +88,13 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
             super(itemView);
             categoryTitle = itemView.findViewById(R.id.category_title);
             categoryRcv = itemView.findViewById(R.id.rowRcv);
+
         }
     }
+
+    public void release() {
+        this.mcontext = null;
+    }
+    
+
 }

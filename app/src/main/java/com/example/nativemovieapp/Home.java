@@ -1,37 +1,36 @@
 package com.example.nativemovieapp;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 
 import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
 import com.example.nativemovieapp.adapter.HomeSliderAdapter;
+import com.example.nativemovieapp.adapter.RcvInterfce;
 import com.example.nativemovieapp.databinding.FragmentHomeBinding;
 import com.example.nativemovieapp.viewmodel.HomeViewModels;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 
-public class Home extends Fragment {
+public class Home extends Fragment implements RcvInterfce {
 
     private SliderView sliderView;
 
@@ -43,7 +42,6 @@ public class Home extends Fragment {
 
     private HomeSliderAdapter sliderAdapter;
     private LinearLayoutManager layoutManager;
-    private Button loadData;
 
 
     @Override
@@ -63,7 +61,6 @@ public class Home extends Fragment {
 
         FragmentHomeBinding binding = DataBindingUtil.bind(root);
         binding.setViewModel(homeVMs);
-        loadData = root.findViewById(R.id.testButton);
         //Setup Category recycler
         categoryRecycler = root.findViewById(R.id.verticalRcv);
         layoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false);
@@ -76,13 +73,18 @@ public class Home extends Fragment {
         sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
         sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
         sliderView.startAutoCycle();
+
         homeVMs.loadListPopularMovie();
-        ObserveChange();
+        homeVMs.loadListCategory();
+        ObservePopularChange();
+        ObserveCategoryChange(this);
+
+
         return root;
     }
 
     //Observe data change
-    private void ObserveChange() {
+    private void ObservePopularChange() {
 
         //Listen to Livedata listPopular change
         homeVMs.getListPopular().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
@@ -93,12 +95,16 @@ public class Home extends Fragment {
             }
         });
 
+
+    }
+
+    private void ObserveCategoryChange(RcvInterfce rcvInterfce) {
         //Listen to Livedata listCategory change
         homeVMs.getListCategory().observe(getViewLifecycleOwner(), new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
                 categoryRecycler.setLayoutManager(layoutManager);
-                categoryAdapter = new HomeCategoryAdapter(getParentFragment().getContext(), categories);
+                categoryAdapter = new HomeCategoryAdapter(getParentFragment().getContext(), categories, rcvInterfce);
                 categoryRecycler.setAdapter(categoryAdapter);
 
             }
@@ -106,4 +112,19 @@ public class Home extends Fragment {
         });
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        categoryAdapter.release();
+    }
+
+
+    @Override
+    public void onMovieClick(Movie movie) {
+        int id = movie.getId();
+        NavDirections action = HomeDirections.actionHome2ToMovieDetailFragment(id);
+        Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
+
+    }
 }

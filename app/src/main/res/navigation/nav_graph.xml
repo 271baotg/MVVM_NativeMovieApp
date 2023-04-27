@@ -6,7 +6,15 @@
     <fragment android:id="@+id/home2"
               android:name="com.example.nativemovieapp.Home"
               android:label="fragment_home"
-              tools:layout="@layout/fragment_home"/>
+              tools:layout="@layout/fragment_home">
+        <action android:id="@+id/action_home2_to_movieDetailFragment"
+                app:destination="@id/movieDetailFragment"
+                app:enterAnim="@anim/enter"
+                app:exitAnim="@anim/exit"
+
+        />
+
+    </fragment>
     <fragment android:id="@+id/search"
               android:name="com.example.nativemovieapp.Search"
               android:label="fragment_search"
@@ -19,4 +27,12 @@
               android:name="com.example.nativemovieapp.Account"
               android:label="fragment_account"
               tools:layout="@layout/fragment_account"/>
+    <fragment android:id="@+id/movieDetailFragment"
+              android:name="com.example.nativemovieapp.MovieDetailFragment"
+              android:label="frament_movie_detail"
+              tools:layout="@layout/frament_movie_detail"
+    >
+        <argument android:name="id"
+                  app:argType="integer"/>
+    </fragment>
 </navigation>

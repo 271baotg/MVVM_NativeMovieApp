@@ -33,6 +33,7 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.HomeS
     private List<Movie> mdata;
     Context mcontext;
 
+
     public HomeSliderAdapter(Context mcontext, List<Movie> mdata) {
         this.mdata = mdata;
         this.mcontext = mcontext;
@@ -73,13 +74,11 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.HomeS
                 starCount = 5.0f;
             } else if (rating >= 6.0f) {
                 starCount = 4.0f;
-            } else if(rating >=4.0f){
+            } else if (rating >= 4.0f) {
                 starCount = 3.0f;
-            }
-            else if(rating >=2.0f){
+            } else if (rating >= 2.0f) {
                 starCount = 2.0f;
-            }
-            else {
+            } else {
                 starCount = 1.0f;
             }
 
@@ -125,9 +124,9 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.HomeS
                     .setOverlayColor(R.color.accent)
                     .setBlurAutoUpdate(true)
                     .setFrameClearDrawable(windowBackground);
+
+
         }
-
-
     }
 }
 

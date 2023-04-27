@@ -1,9 +1,6 @@
 package com.example.nativemovieapp.Api;
 
-import com.example.nativemovieapp.Model.Movie;
-import com.example.nativemovieapp.Model.Categories;
-import com.example.nativemovieapp.Model.Category;
-import com.example.nativemovieapp.Model.Movies;
+import com.example.nativemovieapp.Model.*;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -29,8 +26,8 @@ public interface TMDB {
     //https://api.themoviedb.org/3/movie/297762?api_key=e9e9d8da18ae29fc430845952232787c
 
     @GET("3/movie/{id}")
-    Call<Movie> getItemMovie(@Path("id") int id,
-                             @Query("api_key") String key
+    Call<MovieDetail> getMovieById(@Path("id") int id,
+                                   @Query("api_key") String key
 
     );
 
@@ -42,10 +39,11 @@ public interface TMDB {
     @GET("3/movie/upcoming")
     Call<Movies> getListUpcoming(@Query("api_key") String key,
                                  @Query("page") int page);
+
     //https://api.themoviedb.org/3/movie/top_rated?api_key=e9e9d8da18ae29fc430845952232787c&language=en-US&page=1
     @GET("3/movie/top_rated")
     Call<Movies> getListTopRate(@Query("api_key") String key,
-                                 @Query("page") int page);
+                                @Query("page") int page);
 
     //https://api.themoviedb.org/3/discover/movie?api_key=e9e9d8da18ae29fc430845952232787c&with_genres=18
     @GET("/3/discover/movie")

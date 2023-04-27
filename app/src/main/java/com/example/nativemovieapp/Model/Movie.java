@@ -1,12 +1,15 @@
 package com.example.nativemovieapp.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 
 //Class dành cho thông tin của 1 bộ phim
-public class Movie {
+public class Movie implements Parcelable {
 
     private boolean adult;
     @SerializedName("backdrop_path")
@@ -23,6 +26,34 @@ public class Movie {
     private boolean video;
     private float vote_average;
     private int vote_count;
+
+    protected Movie(Parcel in) {
+        adult = in.readByte() != 0;
+        imageURL = in.readString();
+        id = in.readInt();
+        original_language = in.readString();
+        original_title = in.readString();
+        overview = in.readString();
+        popularity = in.readFloat();
+        poster_path = in.readString();
+        release_date = in.readString();
+        title = in.readString();
+        video = in.readByte() != 0;
+        vote_average = in.readFloat();
+        vote_count = in.readInt();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public boolean isAdult() {
         return adult;
@@ -98,5 +129,27 @@ public class Movie {
                 ", vote_average=" + vote_average +
                 ", vote_count=" + vote_count +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeByte((byte) (adult ? 1 : 0));
+        parcel.writeString(imageURL);
+        parcel.writeInt(id);
+        parcel.writeString(original_language);
+        parcel.writeString(original_title);
+        parcel.writeString(overview);
+        parcel.writeFloat(popularity);
+        parcel.writeString(poster_path);
+        parcel.writeString(release_date);
+        parcel.writeString(title);
+        parcel.writeByte((byte) (video ? 1 : 0));
+        parcel.writeFloat(vote_average);
+        parcel.writeInt(vote_count);
     }
 }
