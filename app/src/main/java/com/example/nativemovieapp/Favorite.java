@@ -2,9 +2,17 @@ package com.example.nativemovieapp;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.nativemovieapp.Api.Credential;
+import com.example.nativemovieapp.viewmodel.AuthenticationViewModel;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -12,7 +20,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class Favorite extends Fragment {
-
+    private AuthenticationViewModel vm;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,10 +55,18 @@ public class Favorite extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        vm = new ViewModelProvider(getActivity()).get(AuthenticationViewModel.class);
+        vm.login("annguyeen0@gmail.com", "123456", new AuthenticationViewModel.AuthViewModelCallBack() {
+            @Override
+            public void onLoginCompleted(LiveData<FirebaseUser> user) {
+                Log.i("Test in Favorite", user.getValue().getUid());
+            }
+        });
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -59,5 +75,4 @@ public class Favorite extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite, container, false);
     }
-    void test(){}
 }
