@@ -31,10 +31,12 @@ import static com.example.nativemovieapp.Api.LiveDataProvider.movieListFinal;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
     private List<Movie> mdata;
      Context context;
+     private final RcvInterfce rcvInterfce;
 
-    public SearchAdapter(Context context, List<Movie> movies) {
+    public SearchAdapter(Context context, List<Movie> movies, RcvInterfce rcvInterfce) {
         this.context=context;
         this.mdata=movies;
+        this.rcvInterfce=rcvInterfce;
     }
 //
 //    public void setFilteredList(List<Movie> filteredList)
@@ -48,7 +50,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public SearchViewHolder onCreateViewHolder( @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_iteam,parent,false);
-        return new SearchViewHolder(view);
+        return new SearchViewHolder(view,rcvInterfce);
     }
 
 
@@ -109,9 +111,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         return 0;
     }
 
+    public Movie getCurrent(int position) {
+        return mdata.get(position);
+    }
 
-
-    public static class SearchViewHolder extends RecyclerView.ViewHolder {
+    public  class SearchViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView searchImage;
         private TextView searchTitle;
@@ -119,7 +123,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         private TextView year;
         private RatingBar ratingBar;
         private TextView content;
-        public SearchViewHolder( @NotNull View itemView) {
+        public SearchViewHolder( @NotNull View itemView,RcvInterfce rcvInterfce) {
             super(itemView);
 
             searchImage = itemView.findViewById(R.id.search_image);
@@ -128,6 +132,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             year = itemView.findViewById(R.id.movie_year);
             ratingBar = itemView.findViewById(R.id.movie_rating);
             content = itemView.findViewById(R.id.search_content);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (rcvInterfce != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                            rcvInterfce.onMovieClick(getCurrent(position));
+                    }
+                }
+            });
         }
     }
 }

@@ -25,8 +25,8 @@ public class LiveDataProvider {
     private static MutableLiveData<List<Category>> listCategory;
     private static MutableLiveData<List<Movie>> listSearch;
     private static MutableLiveData<List<Movie>> listUpcoming;
-    private static MutableLiveData<Movie> itemMovie;
     private static MutableLiveData<List<Movie>> listTopRate;
+    private static MutableLiveData<List<Movie>> listSimilarMovie;
     private static MutableLiveData<List<Movie>> listFavourite;
     private static LiveDataProvider _ins;
 
@@ -38,13 +38,13 @@ public class LiveDataProvider {
 
     public LiveDataProvider() {
         listPopular = new MutableLiveData<>();
-
         listFavourite = new MutableLiveData<>();
         listSearch = new MutableLiveData<>();
         listUpcoming = new MutableLiveData<>();
         listCategory = new MutableLiveData<>();
         listTopRate = new MutableLiveData<>();
         movieDetail = new MutableLiveData<>();
+        listSimilarMovie = new MutableLiveData<>();
 
     }
 
@@ -69,15 +69,19 @@ public class LiveDataProvider {
         return listTopRate;
     }
 
+    public static LiveData<List<Movie>> getListSimilarMovie(){
+        return listSimilarMovie;
+    }
+
     public static List<Movie> movieListFinal = new ArrayList<>();
+
+    public static List<Movie> movieSimilar = new ArrayList<>();
 
     public static LiveData<List<Category>> getListCategory() {
         return listCategory;
     }
 
-
     public void loadListPopularMovie(String api_key, int page) {
-
 
         final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
 
@@ -230,6 +234,52 @@ public class LiveDataProvider {
 
     }
 
+    public void loadListSimilarMovie(int id, String api_key, int page) {
+
+
+        final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
+
+            TMDB tmdbApi = ApiService.getTmdbApi();
+            Call<Movies> call = tmdbApi.getSimilarMovie(id,api_key, page);
+
+            @Override
+            public void run() {
+                Movies reponse = null;
+                try {
+                    reponse = call.execute().body();
+                    if (reponse != null) {
+                        for (Movie item : reponse.getListMovie()) {
+                            if (item.getImageURL() != null) {
+                                movieSimilar.add(item);
+                            }
+                            if(movieSimilar.size()==10)
+                            {
+                                listSimilarMovie.postValue(movieSimilar);
+                                Log.d("tag1", listSimilarMovie.toString());
+                                movieSimilar= new ArrayList<>();
+                            }
+                        }
+                    } else {
+                        listSimilarMovie.postValue(null);
+                        Log.d("failed", "null");
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        });
+
+        AppExecutor.getInstance().getNetworkIo().schedule(new Runnable() {
+            @Override
+            public void run() {
+                handler.cancel(true);
+            }
+        }, 10000, TimeUnit.MILLISECONDS);
+
+    }
+
 
     public void loadListCategory(String api_key) {
 
@@ -244,7 +294,6 @@ public class LiveDataProvider {
                     response = call.execute().body();
                     if (response != null) {
                         listCategory.postValue(response.getResult());
-
                     } else {
                         listCategory.postValue(null);
                     }
