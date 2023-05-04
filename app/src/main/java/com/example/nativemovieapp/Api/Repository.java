@@ -65,6 +65,14 @@ public class Repository {
         LDP.loadListTopRate(api_key, page);
     }
 
+    public LiveData<List<Movie>> getListSimilarMovie() {
+        return LiveDataProvider.getListSimilarMovie();
+    }
+
+    public void loadListSimilarMovie(int id,String api_key, int page) {
+        LDP.loadListSimilarMovie(id,api_key, page);
+    }
+
     public void loadListCategory(String api_key) {
         LDP.loadListCategory(api_key);
     }

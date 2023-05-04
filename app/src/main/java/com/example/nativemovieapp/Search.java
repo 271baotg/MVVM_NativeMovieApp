@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +21,8 @@ import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Api.LiveDataProvider;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.Movies;
-import com.example.nativemovieapp.adapter.HomeSliderAdapter;
-import com.example.nativemovieapp.adapter.SearchAdapter;
-import com.example.nativemovieapp.adapter.TopRateAdapter;
-import com.example.nativemovieapp.adapter.UpcomingAdapter;
+import com.example.nativemovieapp.adapter.*;
+import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 import com.example.nativemovieapp.viewmodel.SearchViewModels;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.List;
 import static com.example.nativemovieapp.Api.LiveDataProvider.movieListFinal;
 
 
-public class Search extends Fragment {
+public class Search extends Fragment implements RcvInterfce {
     //khoi tao viewModel
     private SearchViewModels searchVM = new SearchViewModels();
     private SearchAdapter searchAdapter ;
@@ -45,6 +45,7 @@ public class Search extends Fragment {
     private TextView upcomingTitle;
     private TextView toprateTitle;
 
+    private MovieDetailViewModel viewModel;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,38 +117,44 @@ public class Search extends Fragment {
         searchVM.loadListSearchMovie("", root.getContext());
         Context context= getParentFragment().getContext();
         Context context1=getParentFragment().getContext();
-        searchVM.loadListUpcomingMovie();
-        searchVM.loadListTopRateMovie();
-        ObserveChange();
-        ObserveChangeUpcoming();
-        ObserveChangeTopRate();
+        ObserveChange(this);
+        ObserveChangeUpcoming(this);
+        ObserveChangeTopRate(this);
         return root;
     }
-    public void ObserveChange() {
+    public void ObserveChange(RcvInterfce rcvInterfce) {
         searchVM.getListSearch().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                searchAdapter = new SearchAdapter(getParentFragment().getContext(),movies);
+                searchAdapter = new SearchAdapter(getParentFragment().getContext(),movies,rcvInterfce);
                 rcvSearch.setAdapter(searchAdapter);
             }
         });
     }
-    public void ObserveChangeUpcoming() {
+    public void ObserveChangeUpcoming(RcvInterfce rcvInterfce) {
         searchVM.getListUpcoming().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                upcomingAdapter = new UpcomingAdapter(getParentFragment().getContext(),movies);
+                upcomingAdapter = new UpcomingAdapter(getParentFragment().getContext(),movies,rcvInterfce);
                 rcvUpcoming.setAdapter(upcomingAdapter);
             }
         });
     }
-    public void ObserveChangeTopRate() {
+    public void ObserveChangeTopRate(RcvInterfce rcvInterfce) {
         searchVM.getListTopRate().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                topRateAdapter = new TopRateAdapter(getParentFragment().getContext(),movies);
+                topRateAdapter = new TopRateAdapter(getParentFragment().getContext(),movies,rcvInterfce);
                 rcvRateTop.setAdapter(topRateAdapter);
             }
         });
     }
+
+    @Override
+    public void onMovieClick(Movie movie) {
+        int id = movie.getId();
+        NavDirections action = SearchDirections.actionSearchToMovieDetailFragment(id);
+        Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
+    }
+
 }

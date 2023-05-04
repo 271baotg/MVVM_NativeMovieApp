@@ -74,8 +74,6 @@ public class Home extends Fragment implements RcvInterfce {
         sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
         sliderView.startAutoCycle();
 
-        homeVMs.loadListPopularMovie();
-        homeVMs.loadListCategory();
         ObservePopularChange();
         ObserveCategoryChange(this);
 
@@ -127,4 +125,5 @@ public class Home extends Fragment implements RcvInterfce {
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
 
     }
+
 }

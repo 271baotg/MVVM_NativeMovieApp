@@ -50,5 +50,11 @@ public interface TMDB {
     Call<Movies> getListByCategory(@Query("api_key") String key,
                                    @Query("with_genres") int idCategory);
 
+    //https://api.themoviedb.org/3/movie/297762/similar?api_key=e9e9d8da18ae29fc430845952232787c&language=en-US&page=1
+    @GET("3/movie/{id}/similar")
+    Call<Movies> getSimilarMovie(@Path("id") int id,
+                                   @Query("api_key") String key,
+                                      @Query("page") int page
+    );
 
 }

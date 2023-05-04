@@ -18,7 +18,13 @@
     <fragment android:id="@+id/search"
               android:name="com.example.nativemovieapp.Search"
               android:label="fragment_search"
-              tools:layout="@layout/fragment_search"/>
+              tools:layout="@layout/fragment_search">
+        <action android:id="@+id/action_search_to_movieDetailFragment"
+                app:destination="@id/movieDetailFragment"
+                app:enterAnim="@anim/enter"
+                app:exitAnim="@anim/exit"
+        />
+    </fragment>
     <fragment android:id="@+id/favorite"
               android:name="com.example.nativemovieapp.Favorite"
               android:label="fragment_favorite"
@@ -27,6 +33,18 @@
               android:name="com.example.nativemovieapp.Account"
               android:label="fragment_account"
               tools:layout="@layout/fragment_account"/>
+    <fragment android:id="@+id/similarMovie"
+              android:name="com.example.nativemovieapp.MovieDetailFragmentSimilar"
+              android:label="fragment_similar"
+              tools:layout="@layout/fragment_similar">
+        <action android:id="@+id/action_similarMovie_to_movieDetailFragment"
+                app:destination="@id/movieDetailFragment"
+                app:enterAnim="@anim/enter"
+                app:exitAnim="@anim/exit"
+        />
+    </fragment>
+
+
     <fragment android:id="@+id/movieDetailFragment"
               android:name="com.example.nativemovieapp.MovieDetailFragment"
               android:label="frament_movie_detail"
@@ -34,5 +52,10 @@
     >
         <argument android:name="id"
                   app:argType="integer"/>
+                <action android:id="@+id/action_movieDetailFragment_to_movieDetailFragment"
+                        app:destination="@id/movieDetailFragment"
+                        app:enterAnim="@anim/enter"
+                        app:exitAnim="@anim/exit"
+                />
     </fragment>
 </navigation>

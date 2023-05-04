@@ -27,15 +27,18 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.Upcomi
     private List<Movie> mdata;
     Context context;
 
-    public UpcomingAdapter(Context context, List<Movie> movies) {
+    private final RcvInterfce rcvInterfce;
+
+    public UpcomingAdapter(Context context, List<Movie> movies,RcvInterfce rcvInterfce) {
         this.context=context;
         this.mdata=movies;
+        this.rcvInterfce = rcvInterfce;
     }
     @NotNull
     @Override
     public UpcomingViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.upcoming_item,parent,false);
-        return new UpcomingViewHolder(view);
+        return new UpcomingViewHolder(view,rcvInterfce);
     }
 
 
@@ -90,16 +93,18 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.Upcomi
         return 0;
     }
 
+    public Movie getCurrent(int position) {
+        return mdata.get(position);
+    }
 
-
-    public static class UpcomingViewHolder extends RecyclerView.ViewHolder {
+    public class UpcomingViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView searchImage;
         private TextView searchTitle;
         private TextView searchScore;
         private TextView year;
         private RatingBar ratingBar;
-        public UpcomingViewHolder( @NotNull View itemView) {
+        public UpcomingViewHolder( @NotNull View itemView,RcvInterfce rcvInterfce) {
             super(itemView);
 
             searchImage = itemView.findViewById(R.id.search_image_upcoming);
@@ -107,6 +112,17 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.Upcomi
             searchScore = itemView.findViewById(R.id.search_score_upcoming);
             year = itemView.findViewById(R.id.movie_year_upcoming);
             ratingBar = itemView.findViewById(R.id.movie_rating_upcoming);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (rcvInterfce != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                            rcvInterfce.onMovieClick(getCurrent(position));
+                    }
+                }
+            });
         }
     }
 
