@@ -4,23 +4,40 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
+import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.MovieDetail;
 import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.DetailCategoryAdapter;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
+import com.example.nativemovieapp.adapter.DetailMovieViewPagerAdapter;
+import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
+import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.squareup.picasso.Picasso;
+import org.jetbrains.annotations.NotNull;
 
 
 public class MovieDetailFragment extends Fragment {
@@ -34,18 +51,22 @@ public class MovieDetailFragment extends Fragment {
     private ImageView image;
     private RatingBar rating;
 
-    private LinearLayout btnFavorite;
+    private View btnFavorite;
 
+    private TabLayout mtablayout;
+
+    private ViewPager2 mviewpager;
+    private DetailMovieViewPagerAdapter mdetailmovieviewpageradapter;
+
+    private Fragment fragment = this;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         detailVM = new ViewModelProvider(this).get(MovieDetailViewModel.class);
         MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
         detailVM.loadMovieDetail(args.getId(), Credential.apiKey);
-
+        detailVM.setId(args.getId());
         Log.d("id of movie", args.toString());
-
-
     }
 
     @Override
@@ -65,6 +86,8 @@ public class MovieDetailFragment extends Fragment {
                 detailVM.addToFavoriteList(args.getId());
             }
         });
+        mtablayout = root.findViewById(R.id.tablayout_detailMovie);
+        mviewpager = root.findViewById(R.id.viewpager_detaiMovie);
 
         ObserveChange();
         return root;
@@ -72,6 +95,7 @@ public class MovieDetailFragment extends Fragment {
 
 
     public void ObserveChange() {
+        Log.d("parent", this.toString());
         detailVM.getMovieDetail().observe(getViewLifecycleOwner(), new Observer<MovieDetail>() {
             @Override
             public void onChanged(MovieDetail movieDetail) {
@@ -114,6 +138,26 @@ public class MovieDetailFragment extends Fragment {
                 //Overview
                 overview.setText(movieDetail.getOverview());
 
+                Log.d("detailId", String.valueOf(detailVM.getId()));
+                mdetailmovieviewpageradapter = new DetailMovieViewPagerAdapter(getActivity(),fragment,detailVM.getId());
+                mviewpager.setAdapter(mdetailmovieviewpageradapter);
+                mviewpager.setUserInputEnabled(false);
+                new TabLayoutMediator(mtablayout, mviewpager, new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override
+                    public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
+                        switch(position){
+                            case 0:
+                                tab.setText("Trailers");
+                                break;
+                            case 1:
+                                tab.setText("Images");
+                                break;
+                            case 2:
+                                tab.setText("Similar");
+                                break;
+                        }
+                    }
+                }).attach();
             }
         });
     }

@@ -28,7 +28,7 @@ public class RealtimeRepository {
 
     public static void addToFavoriteList(int idMovie){
         Log.d("Clicked", String.valueOf(idMovie));
-        DatabaseReference ref = getInstance().getNode(Credential.getCurrentUser().getUid()).child("FavoriteList");
+        DatabaseReference ref = getInstance().getNode("USERS").child(Credential.getCurrentUser().getUid()).child("FavoriteList");
         ref.child(String.valueOf(idMovie)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
