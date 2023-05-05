@@ -1,4 +1,4 @@
-package com.example.nativemovieapp.Fragment;
+package com.example.nativemovieapp.Fragments;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -55,13 +55,6 @@ public class Favorite extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        vm = new ViewModelProvider(getActivity()).get(AuthenticationViewModel.class);
-        vm.login("annguyeen0@gmail.com", "123456", new AuthenticationViewModel.AuthViewModelCallBack() {
-            @Override
-            public void onLoginCompleted(LiveData<FirebaseUser> user) {
-                Log.i("Test in Favorite", user.getValue().getUid());
-            }
-        });
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);

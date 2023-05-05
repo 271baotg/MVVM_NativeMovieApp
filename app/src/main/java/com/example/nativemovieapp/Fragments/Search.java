@@ -1,10 +1,10 @@
-package com.example.nativemovieapp.Fragment;
+package com.example.nativemovieapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,15 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.nativemovieapp.Api.Credential;
-import com.example.nativemovieapp.Api.LiveDataProvider;
+
 import com.example.nativemovieapp.Model.Movie;
-import com.example.nativemovieapp.Model.Movies;
 import com.example.nativemovieapp.R;
-import com.example.nativemovieapp.adapter.HomeSliderAdapter;
 import com.example.nativemovieapp.adapter.SearchAdapter;
 import com.example.nativemovieapp.adapter.TopRateAdapter;
 import com.example.nativemovieapp.adapter.UpcomingAdapter;
