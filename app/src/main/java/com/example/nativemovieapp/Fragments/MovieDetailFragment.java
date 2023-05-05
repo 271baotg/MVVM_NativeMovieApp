@@ -1,4 +1,4 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.MovieDetail;
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.DetailCategoryAdapter;
 import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;

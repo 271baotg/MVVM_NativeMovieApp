@@ -1,4 +1,4 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +19,7 @@ import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Api.LiveDataProvider;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.Movies;
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.HomeSliderAdapter;
 import com.example.nativemovieapp.adapter.SearchAdapter;
 import com.example.nativemovieapp.adapter.TopRateAdapter;

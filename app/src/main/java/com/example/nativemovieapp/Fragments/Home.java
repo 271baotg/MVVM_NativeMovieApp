@@ -1,4 +1,4 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
 import com.example.nativemovieapp.adapter.HomeSliderAdapter;
 import com.example.nativemovieapp.adapter.RcvInterfce;
