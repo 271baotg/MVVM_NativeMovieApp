@@ -1,8 +1,9 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -15,12 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -31,7 +27,9 @@ import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.MovieDetail;
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.DetailCategoryAdapter;
+import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 import com.example.nativemovieapp.adapter.DetailMovieViewPagerAdapter;
 import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
@@ -52,6 +50,8 @@ public class MovieDetailFragment extends Fragment {
     private TextView overview;
     private ImageView image;
     private RatingBar rating;
+
+    private View btnFavorite;
 
     private TabLayout mtablayout;
 
@@ -78,6 +78,14 @@ public class MovieDetailFragment extends Fragment {
         rating = root.findViewById(R.id.detail_rating);
         overview = root.findViewById(R.id.detail_overview);
         categoryRCV = root.findViewById(R.id.detail_genresRCV);
+        btnFavorite = root.findViewById(R.id.btn_favorite);
+        btnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
+                detailVM.addToFavoriteList(args.getId());
+            }
+        });
         mtablayout = root.findViewById(R.id.tablayout_detailMovie);
         mviewpager = root.findViewById(R.id.viewpager_detaiMovie);
 

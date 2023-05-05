@@ -1,83 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/fragment_movie_detail"
+    >
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:id="@+id/fragment_movie_detail"
+        android:scrollbarStyle="insideInset"
         >
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:scrollbarStyle="insideInset"
->
-    <RelativeLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".MovieDetailFragment">
 
-        <ImageView android:layout_width="match_parent"
-                   android:layout_height="350dp"
-                   android:src="@drawable/testposter"
-                   android:id="@+id/detail_image"
-                   android:alpha="0.7"
-                   android:scaleType="centerCrop"/>
+            <ImageView android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:src="@drawable/testposter"
+                android:id="@+id/detail_image"
+                android:alpha="0.7"
+                android:scaleType="centerCrop"/>
 
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@id/detail_image"
-                        android:background="#171a21"
-                        android:id="@+id/information_card"
-                        android:orientation="vertical"
-        >
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentTop="true"
-                          android:orientation="horizontal"
-                          android:weightSum="1"
-                          android:id="@+id/title_line">
+            <RelativeLayout android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/detail_image"
+                android:background="#171a21"
+                android:id="@+id/information_card"
+                android:orientation="vertical"
+                >
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    android:id="@+id/title_line">
 
-                <TextView android:layout_width="0dp"
-                          android:layout_height="wrap_content"
-                          android:textFontWeight="700"
-                          android:fontFamily="@font/myfont"
-                          android:textSize="22sp"
-                          tools:text="Avatar 2"
-                          android:layout_marginLeft="5sp"
-                          android:gravity="center_vertical"
-                          android:textColor="@color/white"
-                          android:layout_weight="1"
-                          android:id="@+id/detail_title"/>
+                    <TextView android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textFontWeight="700"
+                        android:fontFamily="@font/myfont"
+                        android:textSize="22sp"
+                        tools:text="Avatar 2"
+                        android:layout_marginLeft="5sp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+                        android:id="@+id/detail_title"/>
 
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                               android:layout_height="25sp"
-                                                               android:layout_below="@id/title_line"
-                                                               android:id="@+id/rating_line"
-                                                               android:orientation="horizontal"
-            >
-                <com.chaek.android.RatingBar android:layout_width="wrap_content"
-                                             android:layout_height="wrap_content"
-                                             app:rating_star_height="15sp"
-                                             app:rating_star_width="15sp"
-                                             app:rating_star_color="#f60003"
-                                             app:rating_star_empty_color="#C55C5D"
-                                             app:rating_star_tint="true"
-                                             android:id="@+id/detail_rating"
-                                             android:layout_marginStart="5sp"
-                                             app:rating_flag="FIVE"
-                                             app:layout_constraintBottom_toBottomOf="parent"
-                                             app:layout_constraintTop_toTopOf="parent"
-                                             app:layout_constraintLeft_toLeftOf="parent"
-                                             android:foregroundGravity="center_vertical"/>
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                    android:layout_height="25sp"
+                    android:layout_below="@id/title_line"
+                    android:id="@+id/rating_line"
+                    android:orientation="horizontal"
+                    >
+                    <com.chaek.android.RatingBar android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:rating_star_height="15sp"
+                        app:rating_star_width="15sp"
+                        app:rating_star_color="#f60003"
+                        app:rating_star_empty_color="#C55C5D"
+                        app:rating_star_tint="true"
+                        android:id="@+id/detail_rating"
+                        android:layout_marginStart="5sp"
+                        app:rating_flag="FIVE"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:foregroundGravity="center_vertical"/>
 
-                />
-                <View
+                    />
+                    <View
                         android:id="@+id/first_divider"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
@@ -87,128 +87,130 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          app:layout_constraintBottom_toBottomOf="parent"
-                          app:layout_constraintTop_toTopOf="parent"
-                          app:layout_constraintLeft_toRightOf="@id/first_divider"
-                          android:layout_marginLeft="5sp"
-                          android:text="8.0"
-                          android:textSize="12sp"
-                          android:id="@+id/detail_score"
-                />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:elevation="3dp"
-                          android:layout_marginTop="5dp"
-                          android:id="@+id/button_line"
-                          android:layout_below="@id/rating_line"
-                          android:orientation="horizontal"
-
-            >
-                <LinearLayout android:layout_width="0dp"
-                              android:layout_height="wrap_content"
-                              android:layout_weight="1"
-                              android:background="@drawable/rounded_playbutton"
-                              android:id="@+id/play_button"
-                              android:gravity="center_horizontal"
-                              android:layout_margin="5dp"
-                >
-                    <ImageView android:layout_width="wrap_content"
-                               android:layout_height="match_parent"
-                               android:src="@drawable/play_icon"
-                               android:scaleType="center"/>
                     <TextView android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:textSize="25dp"
-                              android:textStyle="normal"
-                              android:textColor="@color/white"
-                              android:fontFamily="@font/myfont"
-                              android:text="Play"
-                              android:gravity="center_vertical"/>
-                </LinearLayout>
-                <LinearLayout android:layout_width="0dp"
-                              android:layout_height="match_parent"
-                              android:layout_weight="1"
-                              android:gravity="center_horizontal"
-                              android:layout_margin="5dp"
-                              android:background="@drawable/rounded_button"
-                >
-                    <ImageView android:layout_width="wrap_content"
-                               android:layout_height="match_parent"
-                               android:src="@drawable/bookmark_icon_white"
-                               android:scaleType="center"/>
-                    <TextView android:layout_width="wrap_content"
-                              android:layout_height="wrap_content"
-                              android:textSize="25dp"
-                              android:textStyle="normal"
-                              android:textColor="@color/white"
-                              android:fontFamily="@font/myfont"
-                              android:text="My List"
-                              android:gravity="center_vertical"/>
-                </LinearLayout>
-            </LinearLayout>
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/first_divider"
+                        android:layout_marginLeft="5sp"
+                        android:text="8.0"
+                        android:textSize="12sp"
+                        android:id="@+id/detail_score"
+                        />
 
-            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                               android:layout_height="wrap_content"
-                                                               android:layout_below="@id/button_line"
-                                                               android:orientation="horizontal"
-                                                               android:id="@+id/genres_line"
-                                                               android:layout_marginTop="10dp">
-                <TextView android:id="@+id/genres"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="Genres"
-                          android:fontFamily="@font/myfont"
-                          android:textColor="@color/white"
-                          android:layout_marginStart="10sp"
-                          android:textSize="20sp"
-                          android:textStyle="bold"
-                          app:layout_constraintLeft_toLeftOf="parent"
-                          app:layout_constraintBottom_toBottomOf="parent"
-                          app:layout_constraintTop_toTopOf="parent"
-                />
-                <androidx.recyclerview.widget.RecyclerView android:id="@+id/detail_genresRCV"
-                                                           android:layout_width="wrap_content"
-                                                           android:layout_height="match_parent"
-                                                           app:layout_constraintTop_toTopOf="parent"
-                                                           app:layout_constraintLeft_toRightOf="@id/genres"
-                                                           android:layout_marginLeft="4dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@id/genres_line"
-                      android:id="@+id/detail_overview"
-                      android:layout_margin="10sp"
-                      android:textColor="@color/white"
-                      android:fontFamily="@font/myfont"/>
-            <com.google.android.material.tabs.TabLayout
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="3dp"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/button_line"
+                    android:layout_below="@id/rating_line"
+                    android:orientation="horizontal"
+
+                    >
+                    <LinearLayout android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_playbutton"
+                        android:id="@+id/play_button"
+                        android:gravity="center_horizontal"
+                        android:layout_margin="5dp"
+                        >
+                        <ImageView android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/play_icon"
+                            android:scaleType="center"/>
+                        <TextView android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="25dp"
+                            android:textStyle="normal"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/myfont"
+                            android:text="Play"
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/btn_favorite"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/rounded_button"
+                        >
+                        <ImageView android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/bookmark_icon_white"
+                            android:scaleType="center"/>
+                        <TextView android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="25dp"
+                            android:textStyle="normal"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/myfont"
+                            android:text="My List"
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/button_line"
+                    android:orientation="horizontal"
+                    android:id="@+id/genres_line"
+                    android:layout_marginTop="10dp">
+                    <TextView android:id="@+id/genres"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Genres"
+                        android:fontFamily="@font/myfont"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="10sp"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView android:id="@+id/detail_genresRCV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/genres"
+                        android:layout_marginLeft="4dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/genres_line"
+                    android:id="@+id/detail_overview"
+                    android:layout_margin="10sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/myfont"/>
+                <com.google.android.material.tabs.TabLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/tablayout_detailMovie"
                     android:layout_below="@+id/detail_overview"
                     android:layout_margin="10sp"
                     app:tabMode="fixed"
-            >
+                    >
 
-            </com.google.android.material.tabs.TabLayout>
+                </com.google.android.material.tabs.TabLayout>
 
-            <androidx.viewpager2.widget.ViewPager2 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:id="@+id/viewpager_detaiMovie"
-                                                 android:layout_below="@+id/tablayout_detailMovie"
-                                                 android:layout_margin="10sp"
-            >
+                <androidx.viewpager2.widget.ViewPager2 android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/viewpager_detaiMovie"
+                    android:layout_below="@+id/tablayout_detailMovie"
+                    android:layout_margin="10sp"
+                    >
 
-            </androidx.viewpager2.widget.ViewPager2>
+                </androidx.viewpager2.widget.ViewPager2>
+            </RelativeLayout>
+
         </RelativeLayout>
-
-    </RelativeLayout>
-</ScrollView>
+    </ScrollView>
 </RelativeLayout>

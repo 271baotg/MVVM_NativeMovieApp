@@ -14,6 +14,8 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.nativemovieapp.Fragments.MovieDetailFragmentDirections;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.adapter.RcvInterfce;
 import com.example.nativemovieapp.adapter.SimilarMovieAdapter;

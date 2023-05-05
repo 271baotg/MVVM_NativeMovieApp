@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Movie;
-import com.example.nativemovieapp.MovieDetailFragment;
+import com.example.nativemovieapp.Fragments.MovieDetailFragment;
 import com.example.nativemovieapp.R;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;

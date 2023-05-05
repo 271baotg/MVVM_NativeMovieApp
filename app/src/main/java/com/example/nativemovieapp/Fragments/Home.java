@@ -1,10 +1,11 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,12 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
 import com.example.nativemovieapp.adapter.HomeSliderAdapter;
 import com.example.nativemovieapp.adapter.RcvInterfce;
@@ -25,7 +29,6 @@ import com.example.nativemovieapp.viewmodel.HomeViewModels;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 

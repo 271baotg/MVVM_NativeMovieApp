@@ -4,7 +4,7 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph" app:startDestination="@id/home2">
 
     <fragment android:id="@+id/home2"
-              android:name="com.example.nativemovieapp.Home"
+              android:name="com.example.nativemovieapp.Fragments.Home"
               android:label="fragment_home"
               tools:layout="@layout/fragment_home">
         <action android:id="@+id/action_home2_to_movieDetailFragment"
@@ -16,7 +16,7 @@
 
     </fragment>
     <fragment android:id="@+id/search"
-              android:name="com.example.nativemovieapp.Search"
+              android:name="com.example.nativemovieapp.Fragments.Search"
               android:label="fragment_search"
               tools:layout="@layout/fragment_search">
         <action android:id="@+id/action_search_to_movieDetailFragment"
@@ -26,11 +26,11 @@
         />
     </fragment>
     <fragment android:id="@+id/favorite"
-              android:name="com.example.nativemovieapp.Favorite"
+              android:name="com.example.nativemovieapp.Fragments.Favorite"
               android:label="fragment_favorite"
               tools:layout="@layout/fragment_favorite"/>
     <fragment android:id="@+id/account"
-              android:name="com.example.nativemovieapp.Account"
+              android:name="com.example.nativemovieapp.Fragments.Account"
               android:label="fragment_account"
               tools:layout="@layout/fragment_account"/>
     <fragment android:id="@+id/similarMovie"
@@ -46,7 +46,7 @@
 
 
     <fragment android:id="@+id/movieDetailFragment"
-              android:name="com.example.nativemovieapp.MovieDetailFragment"
+              android:name="com.example.nativemovieapp.Fragments.MovieDetailFragment"
               android:label="frament_movie_detail"
               tools:layout="@layout/frament_movie_detail"
     >

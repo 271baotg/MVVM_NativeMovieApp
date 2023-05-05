@@ -1,10 +1,18 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragments;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.nativemovieapp.R;
+import com.example.nativemovieapp.viewmodel.AuthenticationViewModel;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -12,7 +20,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class Favorite extends Fragment {
-
+    private AuthenticationViewModel vm;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,6 +59,7 @@ public class Favorite extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
