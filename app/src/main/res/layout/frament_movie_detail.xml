@@ -7,17 +7,26 @@
         android:layout_height="match_parent"
         tools:context=".MovieDetailFragment">
 
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_container">
     <ImageView android:layout_width="match_parent"
                android:layout_height="350dp"
                android:src="@drawable/testposter"
                android:id="@+id/detail_image"
                android:alpha="0.7"
                android:scaleType="centerCrop"/>
+        <com.like.LikeButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            app:icon_type=""/>
+    </FrameLayout>
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/detail_image"
+                    android:layout_below="@id/img_container"
                     android:background="#171a21"
                     android:id="@+id/information_card"
                     android:orientation="vertical"
@@ -128,6 +137,7 @@
                           android:gravity="center_horizontal"
                           android:layout_margin="5dp"
                           android:background="@drawable/rounded_button"
+                    android:id="@+id/favorite_button"
             >
                 <ImageView android:layout_width="wrap_content"
                            android:layout_height="match_parent"

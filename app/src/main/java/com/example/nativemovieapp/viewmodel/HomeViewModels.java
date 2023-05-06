@@ -6,11 +6,13 @@ import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Api.Repository;
 import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
+import com.google.firebase.FirebaseApp;
 
 import java.util.List;
 
 public class HomeViewModels extends ViewModel {
 
+    
     Repository DB = Repository.getInstance();
 
     public LiveData<List<Movie>> getListPopular() {

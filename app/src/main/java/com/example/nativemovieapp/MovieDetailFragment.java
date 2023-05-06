@@ -3,6 +3,7 @@ package com.example.nativemovieapp;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class MovieDetailFragment extends Fragment {
     private TextView overview;
     private ImageView image;
     private RatingBar rating;
+    private LinearLayout favoriteButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,6 @@ public class MovieDetailFragment extends Fragment {
         detailVM = new ViewModelProvider(this).get(MovieDetailViewModel.class);
         MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
         detailVM.loadMovieDetail(args.getId(), Credential.apiKey);
-
         Log.d("id of movie", args.toString());
 
 
@@ -61,12 +62,19 @@ public class MovieDetailFragment extends Fragment {
         rating = root.findViewById(R.id.detail_rating);
         overview = root.findViewById(R.id.detail_overview);
         categoryRCV = root.findViewById(R.id.detail_genresRCV);
+        favoriteButton = root.findViewById(R.id.favorite_button);
+        MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailVM.addToFavoriteList(args.getId());
+            }
+        });
 
 
         ObserveChange();
         return root;
     }
-
 
     public void ObserveChange() {
         detailVM.getMovieDetail().observe(getViewLifecycleOwner(), new Observer<MovieDetail>() {
@@ -110,6 +118,7 @@ public class MovieDetailFragment extends Fragment {
 
                 //Overview
                 overview.setText(movieDetail.getOverview());
+
 
             }
         });
