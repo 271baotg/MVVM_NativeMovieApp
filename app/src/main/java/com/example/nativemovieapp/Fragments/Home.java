@@ -1,14 +1,15 @@
 package com.example.nativemovieapp.Fragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -16,15 +17,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 
+import com.example.nativemovieapp.Model.MovieDetail;
 import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
 import com.example.nativemovieapp.adapter.HomeSliderAdapter;
+import com.example.nativemovieapp.adapter.HomeUpcomingAdapter;
 import com.example.nativemovieapp.adapter.RcvInterfce;
-import com.example.nativemovieapp.databinding.FragmentHomeBinding;
 import com.example.nativemovieapp.viewmodel.HomeViewModels;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -40,11 +41,20 @@ public class Home extends Fragment implements RcvInterfce {
     private RecyclerView categoryRecycler;
     private HomeCategoryAdapter categoryAdapter;
 
+    private RecyclerView toprateRecycler;
+
+    private HomeUpcomingAdapter topRatedAdapter;
+
+    private RecyclerView upComingRecycler;
+    private HomeUpcomingAdapter upComingAdapter;
+
     //Khởi tạo ViewModel
     private HomeViewModels homeVMs = new HomeViewModels();
 
     private HomeSliderAdapter sliderAdapter;
     private LinearLayoutManager layoutManager;
+    private LinearLayoutManager topratelayoutManager;
+    private LinearLayoutManager upComminglayoutManager;
 
 
     @Override
@@ -52,7 +62,6 @@ public class Home extends Fragment implements RcvInterfce {
         super.onCreate(savedInstanceState);
         //Gắn ViewModel
         homeVMs = new ViewModelProvider(this).get(HomeViewModels.class);
-
 
     }
 
@@ -62,11 +71,15 @@ public class Home extends Fragment implements RcvInterfce {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        FragmentHomeBinding binding = DataBindingUtil.bind(root);
-        binding.setViewModel(homeVMs);
         //Setup Category recycler
-        categoryRecycler = root.findViewById(R.id.verticalRcv);
-        layoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false);
+        categoryRecycler = root.findViewById(R.id.categoryRcv);
+        toprateRecycler = root.findViewById(R.id.top_ratedRcv);
+        upComingRecycler = root.findViewById(R.id.upcomingRcv);
+        upComingRecycler.hasFixedSize();
+
+        layoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.HORIZONTAL, false);
+        topratelayoutManager = new LinearLayoutManager(this.getContext(),RecyclerView.HORIZONTAL,false);
+        upComminglayoutManager = new LinearLayoutManager(this.getContext(),RecyclerView.HORIZONTAL,false);
 
 
         //Setup Slide
@@ -79,6 +92,8 @@ public class Home extends Fragment implements RcvInterfce {
 
         ObservePopularChange();
         ObserveCategoryChange(this);
+        ObserveTopRateChange(this);
+        ObserveUpcomingChange(this);
 
 
         return root;
@@ -99,17 +114,39 @@ public class Home extends Fragment implements RcvInterfce {
 
     }
 
+    private void ObserveUpcomingChange(RcvInterfce rcvInterfce){
+        homeVMs.getListUpcoming().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                upComingRecycler.setLayoutManager(upComminglayoutManager);
+                upComingAdapter=new HomeUpcomingAdapter(movies,rcvInterfce);
+                upComingRecycler.setAdapter(upComingAdapter);
+            }
+        });
+    }
+
     private void ObserveCategoryChange(RcvInterfce rcvInterfce) {
         //Listen to Livedata listCategory change
         homeVMs.getListCategory().observe(getViewLifecycleOwner(), new Observer<List<Category>>() {
             @Override
             public void onChanged(List<Category> categories) {
-                categoryRecycler.setLayoutManager(layoutManager);
+                categoryRecycler.setLayoutManager(topratelayoutManager);
                 categoryAdapter = new HomeCategoryAdapter(getParentFragment().getContext(), categories, rcvInterfce);
                 categoryRecycler.setAdapter(categoryAdapter);
-
             }
 
+        });
+    }
+
+    private void ObserveTopRateChange(RcvInterfce rcvInterfce){
+        homeVMs.getListHomeTopRate().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                toprateRecycler.setLayoutManager(layoutManager);
+                topRatedAdapter = new HomeUpcomingAdapter(movies,rcvInterfce);
+                toprateRecycler.setAdapter(topRatedAdapter);
+
+            }
         });
     }
 
@@ -126,6 +163,11 @@ public class Home extends Fragment implements RcvInterfce {
         int id = movie.getId();
         NavDirections action = HomeDirections.actionHome2ToMovieDetailFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
+
+    }
+
+    @Override
+    public void onMovieFavorClick(MovieDetail movieDetail) {
 
     }
 

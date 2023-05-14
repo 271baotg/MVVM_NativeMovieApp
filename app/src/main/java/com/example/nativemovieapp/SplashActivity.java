@@ -78,5 +78,7 @@ public class SplashActivity extends AppCompatActivity {
         searchViewModels.loadListTopRateMovie();
         homeViewModels.loadListPopularMovie();
         homeViewModels.loadListCategory();
+        homeViewModels.loadListHomeTopRate();
+        homeViewModels.loadListUpComing();
     }
 }

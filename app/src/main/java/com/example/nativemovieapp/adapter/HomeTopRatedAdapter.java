@@ -1,6 +1,5 @@
 package com.example.nativemovieapp.adapter;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +15,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAdapter.HorizontalViewHolder> {
+public class HomeTopRatedAdapter extends RecyclerView.Adapter<HomeTopRatedAdapter.HorizontalViewHolder> {
 
 
     List<Movie> mdata;
 
     private final RcvInterfce rcvInterfce;
 
-    public HomeHorizontalAdapter(List<Movie> mdata, RcvInterfce rcvInterfce) {
+    public HomeTopRatedAdapter(List<Movie> mdata, RcvInterfce rcvInterfce) {
 
         this.mdata = mdata;
         this.rcvInterfce = rcvInterfce;

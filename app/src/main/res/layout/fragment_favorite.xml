@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".Fragments.Favorite">
 
+    <TextView
+        android:id="@+id/favorite_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favorite List"
+        android:fontFamily="@font/myfont"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/primary"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favor_rcv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/favorite_text"/>
 
-</FrameLayout>
+</RelativeLayout>
