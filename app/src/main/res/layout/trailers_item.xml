@@ -1,0 +1,50 @@
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardBackgroundColor="@color/transparent"
+        android:orientation="horizontal"
+        android:id="@+id/cardview_trailer"
+        android:layout_marginBottom="28dp">
+>
+  <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+  >
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/youtube_player_view"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+
+             />
+        <TextView
+                android:id="@+id/trailer_title"
+                android:layout_toRightOf="@+id/youtube_player_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This is title of trailer"
+                android:fontFamily="@font/myfont"
+                android:textSize="13dp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textStyle="bold"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+        />
+        <TextView
+                android:layout_toRightOf="@+id/youtube_player_view"
+                android:id="@+id/trailer_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12-05-2013"
+                android:textSize="12dp"
+                android:fontFamily="@font/myfont"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@+id/trailer_title"
+        />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

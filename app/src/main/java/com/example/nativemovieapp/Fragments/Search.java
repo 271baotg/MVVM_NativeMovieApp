@@ -156,7 +156,7 @@ public class Search extends Fragment implements RcvInterfce  {
     }
 
     @Override
-    public void onMovieClick(Movie movie) {
+    public void onMovieClick(Movie movie,int idMovie) {
         int id = movie.getId();
         NavDirections action = SearchDirections.actionSearchToMovieDetailFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);

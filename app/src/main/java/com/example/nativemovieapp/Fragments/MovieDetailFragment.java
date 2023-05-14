@@ -1,8 +1,12 @@
 package com.example.nativemovieapp.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -14,29 +18,27 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.MovieDetail;
+import com.example.nativemovieapp.PlayerViewMovieFragment;
 import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.DetailCategoryAdapter;
 import com.example.nativemovieapp.viewmodel.FavoriteViewModel;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 import com.example.nativemovieapp.adapter.DetailMovieViewPagerAdapter;
-import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
+import com.example.nativemovieapp.adapter.RcvInterfce;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.like.LikeButton;
@@ -45,7 +47,7 @@ import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 
-public class MovieDetailFragment extends Fragment {
+public class MovieDetailFragment extends Fragment implements RcvInterfce {
 
 
     private MovieDetailViewModel detailVM;
@@ -66,6 +68,12 @@ public class MovieDetailFragment extends Fragment {
     private ViewPager2 mviewpager;
     private DetailMovieViewPagerAdapter mdetailmovieviewpageradapter;
 
+    private RcvInterfce rcvInterfce = this;
+
+    private Movie movie = null;
+    View button_play;
+
+    Context context = getContext();
 
     private Fragment fragment = this;
     @Override
@@ -74,15 +82,23 @@ public class MovieDetailFragment extends Fragment {
         detailVM = new ViewModelProvider(this).get(MovieDetailViewModel.class);
         favVM = new ViewModelProvider(this).get(FavoriteViewModel.class);
         MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
+        int id = args.getId();
         detailVM.loadMovieDetail(args.getId(), Credential.apiKey);
-        detailVM.setId(args.getId());
-        Log.d("id of movie", args.toString());
+        detailVM.setId(id);
+        detailVM.setContext(getContext());
+        detailVM.loadMovieTrailers(args.getId());
+        Log.d("checkidmovie", String.valueOf(id));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.frament_movie_detail, container, false);
+        root.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         image = root.findViewById(R.id.detail_image);
         title = root.findViewById(R.id.detail_title);
         rating = root.findViewById(R.id.detail_rating);
@@ -110,10 +126,14 @@ public class MovieDetailFragment extends Fragment {
 
         mtablayout = root.findViewById(R.id.tablayout_detailMovie);
         mviewpager = root.findViewById(R.id.viewpager_detaiMovie);
-
-
+        button_play = root.findViewById(R.id.play_button);
+        ObserveChange();
         return root;
     }
+
+
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -139,7 +159,13 @@ public class MovieDetailFragment extends Fragment {
                         .load(Credential.imgBaseUrl + movieDetail.getImageURL())
                         .into(image);
                 //Load Title
-                title.setText(movieDetail.getTitle());
+                if(movieDetail.getOriginal_language().equals("vi"))
+                {
+                    title.setText(movieDetail.getOriginal_title());
+                }
+                else{
+                    title.setText(movieDetail.getTitle());
+                }
                 //Rating
 
                 float score = movieDetail.getVote_average();
@@ -192,9 +218,37 @@ public class MovieDetailFragment extends Fragment {
                         }
                     }
                 }).attach();
+
+                button_play.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (rcvInterfce != null) {
+                            rcvInterfce.onMovieClick(movie,detailVM.getId());
+                        }
+                    }
+                });
             }
         });
     }
 
+    @Override
+    public void onMovieClick(Movie movie, int id) {
+        Log.d("idPlay", String.valueOf(id));
+        NavDirections action = MovieDetailFragmentDirections.actionMovieDetailFragmentToPlayerViewMovieFragment(id);
+        Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
+
+        int data = id;
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", data);
+        Intent intent = new Intent(getActivity(), PlayerViewMovieFragment.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onMovieFavorClick(MovieDetail movieDetail) {
+
+    }
 
 }

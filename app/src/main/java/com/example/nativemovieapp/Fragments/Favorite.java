@@ -76,15 +76,16 @@ public class Favorite extends Fragment implements RcvInterfce {
     }
 
 
-    @Override
-    public void onMovieClick(Movie movie) {
-
-    }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.d("status", "onResume: ");
+    }
+
+    @Override
+    public void onMovieClick(Movie movie, int id) {
+
     }
 
     @Override

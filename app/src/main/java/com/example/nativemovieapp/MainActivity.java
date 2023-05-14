@@ -1,6 +1,9 @@
 package com.example.nativemovieapp;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
 
+    private View layout;
+    @SuppressLint("MissingInflatedId")
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+
+        layout = findViewById(R.id.host_fragment);
+        layout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
         //Khởi tạo và gắn Navigation bar
         navigation = findViewById(R.id.nav_bar);

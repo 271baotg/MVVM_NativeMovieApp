@@ -73,7 +73,7 @@ public class HomeUpcomingAdapter extends RecyclerView.Adapter<HomeUpcomingAdapte
                     if (rcvInterfce != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
-                            rcvInterfce.onMovieClick(getCurrent(position));
+                            rcvInterfce.onMovieClick(getCurrent(position),0);
                     }
                 }
             });

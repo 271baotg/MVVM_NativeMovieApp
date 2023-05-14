@@ -1,5 +1,7 @@
 package com.example.nativemovieapp.Fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -56,7 +58,7 @@ public class Home extends Fragment implements RcvInterfce {
     private LinearLayoutManager topratelayoutManager;
     private LinearLayoutManager upComminglayoutManager;
 
-
+    View layout;
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,7 @@ public class Home extends Fragment implements RcvInterfce {
     }
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,7 +83,6 @@ public class Home extends Fragment implements RcvInterfce {
         layoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.HORIZONTAL, false);
         topratelayoutManager = new LinearLayoutManager(this.getContext(),RecyclerView.HORIZONTAL,false);
         upComminglayoutManager = new LinearLayoutManager(this.getContext(),RecyclerView.HORIZONTAL,false);
-
 
         //Setup Slide
         sliderView = root.findViewById(R.id.imageSlider);
@@ -159,7 +161,7 @@ public class Home extends Fragment implements RcvInterfce {
 
 
     @Override
-    public void onMovieClick(Movie movie) {
+    public void onMovieClick(Movie movie, int idMovie) {
         int id = movie.getId();
         NavDirections action = HomeDirections.actionHome2ToMovieDetailFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);

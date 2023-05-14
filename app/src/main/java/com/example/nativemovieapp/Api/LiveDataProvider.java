@@ -28,6 +28,7 @@ public class LiveDataProvider {
     private static MutableLiveData<List<Movie>> listTopRate;
     private static MutableLiveData<List<Movie>> listSimilarMovie;
     private static MutableLiveData<List<Movie>> listFavourite;
+    private static MutableLiveData<List<MovieTrailer>> listMovieTrailer;
     private static LiveDataProvider _ins;
 
     public static LiveDataProvider getInstance() {
@@ -45,13 +46,15 @@ public class LiveDataProvider {
         listTopRate = new MutableLiveData<>();
         movieDetail = new MutableLiveData<>();
         listSimilarMovie = new MutableLiveData<>();
-
+        listMovieTrailer = new MutableLiveData<>();
     }
 
 
     public static MutableLiveData<MovieDetail> getMovieDetail() {
         return movieDetail;
     }
+
+    private List<MovieTrailer> tempList;
 
     public static LiveData<List<Movie>> getListPopular() {
         return listPopular;
@@ -79,6 +82,10 @@ public class LiveDataProvider {
 
     public static LiveData<List<Category>> getListCategory() {
         return listCategory;
+    }
+
+    public static LiveData<List<MovieTrailer>> getListMovieTrailer() {
+        return listMovieTrailer;
     }
 
     public void loadListPopularMovie(String api_key, int page) {
@@ -270,7 +277,69 @@ public class LiveDataProvider {
 
     }
 
+    public void loadListMovieTrailer(int id, String api_key, String append_to_response) {
 
+
+        final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
+
+            TMDB tmdbApi = ApiService.getTmdbApi();
+            Call<Trailers> call = tmdbApi.getMovieTrailer(id, api_key, append_to_response);
+
+            @Override
+            public void run() {
+                List<MovieTrailer> response = null;
+                try {
+                    response = call.execute().body().getVideos().getResults();
+                    Log.d("reponse", response.toString());
+                    if (response != null) {
+                        listMovieTrailer.postValue(response);
+                        Log.d("ListTrailer", listMovieTrailer.toString());
+                    } else {
+                        listMovieTrailer.postValue(null);
+                        Log.d("ListTrailer", "null");
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        });
+
+        AppExecutor.getInstance().getNetworkIo().schedule(new Runnable() {
+            @Override
+            public void run() {
+                handler.cancel(true);
+            }
+        }, 10000, TimeUnit.MILLISECONDS);
+
+    }
+
+//    public void loadListMovieTrailer(int id, String api_key, String append_to_response){
+//        ExecutorService executor = Executors.newFixedThreadPool(5);
+//        TMDB tmdbApi = ApiService.getTmdbApi();
+//
+//        tempList = new ArrayList<>();
+//        Call<Trailers> call = tmdbApi.getMovieTrailer(id, api_key, append_to_response);
+//
+//        Future<Trailers> future = executor.submit(new Callable<Trailers>() {
+//            @Override
+//            public Trailers call() throws Exception {
+//                return call.execute().body();
+//            }
+//        });
+//
+//        try {
+//            tempList = future.get().getVideos().getResults();
+//            listMovieTrailer.setValue(tempList);
+//        } catch (Exception e) {
+//            Log.d("failed", "loadListMovieTrailer: ");
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
+//
+//
     public void loadListCategory(String api_key) {
 
         final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {

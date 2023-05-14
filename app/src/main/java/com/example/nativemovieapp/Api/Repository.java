@@ -3,9 +3,7 @@ package com.example.nativemovieapp.Api;
 import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import com.example.nativemovieapp.Model.Category;
-import com.example.nativemovieapp.Model.Movie;
-import com.example.nativemovieapp.Model.MovieDetail;
+import com.example.nativemovieapp.Model.*;
 
 import java.util.List;
 
@@ -77,13 +75,20 @@ public class Repository {
         LDP.loadListCategory(api_key);
     }
 
-
     public void loadMovieDetail(int id, String api_key) {
         LDP.loadMovieDetail(id, api_key);
     }
 
     public LiveData<MovieDetail> getMovieDetail() {
         return LDP.getMovieDetail();
+    }
+
+    public void loadListMovieTrailer(int id, String api_key,String append_to_response) {
+        LDP.loadListMovieTrailer(id, api_key,append_to_response);
+    }
+
+    public LiveData<List<MovieTrailer>> getMovieTrailer() {
+        return LiveDataProvider.getListMovieTrailer();
     }
 }
 

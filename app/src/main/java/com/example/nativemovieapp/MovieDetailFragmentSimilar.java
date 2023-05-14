@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,10 +52,9 @@ public class MovieDetailFragmentSimilar extends Fragment implements RcvInterfce{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_similar, container, false);
         rcvSimilarMovie = root.findViewById(R.id.rcv_similarMovie);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(),LinearLayoutManager.HORIZONTAL,false);
-        linearLayoutManager.setAutoMeasureEnabled(true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         rcvSimilarMovie.setNestedScrollingEnabled(false);
-        rcvSimilarMovie.setLayoutManager(linearLayoutManager);
+        rcvSimilarMovie.setLayoutManager(gridLayoutManager);
         ObserveChangeSimilarMovie(this);
         return root;
     }
@@ -74,7 +74,7 @@ public class MovieDetailFragmentSimilar extends Fragment implements RcvInterfce{
         });
     }
     @Override
-    public void onMovieClick(Movie movie) {
+    public void onMovieClick(Movie movie, int idMovie) {
         int id = movie.getId();
         NavDirections action = MovieDetailFragmentDirections.actionMovieDetailFragmentToMovieDetailFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
