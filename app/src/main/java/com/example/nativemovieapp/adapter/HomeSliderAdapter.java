@@ -63,7 +63,13 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.HomeS
 //                    .centerCrop()
 //                    .into(viewHolder.img);
             String point = String.valueOf(movie.getVote_average());
-            viewHolder.title.setText(movie.getTitle());
+            if(movie.getOriginal_language().equals("vi"))
+            {
+                viewHolder.title.setText(movie.getOriginal_title());
+            }
+            else{
+                viewHolder.title.setText(movie.getTitle());
+            }
             viewHolder.year.setText(movie.getRelease_date());
             viewHolder.point.setText(point);
             float rating = movie.getVote_average();

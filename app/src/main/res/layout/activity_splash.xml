@@ -10,6 +10,7 @@
         android:id="@+id/splashActivity"
         tools:context=".SplashActivity">
     <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_splash"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:lottie_rawRes="@raw/peoplewatchingmovie"

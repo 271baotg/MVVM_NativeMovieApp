@@ -66,7 +66,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.searchScore.setText(String.valueOf(movie.getVote_average()));
         holder.content.setText(movie.getOverview());
         Picasso.get().load(Credential.imgBaseUrl+movie.getPoster_path()).transform(new RoundedCornerTransformation(32, 0)).fit().into(holder.searchImage);
-        holder.searchTitle.setText(movie.getTitle());
+        if(movie.getOriginal_language().equals("vi"))
+        {
+            holder.searchTitle.setText(movie.getOriginal_title());
+        }
+        else{
+            holder.searchTitle.setText(movie.getTitle());
+        }
         holder.searchScore.setText(String.valueOf(movie.getVote_average()));
         holder.content.setText(movie.getOverview());
         float rating = movie.getVote_average();
@@ -139,7 +145,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                     if (rcvInterfce != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
-                            rcvInterfce.onMovieClick(getCurrent(position));
+                            rcvInterfce.onMovieClick(getCurrent(position),0);
                     }
                 }
             });

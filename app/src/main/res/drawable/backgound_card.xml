@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle"
+       android:elevation="18dp"
+       android:translationZ="18dp">
+    <solid android:color="@color/transparent"/>
+</shape>

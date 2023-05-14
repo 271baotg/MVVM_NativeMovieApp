@@ -57,4 +57,12 @@ public interface TMDB {
                                       @Query("page") int page
     );
 
+    //https://api.themoviedb.org/3/movie/787459?api_key=e9e9d8da18ae29fc430845952232787c&append_to_response=videos
+    @GET("3/movie/{id}")
+    Call<Trailers> getMovieTrailer(@Path("id") int id,
+                                   @Query("api_key") String key,
+                                   @Query("append_to_response") String append_to_response
+
+    );
+
 }

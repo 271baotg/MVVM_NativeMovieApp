@@ -30,13 +30,13 @@ public class DetailMovieViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new MovieDetailFragmentTrailers();
+                return new MovieDetailFragmentTrailers(mParentFragment,midCurrent);
             case 1:
                 return new MovieDetailFragmentImages();
             case 2:
                 return new MovieDetailFragmentSimilar(mParentFragment,midCurrent);
             default:
-                return new MovieDetailFragmentTrailers();
+                return new MovieDetailFragmentTrailers(mParentFragment, midCurrent);
         }
     }
 

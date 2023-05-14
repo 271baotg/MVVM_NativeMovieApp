@@ -56,37 +56,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
 
         if(movie==null)return;
         Picasso.get().load(Credential.imgBaseUrl+movie.getPoster_path()).fit().into(holder.similarMovieImage);
-        holder.similarMovieTitle.setText(movie.getTitle());
         holder.similarMovieScore.setText(String.valueOf(movie.getVote_average()));
-        float rating = movie.getVote_average();
-
-// Chuyển đổi điểm đánh giá thành số sao tương ứng
-        float starCount = 0;
-        if (rating >= 8.0f) {
-            starCount = 5.0f;
-        } else if (rating >= 6.0f) {
-            starCount = 4.0f;
-        } else if(rating >=4.0f){
-            starCount = 3.0f;
-        }
-        else if(rating >=2.0f){
-            starCount = 2.0f;
-        }
-        else {
-            starCount = 1.0f;
-        }
-        // Thực hiện đánh giá bằng cách đặt số sao cho đúng
-        holder.ratingBar.setScore(starCount);
-        try {
-            // Chuyển chuỗi release_date thành đối tượng Date
-            Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(movie.getRelease_date());
-            // Định dạng lại đối tượng Date để lấy ra năm
-            String year = new SimpleDateFormat("yyyy", Locale.getDefault()).format(date);
-            // Hiển thị năm lên TextView
-            holder.year.setText("("+year+")");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
     @Override
     public int getItemCount() {
@@ -104,18 +74,12 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
 
     public class SimilarMovieViewHolder extends RecyclerView.ViewHolder {
         private ImageView similarMovieImage;
-        private TextView similarMovieTitle;
         private TextView similarMovieScore;
-        private TextView year;
-        private RatingBar ratingBar;
         public SimilarMovieViewHolder( @NotNull View itemView,RcvInterfce rcvInterfce) {
             super(itemView);
 
             similarMovieImage = itemView.findViewById(R.id.detail_image_similarMovie);
-            similarMovieTitle = itemView.findViewById(R.id.detail_title_similarMovie);
             similarMovieScore = itemView.findViewById(R.id.detail_score_similarMovie);
-            year = itemView.findViewById(R.id.movie_year_similarMovie);
-            ratingBar = itemView.findViewById(R.id.movie_rating_similarMovie);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,7 +88,7 @@ public class SimilarMovieAdapter extends RecyclerView.Adapter<SimilarMovieAdapte
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
                         {
-                            rcvInterfce.onMovieClick(getCurrent(position));
+                            rcvInterfce.onMovieClick(getCurrent(position),0);
                         }
 
                     }

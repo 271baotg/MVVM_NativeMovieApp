@@ -1,5 +1,6 @@
 package com.example.nativemovieapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -43,7 +44,7 @@ public class Home extends Fragment implements RcvInterfce {
     private HomeSliderAdapter sliderAdapter;
     private LinearLayoutManager layoutManager;
 
-
+    View layout;
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class Home extends Fragment implements RcvInterfce {
     }
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,7 +66,6 @@ public class Home extends Fragment implements RcvInterfce {
         //Setup Category recycler
         categoryRecycler = root.findViewById(R.id.verticalRcv);
         layoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.VERTICAL, false);
-
 
         //Setup Slide
         sliderView = root.findViewById(R.id.imageSlider);
@@ -119,7 +120,7 @@ public class Home extends Fragment implements RcvInterfce {
 
 
     @Override
-    public void onMovieClick(Movie movie) {
+    public void onMovieClick(Movie movie, int idMovie) {
         int id = movie.getId();
         NavDirections action = HomeDirections.actionHome2ToMovieDetailFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);

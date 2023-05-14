@@ -1,5 +1,6 @@
 package com.example.nativemovieapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.Log;
@@ -22,6 +23,9 @@ public class SplashActivity extends AppCompatActivity {
     Animation tvAnimation, layoutAnimation;
     SearchViewModels searchViewModels = new SearchViewModels();
     HomeViewModels homeViewModels = new HomeViewModels();
+
+    View splashActivity;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +35,15 @@ public class SplashActivity extends AppCompatActivity {
 
         tvTitle = findViewById(R.id.tvTitle);
         relativeLayout = findViewById(R.id.splashActivity);
+        splashActivity = findViewById(R.id.lottie_splash);
+        splashActivity.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+        | View.SYSTEM_UI_FLAG_FULLSCREEN
+        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
         tvAnimation = AnimationUtils.loadAnimation(SplashActivity.this,R.anim.fall_down);
         layoutAnimation = AnimationUtils.loadAnimation(SplashActivity.this,R.anim.bottom_to_top);
-
         loadAPI();
         loadData();
 

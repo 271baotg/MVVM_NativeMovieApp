@@ -45,7 +45,13 @@ public class TopRateAdapter extends RecyclerView.Adapter<TopRateAdapter.TopRateV
 
         if(movie==null)return;
         Picasso.get().load(Credential.imgBaseUrl+movie.getPoster_path()).fit().into(holder.searchImage);
-        holder.searchTitle.setText(movie.getTitle());
+        if(movie.getOriginal_language().equals("vi"))
+        {
+            holder.searchTitle.setText(movie.getOriginal_title());
+        }
+        else{
+            holder.searchTitle.setText(movie.getTitle());
+        }
         holder.searchScore.setText(String.valueOf(movie.getVote_average()));
         float rating = movie.getVote_average();
 
@@ -111,7 +117,7 @@ public class TopRateAdapter extends RecyclerView.Adapter<TopRateAdapter.TopRateV
                     if (rcvInterfce != null) {
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION)
-                            rcvInterfce.onMovieClick(getCurrent(position));
+                            rcvInterfce.onMovieClick(getCurrent(position),0);
                     }
                 }
             });

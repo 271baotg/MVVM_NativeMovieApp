@@ -8,4 +8,5 @@ public class Credential {
     public static String imgBaseUrl = "https://image.tmdb.org/t/p/original";
     public static String bigImgBaseUrl = "https://image.tmdb.org/t/p/w500";
     public static String query="";
+    public static String append_to_response = "videos";
 }

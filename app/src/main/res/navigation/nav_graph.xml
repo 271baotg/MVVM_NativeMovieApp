@@ -25,6 +25,13 @@
                 app:exitAnim="@anim/exit"
         />
     </fragment>
+    <activity android:id="@+id/PlayerViewMovieFragment"
+              android:name="com.example.nativemovieapp.PlayerViewMovieFragment"
+              android:label="fragment_player_view_movie"
+              tools:layout="@layout/fragment_player_view_movie">
+        <argument android:name="id"
+                  app:argType="integer"/>
+    </activity>
     <fragment android:id="@+id/favorite"
               android:name="com.example.nativemovieapp.Favorite"
               android:label="fragment_favorite"
@@ -57,5 +64,10 @@
                         app:enterAnim="@anim/enter"
                         app:exitAnim="@anim/exit"
                 />
+        <action android:id="@+id/action_movieDetailFragment_to_PlayerViewMovieFragment"
+                app:destination="@id/PlayerViewMovieFragment"
+                app:enterAnim="@anim/enter"
+                app:exitAnim="@anim/exit"
+        />
     </fragment>
 </navigation>
