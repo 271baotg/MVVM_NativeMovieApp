@@ -95,10 +95,8 @@ public class LiveDataProvider {
                     reponse = call.execute().body();
                     if (reponse != null) {
                         listPopular.postValue(reponse.getListMovie());
-                        Log.d("tag1", listPopular.toString());
                     } else {
                         listPopular.postValue(null);
-                        Log.d("failed", "null");
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -137,11 +135,9 @@ public class LiveDataProvider {
                             }
                         }
                         listSearch.postValue(movieListFinal);
-                        Log.d("tag1", listSearch.toString());
                     } else {
                         listSearch.postValue(null);
                         Toast.makeText(context, "Results found do not match your search term", Toast.LENGTH_SHORT).show();
-                        Log.d("failed", "null");
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -175,10 +171,8 @@ public class LiveDataProvider {
                     reponse = call.execute().body();
                     if (reponse != null) {
                         listUpcoming.postValue(reponse.getListMovie());
-                        Log.d("tag1", listUpcoming.toString());
                     } else {
                         listUpcoming.postValue(null);
-                        Log.d("failed", "null");
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -212,10 +206,8 @@ public class LiveDataProvider {
                     reponse = call.execute().body();
                     if (reponse != null) {
                         listTopRate.postValue(reponse.getListMovie());
-                        Log.d("tag1", listTopRate.toString());
                     } else {
                         listTopRate.postValue(null);
-                        Log.d("failed", "null");
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -255,13 +247,11 @@ public class LiveDataProvider {
                             if(movieSimilar.size()==10)
                             {
                                 listSimilarMovie.postValue(movieSimilar);
-                                Log.d("tag1", listSimilarMovie.toString());
                                 movieSimilar= new ArrayList<>();
                             }
                         }
                     } else {
                         listSimilarMovie.postValue(null);
-                        Log.d("failed", "null");
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -320,10 +310,8 @@ public class LiveDataProvider {
                     response = call.execute().body();
                     if (response != null) {
                         movieDetail.postValue(response);
-                        Log.d("Detail", response.toString());
                     } else {
                         movieDetail.postValue(null);
-                        Log.d("Detail null", "null");
                     }
 
                 } catch (Exception e) {

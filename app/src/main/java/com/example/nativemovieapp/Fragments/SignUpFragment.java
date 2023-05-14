@@ -10,6 +10,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,8 @@ public class SignUpFragment extends Fragment {
     private Button btnSignUp;
     private EditText edtEmail;
     private EditText edtPassword;
+    private EditText edtConfirmPassword;
+    private EditText edtUsername;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,36 +67,67 @@ public class SignUpFragment extends Fragment {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("Edittext email:", edtEmail.toString());
+                String username = edtUsername.getText().toString().trim();
                 String email = edtEmail.getText().toString().trim();
                 String pass = edtPassword.getText().toString().trim();
-                ((AuthenticationActivity) requireActivity()).getAuthViewModel().register(email, pass, new AuthenticationViewModel.AuthViewModelCallBack() {
-                    @Override
-                    public void onLoginCompleted(LiveData<FirebaseUser> user) {
+                String confirmPass = edtConfirmPassword.getText().toString().trim();
+                if(email.length() * pass.length() * confirmPass.length() == 0) {
+                    Toast.makeText(getContext(), "Some field are missing! Please fill all", Toast.LENGTH_SHORT).show();
+                } else if(!isValidEmail(email)){
+                    Toast.makeText(getContext(), "Email is not valid, please correct it", Toast.LENGTH_SHORT).show();
+                } else if (!(pass.equals(confirmPass))) {
+                    Toast.makeText(getContext(), "Password doesn't match", Toast.LENGTH_SHORT).show();
+                } else{
+                    getViewModel().register(email, pass, new AuthenticationViewModel.AuthViewModelCallBack() {
+                        @Override
+                        public void onLoginCompleted(LiveData<FirebaseUser> user) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onRegisterCompleted(Task<AuthResult> task) {
-                        if(task.isSuccessful())
-                        {
-                            Toast.makeText(getActivity(), "Sign up is successful!", Toast.LENGTH_SHORT).show();
-                            Log.i("Test in suf", "IT HERRE");
+                        @Override
+                        public void onRegisterCompleted(Task<AuthResult> task) {
+                            if(task.isSuccessful())
+                            {
+                                Toast.makeText(getActivity(), "Register is successful, please verify", Toast.LENGTH_SHORT).show();
+                                getViewModel().updateDisplayName(username);
+                                getViewModel().sendEmailVerification(new AuthenticationViewModel.SendEmailVerificationListener() {
+                                    @Override
+                                    public void onCompleted(Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(getContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else
-                        {
-                            Toast.makeText(getActivity(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
     }
+    //function
     void initView(View root)
     {
         tvSignIn = root.findViewById(R.id.tv_sign_in);
         btnSignUp = root.findViewById(R.id.btn_sign_up);
         edtEmail = root.findViewById(R.id.edt_email);
         edtPassword = root.findViewById(R.id.edt_pass);
+        edtConfirmPassword = root.findViewById(R.id.edt_confirm_pass);
+        edtUsername = root.findViewById(R.id.edt_username);
     }
+    Boolean isValidEmail(String email)
+    {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+    AuthenticationViewModel getViewModel()
+    {
+        return ((AuthenticationActivity) requireActivity()).getAuthViewModel();
+    }
+
 }

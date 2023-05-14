@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="icon_color">#ec1b39</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="signInButtonColor">#FF5757</color>
+    <color name="grayEditText">#474a49</color>
 </resources>
