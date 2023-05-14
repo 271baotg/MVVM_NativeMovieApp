@@ -1,12 +1,15 @@
 package com.example.nativemovieapp.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.nativemovieapp.Api.ApiService;
@@ -41,53 +44,98 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
 
     @Override
     public CategoryViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.homecategoryrow_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.homecategory_item, parent, false);
         return new CategoryViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = mdata.get(position);
-        int id = category.getId();
-        if (category != null) {
-            holder.categoryTitle.setText(category.getName());
-            TMDB tmdb = ApiService.getTmdbApi();
-            Call<Movies> call = tmdb.getListByCategory(Credential.apiKey, id);
-            ExecutorService executor = Executors.newFixedThreadPool(10);
-            Future<List<Movie>> listFuture = executor.submit(new Callable<List<Movie>>() {
-                @Override
-                public List<Movie> call() throws Exception {
-                    return call.execute().body().getListMovie();
-                }
-            });
-            try {
-                Log.d("Trying to bind", listFuture.get().toString());
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mcontext, RecyclerView.HORIZONTAL, false);
-                HomeHorizontalAdapter adapter = new HomeHorizontalAdapter(listFuture.get(), rcvInterfce);
-                holder.categoryRcv.setLayoutManager(linearLayoutManager);
-                holder.categoryRcv.setAdapter(adapter);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            } finally {
-                executor.shutdown();
-            }
+        if(category!=null)
+        {
+            holder.ctgTitle.setText(category.getName());
+        }
+        switch (category.getId()) {
+            case 28:
+                holder.ctgImg.setImageResource(R.drawable.action_background);
+                break;
+            case 12:
+                holder.ctgImg.setImageResource(R.drawable.adventure_background);
+                break;
+            case 16:
+                holder.ctgImg.setImageResource(R.drawable.animation_background);
+                break;
+            case 35:
+                holder.ctgImg.setImageResource(R.drawable.comedy_background);
+                break;
+            case 80:
+                holder.ctgImg.setImageResource(R.drawable.crime_background);
+                break;
+            case 99:
+                holder.ctgImg.setImageResource(R.drawable.documentary_background);
+                break;
+            case 18:
+                holder.ctgImg.setImageResource(R.drawable.drama_background);
+                break;
+            case 10751:
+                holder.ctgImg.setImageResource(R.drawable.family_background);
+                break;
+            case 36:
+                holder.ctgImg.setImageResource(R.drawable.history_theme);
+                break;
+            case 27:
+                holder.ctgImg.setImageResource(R.drawable.horror_background);
+                break;
+            case 14:
+                holder.ctgImg.setImageResource(R.drawable.fantasy_background);
+                break;
+            case 10402:
+                holder.ctgImg.setImageResource(R.drawable.music_background);
+                break;
+            case 9648:
+                holder.ctgImg.setImageResource(R.drawable.mystery_background);
+                break;
+            case 10749:
+                holder.ctgImg.setImageResource(R.drawable.romance_background);
+                break;
+            case 878:
+                holder.ctgImg.setImageResource(R.drawable.science_background);
+                break;
+            case 10770:
+                holder.ctgImg.setImageResource(R.drawable.tvmovie_background);
+                break;
+            case 53:
+                holder.ctgImg.setImageResource(R.drawable.thriller_background);
+                break;
+            case 10752:
+                holder.ctgImg.setImageResource(R.drawable.war_background);
+                break;
+            case 37:
+                holder.ctgImg.setImageResource(R.drawable.western_background);
+                break;
+            default:
+                break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return mdata != null ? mdata.size() : 0;
+        return mdata != null ? 15 : 0;
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
-        RecyclerView categoryRcv;
-        TextView categoryTitle;
+        RecyclerView ctgRcv;
+        TextView ctgTitle;
+
+        ImageView ctgImg;
+
 
         public CategoryViewHolder(@NotNull View itemView) {
             super(itemView);
-            categoryTitle = itemView.findViewById(R.id.category_title);
-            categoryRcv = itemView.findViewById(R.id.rowRcv);
+            ctgTitle = itemView.findViewById(R.id.category_title);
+            ctgRcv = itemView.findViewById(R.id.categoryRcv);
+            ctgImg = itemView.findViewById(R.id.category_img);
 
         }
     }

@@ -3,6 +3,7 @@ package com.example.nativemovieapp.Fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SearchView;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nativemovieapp.Model.Movie;
+import com.example.nativemovieapp.Model.MovieDetail;
 import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.SearchAdapter;
 import com.example.nativemovieapp.adapter.TopRateAdapter;
@@ -34,7 +36,7 @@ import java.util.List;
 import static com.example.nativemovieapp.Api.LiveDataProvider.movieListFinal;
 
 
-public class Search extends Fragment implements RcvInterfce {
+public class Search extends Fragment implements RcvInterfce  {
     //khoi tao viewModel
     private SearchViewModels searchVM = new SearchViewModels();
     private SearchAdapter searchAdapter ;
@@ -158,6 +160,11 @@ public class Search extends Fragment implements RcvInterfce {
         int id = movie.getId();
         NavDirections action = SearchDirections.actionSearchToMovieDetailFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
+    }
+
+    @Override
+    public void onMovieFavorClick(MovieDetail movieDetail) {
+
     }
 
 }

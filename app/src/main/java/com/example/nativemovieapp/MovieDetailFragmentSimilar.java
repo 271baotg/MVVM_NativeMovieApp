@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nativemovieapp.Fragments.MovieDetailFragmentDirections;
 import com.example.nativemovieapp.Model.Movie;
+import com.example.nativemovieapp.Model.MovieDetail;
 import com.example.nativemovieapp.adapter.RcvInterfce;
 import com.example.nativemovieapp.adapter.SimilarMovieAdapter;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
@@ -77,6 +78,11 @@ public class MovieDetailFragmentSimilar extends Fragment implements RcvInterfce{
         int id = movie.getId();
         NavDirections action = MovieDetailFragmentDirections.actionMovieDetailFragmentToMovieDetailFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
+    }
+
+    @Override
+    public void onMovieFavorClick(MovieDetail movieDetail) {
+
     }
 
 

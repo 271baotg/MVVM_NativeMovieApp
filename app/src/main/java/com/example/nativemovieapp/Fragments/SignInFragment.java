@@ -81,6 +81,7 @@ public class SignInFragment extends Fragment {
                                 ((AuthenticationActivity) getActivity()).getAuthViewModel().update();
                                 Intent intent = new Intent(requireActivity(), MainActivity.class);
                                 startActivity(intent);
+                                getActivity().finish();
                             }
                         }
 

@@ -28,7 +28,13 @@
     <fragment android:id="@+id/favorite"
               android:name="com.example.nativemovieapp.Fragments.Favorite"
               android:label="fragment_favorite"
-              tools:layout="@layout/fragment_favorite"/>
+              tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/action_favorite_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit" />
+    </fragment>
     <fragment android:id="@+id/account"
               android:name="com.example.nativemovieapp.Fragments.Account"
               android:label="fragment_account"
