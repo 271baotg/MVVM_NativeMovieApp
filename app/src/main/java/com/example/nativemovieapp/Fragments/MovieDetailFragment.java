@@ -1,4 +1,4 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,13 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import android.widget.LinearLayout;
+import android.widget.Switch;
+
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,18 +31,27 @@ import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.MovieDetail;
+import com.example.nativemovieapp.PlayerViewMovieFragment;
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.DetailCategoryAdapter;
+import com.example.nativemovieapp.viewmodel.FavoriteViewModel;
+import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 import com.example.nativemovieapp.adapter.DetailMovieViewPagerAdapter;
 import com.example.nativemovieapp.adapter.RcvInterfce;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 
 public class MovieDetailFragment extends Fragment implements RcvInterfce {
 
+
     private MovieDetailViewModel detailVM;
+    private FavoriteViewModel favVM;
 
     private RecyclerView categoryRCV;
 
@@ -43,6 +59,9 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
     private TextView overview;
     private ImageView image;
     private RatingBar rating;
+
+    private TextView detail_score;
+    private LikeButton btnFavorite;
 
     private TabLayout mtablayout;
 
@@ -55,11 +74,13 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
     View button_play;
 
     Context context = getContext();
+
     private Fragment fragment = this;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         detailVM = new ViewModelProvider(this).get(MovieDetailViewModel.class);
+        favVM = new ViewModelProvider(this).get(FavoriteViewModel.class);
         MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
         int id = args.getId();
         detailVM.loadMovieDetail(args.getId(), Credential.apiKey);
@@ -82,7 +103,27 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
         title = root.findViewById(R.id.detail_title);
         rating = root.findViewById(R.id.detail_rating);
         overview = root.findViewById(R.id.detail_overview);
+        detail_score = root.findViewById(R.id.detail_score);
         categoryRCV = root.findViewById(R.id.detail_genresRCV);
+        MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
+        btnFavorite = root.findViewById(R.id.btn_favorite);
+        btnFavorite.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
+                detailVM.addToFavoriteList(args.getId());
+                favVM.loadListFavor();
+
+            }
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
+                detailVM.removeFromFavoriteList(args.getId());
+                favVM.loadListFavor();
+            }
+        });
+        detailVM.setFavoriteState(args.getId(),btnFavorite);
+
         mtablayout = root.findViewById(R.id.tablayout_detailMovie);
         mviewpager = root.findViewById(R.id.viewpager_detaiMovie);
         button_play = root.findViewById(R.id.play_button);
@@ -90,7 +131,22 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
         return root;
     }
 
+
+
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        detailVM.getMovieDetail().removeObservers(getViewLifecycleOwner());
+        ObserveChange();
+    }
+
+
+
+
     public void ObserveChange() {
+        detailVM.getMovieDetail().removeObservers(getViewLifecycleOwner());
         Log.d("parent", this.toString());
         detailVM.getMovieDetail().observe(getViewLifecycleOwner(), new Observer<MovieDetail>() {
             @Override
@@ -127,6 +183,10 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
                 }
                 rating.setScore(starCount);
 
+                detail_score.setText(String.valueOf(movieDetail.getVote_average()));
+
+
+
                 //Category lane
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -139,8 +199,6 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
 
                 //Overview
                 overview.setText(movieDetail.getOverview());
-
-                Log.d("detailId", String.valueOf(detailVM.getId()));
                 mdetailmovieviewpageradapter = new DetailMovieViewPagerAdapter(getActivity(),fragment,detailVM.getId());
                 mviewpager.setAdapter(mdetailmovieviewpageradapter);
                 mviewpager.setUserInputEnabled(false);
@@ -185,6 +243,11 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
         Intent intent = new Intent(getActivity(), PlayerViewMovieFragment.class);
         intent.putExtras(bundle);
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onMovieFavorClick(MovieDetail movieDetail) {
 
     }
 

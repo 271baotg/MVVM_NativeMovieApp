@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "635455763321",
+    "firebase_url": "https://mvvmmovienativeapp-default-rtdb.firebaseio.com",
+    "project_id": "mvvmmovienativeapp",
+    "storage_bucket": "mvvmmovienativeapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635455763321:android:9ffa90008ee2c7878e75a8",
+        "android_client_info": {
+          "package_name": "com.example.nativemovieapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635455763321-8ifil3t38ghrmghs9huoarlrs3aj8flp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvfNRx2T52w6L_vo0JYJpv5FcK_TOQ02A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635455763321-8ifil3t38ghrmghs9huoarlrs3aj8flp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
