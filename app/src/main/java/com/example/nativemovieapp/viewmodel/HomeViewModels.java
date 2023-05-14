@@ -23,6 +23,14 @@ public class HomeViewModels extends ViewModel {
         return DB.getListCategory();
     }
 
+    public LiveData<List<Movie>> getListHomeTopRate(){
+        return DB.getListTopRate();
+    }
+    public LiveData<List<Movie>> getListUpcoming(){return DB.getListUpcoming();}
+
+    public void loadListHomeTopRate(){ DB.loadListTopRateMovie(Credential.apiKey,2);}
+
+    public void loadListUpComing(){DB.loadListUpcomingMovie(Credential.apiKey,2);}
     ;
 
 

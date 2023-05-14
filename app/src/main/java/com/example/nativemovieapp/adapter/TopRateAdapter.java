@@ -24,17 +24,19 @@ import java.util.Locale;
 public class TopRateAdapter extends RecyclerView.Adapter<TopRateAdapter.TopRateViewHolder>{
     private List<Movie> mdata;
     Context context;
+    private final RcvInterfce rcvInterfce;
 
-    public TopRateAdapter(Context context, List<Movie> movies) {
+    public TopRateAdapter(Context context, List<Movie> movies,RcvInterfce rcvInterfce) {
         this.context=context;
         this.mdata=movies;
+        this.rcvInterfce=rcvInterfce;
     }
 
     @NotNull
     @Override
     public TopRateViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.toprate_item,parent,false);
-        return new TopRateViewHolder(view);
+        return new TopRateViewHolder(view,rcvInterfce);
     }
 
     @Override
@@ -83,13 +85,18 @@ public class TopRateAdapter extends RecyclerView.Adapter<TopRateAdapter.TopRateV
         }
         return 0;
     }
-    public static class TopRateViewHolder extends RecyclerView.ViewHolder {
+
+    public Movie getCurrent(int position) {
+        return mdata.get(position);
+    }
+
+    public class TopRateViewHolder extends RecyclerView.ViewHolder {
         private ImageView searchImage;
         private TextView searchTitle;
         private TextView searchScore;
         private TextView year;
         private RatingBar ratingBar;
-        public TopRateViewHolder( @NotNull View itemView) {
+        public TopRateViewHolder( @NotNull View itemView,RcvInterfce rcvInterfce) {
             super(itemView);
 
             searchImage = itemView.findViewById(R.id.search_image_toprate);
@@ -97,6 +104,17 @@ public class TopRateAdapter extends RecyclerView.Adapter<TopRateAdapter.TopRateV
             searchScore = itemView.findViewById(R.id.search_score_toprate);
             year = itemView.findViewById(R.id.movie_year_toprate);
             ratingBar = itemView.findViewById(R.id.movie_rating_toprate);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (rcvInterfce != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                            rcvInterfce.onMovieClick(getCurrent(position));
+                    }
+                }
+            });
         }
     }
 }

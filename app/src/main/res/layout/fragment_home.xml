@@ -17,7 +17,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
-                        tools:context=".Home"
+                        tools:context=".Fragments.Home"
                         android:layout_centerVertical="true">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
@@ -60,13 +60,60 @@
                         app:sliderScrollTimeInSec="1"
                         app:sliderStartAutoCycle="true"/>
             </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/category_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/slider_container"
+                android:text="CATEGORY"
+                android:fontFamily="@font/myfont"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"/>
 
             <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"
                                                        android:layout_height="wrap_content"
-                                                       android:id="@+id/verticalRcv"
-                                                       android:layout_below="@id/slider_container"
-                                                       android:layout_marginTop="30dp"
+                                                       android:id="@+id/categoryRcv"
+                                                       android:layout_below="@id/category_text"
+                                                       android:layout_marginTop="5dp"
+                                                       android:layout_marginLeft="-5dp"
             />
+
+            <TextView
+                android:id="@+id/top_rated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/categoryRcv"
+                android:text="TOP RATE MOVIE"
+                android:fontFamily="@font/myfont"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/top_ratedRcv"
+                android:layout_below="@id/top_rated"
+                android:layout_marginTop="5dp"
+                />
+            <TextView
+                android:id="@+id/upcoming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/top_ratedRcv"
+                android:text="UPCOMING"
+                android:fontFamily="@font/myfont"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_margin="10dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/upcomingRcv"
+                android:layout_below="@id/upcoming"
+                android:layout_marginTop="5dp"
+                />
+
 
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
