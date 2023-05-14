@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +55,6 @@ public class SignInFragment extends Fragment {
 
         initView();
         initListener();
-
-
     }
 
     private void initListener() {
@@ -64,6 +63,7 @@ public class SignInFragment extends Fragment {
             public void onClick(View view) {
                 String email = edtEmail.getText().toString().trim();
                 String pass = edtPass.getText().toString().trim();
+
                 if(email.isEmpty()||pass.isEmpty())
                 {
                     Toast.makeText(getActivity(), "Email or Password is missing. Please fill it", Toast.LENGTH_SHORT).show();
@@ -74,13 +74,20 @@ public class SignInFragment extends Fragment {
                         public void onLoginCompleted(LiveData<FirebaseUser> user) {
                             if(user == null){
                                 Toast.makeText(getActivity(), "Your email or password is not correct", Toast.LENGTH_SHORT).show();
-                            }else{
+                            }
+                            else if(!user.getValue().isEmailVerified()){
 
-                                FirebaseUser temp = ((AuthenticationActivity) getActivity()).getAuthViewModel().getUserData().getValue();
+                                getViewModel().sendEmailVerification(new AuthenticationViewModel.SendEmailVerificationListener() {
+                                    @Override
+                                    public void onCompleted(Task<Void> task) {
+                                        Toast.makeText(getActivity(), "Please verify your email", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }else{
                                 Credential.setCurrentUser(((AuthenticationActivity) getActivity()).getAuthViewModel().getUserData().getValue());
-                                ((AuthenticationActivity) getActivity()).getAuthViewModel().update();
                                 Intent intent = new Intent(requireActivity(), MainActivity.class);
                                 startActivity(intent);
+                                getActivity().finish();
                             }
                         }
 
@@ -107,5 +114,8 @@ public class SignInFragment extends Fragment {
         edtEmail = requireView().findViewById(R.id.edt_email);
         edtPass = requireView().findViewById(R.id.edt_pass);
     }
-
+    AuthenticationViewModel getViewModel()
+    {
+        return ((AuthenticationActivity) requireActivity()).getAuthViewModel();
+    }
 }

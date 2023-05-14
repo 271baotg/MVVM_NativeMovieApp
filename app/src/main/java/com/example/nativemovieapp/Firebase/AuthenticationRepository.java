@@ -15,31 +15,34 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class AuthenticationRepository {
     private static AuthenticationRepository _ins;
+
     public static AuthenticationRepository getInstance() {
         if (_ins == null) {
             _ins = new AuthenticationRepository();
         }
         return _ins;
     }
-    private MutableLiveData<FirebaseUser> firebaseUserMutableLiveData;
-    private MutableLiveData<Boolean> userLoggedMutableLiveData;
+
+    private MutableLiveData<FirebaseUser> userData;
+    private MutableLiveData<Boolean> isLogged;
     private FirebaseAuth auth;
+
     public AuthenticationRepository() {
-        firebaseUserMutableLiveData = new MutableLiveData<>();
-        userLoggedMutableLiveData = new MutableLiveData<>();
-        userLoggedMutableLiveData.setValue(false);
+        userData = new MutableLiveData<>();
+        isLogged = new MutableLiveData<>();
+        isLogged.setValue(false);
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
-            firebaseUserMutableLiveData.postValue(auth.getCurrentUser());
+            userData.postValue(auth.getCurrentUser());
         }
     }
 
-    public MutableLiveData<FirebaseUser> getFirebaseUserMutableLiveData() {
-        return firebaseUserMutableLiveData;
+    public MutableLiveData<FirebaseUser> getUserData() {
+        return userData;
     }
 
     public MutableLiveData<Boolean> getUserLoggedMutableLiveData() {
-        return userLoggedMutableLiveData;
+        return isLogged;
     }
 
     public void register(String email, String pass, AuthenticationCallBack callback) {
@@ -47,11 +50,14 @@ public class AuthenticationRepository {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    firebaseUserMutableLiveData.postValue(auth.getCurrentUser());
-                    Log.i("test in ar:", "");
-                }
-                {
-
+                    userData.setValue(auth.getCurrentUser());
+                    Log.i("test in AR:", auth.getCurrentUser().getEmail());
+                    sendEmailVerification(new SendEmailVerificationListener() {
+                        @Override
+                        public void onCompleted(Task<Void> task) {
+                            Log.i("test in AR", "send email");
+                        }
+                    });
                 }
                 callback.onRegisterCompleted(task);
 
@@ -64,44 +70,65 @@ public class AuthenticationRepository {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    firebaseUserMutableLiveData.setValue(auth.getCurrentUser());
-                    userLoggedMutableLiveData.setValue(true);
-                    callBack.onLoginCompleted(firebaseUserMutableLiveData);
-                    Log.i("Test login in AR", getFirebaseUserMutableLiveData().getValue().getUid());
+                    userData.setValue(auth.getCurrentUser());
+                    isLogged.setValue(true);
+                    callBack.onLoginCompleted(userData);
                 } else {
-                    Log.i("Test login in AR", task.getException().toString());
                     callBack.onLoginCompleted(null);
                 }
             }
         });
     }
 
-    public void update()
-    {
+    public void updateDisplayName(String name) {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName("Jane Q. User")
+                .setDisplayName(name)
                 .build();
-        firebaseUserMutableLiveData.getValue().updateProfile(profileUpdates)
+        userData.getValue().updateProfile(profileUpdates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-
                         }
                     }
                 });
     }
-
-    public void signOut(){
-        auth.signOut();
-        userLoggedMutableLiveData.postValue(true);
+    public void updatePhotoUri(Uri uri) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setPhotoUri(uri)
+                .build();
+        userData.getValue().updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                        }
+                    }
+                });
     }
-    public interface AuthenticationCallBack
+    public void sendEmailVerification(SendEmailVerificationListener listener)
     {
+        auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                listener.onCompleted(task);
+            }
+        });
+    }
+
+    public void signOut() {
+        auth.signOut();
+        //userData.postValue(null);
+        isLogged.postValue(false);
+    }
+
+    public interface SendEmailVerificationListener{
+        void onCompleted(Task<Void> task);
+    }
+
+    public interface AuthenticationCallBack {
         void onLoginCompleted(MutableLiveData<FirebaseUser> user);
+
         void onRegisterCompleted(Task<AuthResult> task);
     }
-
-
-
 }
