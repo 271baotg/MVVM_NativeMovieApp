@@ -1,4 +1,4 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.nativemovieapp.Fragments.MovieDetailFragmentDirections;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.MovieDetail;
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.RcvInterfce;
 import com.example.nativemovieapp.adapter.SimilarMovieAdapter;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;

@@ -1,4 +1,4 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.nativemovieapp.Model.MovieTrailer;
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.SearchAdapter;
 import com.example.nativemovieapp.adapter.TrailersAdapter;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;

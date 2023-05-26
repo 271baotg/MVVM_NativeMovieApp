@@ -83,11 +83,8 @@ public class FavoriteMovieAdapter extends RecyclerView.Adapter<FavoriteMovieAdap
         ImageView img;
         TextView title;
         RatingBar ratingBar;
-
         TextView score;
-
         TextView overview;
-
         public FavoriteMovieViewHolder(@NonNull View itemView, RcvInterfce rcvInterfce) {
             super(itemView);
 

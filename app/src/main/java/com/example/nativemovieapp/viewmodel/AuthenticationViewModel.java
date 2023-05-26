@@ -52,6 +52,14 @@ public class AuthenticationViewModel extends AndroidViewModel {
             }
         });
     }
+    public void sendEmailResetPassword(String email, SendPasswordResetEmailListener listener){
+        authenRepo.sendEmailResetPassword(email, new AuthenticationRepository.SendPasswordResetEmailListener() {
+            @Override
+            public void onCompleted(Task<Void> task) {
+                listener.onCompleted(task);
+            }
+        });
+    }
 
     public void login(String email, String pass, AuthViewModelCallBack callBack) {
         authenRepo.login(email, pass, new AuthenticationRepository.AuthenticationCallBack() {
@@ -82,6 +90,9 @@ public class AuthenticationViewModel extends AndroidViewModel {
 
     public void updatePhotoUri(Uri uri) {
         authenRepo.updatePhotoUri(uri);
+    }
+    public interface SendPasswordResetEmailListener{
+        void onCompleted(Task<Void> task);
     }
     public interface SendEmailVerificationListener{
         void onCompleted(Task<Void> task);
