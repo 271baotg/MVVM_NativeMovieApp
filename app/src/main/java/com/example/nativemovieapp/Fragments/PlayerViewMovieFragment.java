@@ -1,4 +1,4 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.webkit.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.monstertechno.adblocker.AdBlockerWebView;

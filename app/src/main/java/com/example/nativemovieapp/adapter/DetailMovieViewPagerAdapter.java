@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
-import com.example.nativemovieapp.Fragments.MovieDetailFragmentImages;
+
+import com.example.nativemovieapp.Fragments.MovieDetailFragmentComments;
 import com.example.nativemovieapp.Fragments.MovieDetailFragmentSimilar;
 import com.example.nativemovieapp.Fragments.MovieDetailFragmentTrailers;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ public class DetailMovieViewPagerAdapter extends FragmentStateAdapter {
             case 0:
                 return new MovieDetailFragmentTrailers(mParentFragment, midCurrent);
             case 1:
-                return new MovieDetailFragmentImages(mParentFragment, midCurrent);
+                return new MovieDetailFragmentComments(mParentFragment, midCurrent);
             case 2:
                 return new MovieDetailFragmentSimilar(mParentFragment, midCurrent);
             default:

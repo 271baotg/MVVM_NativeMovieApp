@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
 import android.widget.LinearLayout;
-import android.widget.Switch;
-
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,19 +29,17 @@ import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.MovieDetail;
-import com.example.nativemovieapp.PlayerViewMovieFragment;
 import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.DetailCategoryAdapter;
 import com.example.nativemovieapp.viewmodel.FavoriteViewModel;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 import com.example.nativemovieapp.adapter.DetailMovieViewPagerAdapter;
 import com.example.nativemovieapp.adapter.RcvInterfce;
-import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-import com.squareup.picasso.Picasso;
+
 import org.jetbrains.annotations.NotNull;
 
 
@@ -221,7 +215,7 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
                                 tab.setText("Trailers");
                                 break;
                             case 1:
-                                tab.setText("Images");
+                                tab.setText("Comments");
                                 break;
                             case 2:
                                 tab.setText("Similar");

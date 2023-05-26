@@ -26,7 +26,7 @@
         />
     </fragment>
     <activity android:id="@+id/PlayerViewMovieFragment"
-              android:name="com.example.nativemovieapp.PlayerViewMovieFragment"
+              android:name="com.example.nativemovieapp.Fragments.PlayerViewMovieFragment"
               android:label="fragment_player_view_movie"
               tools:layout="@layout/fragment_player_view_movie">
         <argument android:name="id"
@@ -46,6 +46,18 @@
               android:name="com.example.nativemovieapp.Fragments.Account"
               android:label="fragment_account"
               tools:layout="@layout/fragment_account"/>
+
+    <fragment android:id="@+id/similarMovie"
+              android:name="com.example.nativemovieapp.Fragments.MovieDetailFragmentSimilar"
+              android:label="fragment_similar"
+              tools:layout="@layout/fragment_similar">
+        <action android:id="@+id/action_similarMovie_to_movieDetailFragment"
+                app:destination="@id/movieDetailFragment"
+                app:enterAnim="@anim/enter"
+                app:exitAnim="@anim/exit"
+        />
+    </fragment>
+
 
 
     <fragment android:id="@+id/movieDetailFragment"

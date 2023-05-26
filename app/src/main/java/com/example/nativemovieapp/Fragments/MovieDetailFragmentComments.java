@@ -1,29 +1,35 @@
 package com.example.nativemovieapp.Fragments;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import android.text.TextUtils;
+import android.util.Log;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.nativemovieapp.Model.Comment;
 import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.CommentAdapter;
 import com.example.nativemovieapp.viewmodel.CommentViewModel;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class MovieDetailFragmentImages extends Fragment {
+
+public class MovieDetailFragmentComments extends Fragment {
 
     private Fragment mParentFragment;
     private int midCurrent;
@@ -34,7 +40,7 @@ public class MovieDetailFragmentImages extends Fragment {
     CommentAdapter adapter;
     LinearLayoutManager linearLayoutManager;
 
-    public MovieDetailFragmentImages(Fragment parentFragment, int idCurrent) {
+    public MovieDetailFragmentComments(Fragment parentFragment, int idCurrent) {
         mParentFragment = parentFragment;
         midCurrent = idCurrent;
     }
@@ -54,7 +60,7 @@ public class MovieDetailFragmentImages extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_images, container, false);
+        View root = inflater.inflate(R.layout.fragment_comments, container, false);
         inputField = root.findViewById(R.id.input_field);
         sendButton = root.findViewById(R.id.sendBtn);
         commentRCV = root.findViewById(R.id.commentRCV);
@@ -106,5 +112,5 @@ public class MovieDetailFragmentImages extends Fragment {
             emptyStateTextView.setVisibility(View.GONE);
         }
     }
-
 }
+

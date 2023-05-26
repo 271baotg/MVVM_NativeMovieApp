@@ -115,6 +115,15 @@ public class AuthenticationRepository {
             }
         });
     }
+    public void sendEmailResetPassword(String email, SendPasswordResetEmailListener listener)
+    {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                listener.onCompleted(task);
+            }
+        });
+    }
 
     public void signOut() {
         auth.signOut();
@@ -123,6 +132,9 @@ public class AuthenticationRepository {
     }
 
     public interface SendEmailVerificationListener{
+        void onCompleted(Task<Void> task);
+    }
+    public interface SendPasswordResetEmailListener{
         void onCompleted(Task<Void> task);
     }
 

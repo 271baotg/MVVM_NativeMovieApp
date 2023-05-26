@@ -18,7 +18,7 @@
             android:theme="@style/Theme.NativeMovieApp"
             tools:targetApi="31">
         <activity
-                android:name=".PlayerViewMovieFragment"
+                android:name=".Fragments.PlayerViewMovieFragment"
                 android:exported="true"
                 android:screenOrientation="landscape"
         >

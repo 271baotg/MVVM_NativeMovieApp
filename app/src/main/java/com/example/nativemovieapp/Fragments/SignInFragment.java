@@ -1,6 +1,8 @@
 package com.example.nativemovieapp.Fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -35,6 +38,7 @@ public class SignInFragment extends Fragment {
     private TextView tvSignUp;
     private EditText edtEmail;
     private EditText edtPass;
+    private TextView tvForgotPassword;
 
 
     @Override
@@ -63,6 +67,8 @@ public class SignInFragment extends Fragment {
             public void onClick(View view) {
                 String email = edtEmail.getText().toString().trim();
                 String pass = edtPass.getText().toString().trim();
+//                String email = "annguyeen0@gmail.com";
+//                String pass = "123456";
 
                 if(email.isEmpty()||pass.isEmpty())
                 {
@@ -100,6 +106,50 @@ public class SignInFragment extends Fragment {
 
             }
         });
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_forgot, null);
+
+                EditText emailBox = dialogView.findViewById(R.id.edt_email);
+                builder.setView(dialogView);
+                AlertDialog dialog = builder.create();
+
+                dialogView.findViewById(R.id.btn_reset).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String email = emailBox.getText().toString().trim();
+                        if(TextUtils.isEmpty(email) && !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                            Toast.makeText(getContext(), "Enter your email!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        getViewModel().sendEmailResetPassword(email, new AuthenticationViewModel.SendPasswordResetEmailListener() {
+                            @Override
+                            public void onCompleted(Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(getContext(), "Please check your email", Toast.LENGTH_SHORT).show();
+
+                                }
+                                else {
+                                    Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
+                dialogView.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                if(dialog.getWindow() != null){
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+                }
+                dialog.show();
+            }
+        });
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +163,7 @@ public class SignInFragment extends Fragment {
         tvSignUp = requireView().findViewById(R.id.tv_sign_up);
         edtEmail = requireView().findViewById(R.id.edt_email);
         edtPass = requireView().findViewById(R.id.edt_pass);
+        tvForgotPassword = requireView().findViewById(R.id.tv_forgot_password);
     }
     AuthenticationViewModel getViewModel()
     {

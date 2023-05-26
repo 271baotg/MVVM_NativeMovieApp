@@ -122,6 +122,8 @@ dependencies {
 
     //WebViewAdblock
     implementation 'com.github.MonsterTechnoGits:WebViewAdblock:1.1'
+    //Shimmer layout
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
 
 
