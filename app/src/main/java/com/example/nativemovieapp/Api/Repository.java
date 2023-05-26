@@ -67,8 +67,8 @@ public class Repository {
         return LiveDataProvider.getListSimilarMovie();
     }
 
-    public void loadListSimilarMovie(int id,String api_key, int page) {
-        LDP.loadListSimilarMovie(id,api_key, page);
+    public void loadListSimilarMovie(int id, String api_key, int page) {
+        LDP.loadListSimilarMovie(id, api_key, page);
     }
 
     public void loadListCategory(String api_key) {
@@ -83,12 +83,24 @@ public class Repository {
         return LDP.getMovieDetail();
     }
 
-    public void loadListMovieTrailer(int id, String api_key,String append_to_response) {
-        LDP.loadListMovieTrailer(id, api_key,append_to_response);
+    public void loadListMovieTrailer(int id, String api_key, String append_to_response) {
+        LDP.loadListMovieTrailer(id, api_key, append_to_response);
     }
 
     public LiveData<List<MovieTrailer>> getMovieTrailer() {
         return LiveDataProvider.getListMovieTrailer();
+    }
+
+    public void loadListMovieByCategory(int id, String api_key) {
+        LDP.loadListMovieByCategory(id, api_key);
+    }
+
+    public void setNull() {
+        LDP.setNullMovieByCategory();
+    }
+
+    public LiveData<List<Movie>> getListMovieByCategory() {
+        return LiveDataProvider.getListMovieByCategory();
     }
 }
 

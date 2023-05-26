@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:padding="10dp"
+                                                   android:layout_marginBottom="10dp"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:background="@drawable/rounded_edittext">
+    <androidx.cardview.widget.CardView android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:id="@+id/avatar_container"
+                                       app:cardCornerRadius="35dp"
+                                       app:layout_constraintTop_toTopOf="parent"
+                                       app:layout_constraintLeft_toLeftOf="parent">
+        <ImageView android:layout_width="50dp"
+                   android:layout_height="50dp"
+                   android:id="@+id/comment_avatar"
+                   android:src="@drawable/default_avatar"/>
+
+    </androidx.cardview.widget.CardView>
+    <RelativeLayout android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/avatar_container">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="User 1"
+                  android:fontFamily="@font/myfont"
+                  android:textColor="@color/primary"
+                  android:id="@+id/comment_name"/>
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@id/comment_name"
+                  android:text="2 hours ago"
+                  android:textSize="12sp"
+                  android:id="@+id/comment_time"/>
+    </RelativeLayout>
+
+    <LinearLayout android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  app:layout_constraintTop_toBottomOf="@id/avatar_container"
+                  app:layout_constraintRight_toRightOf="parent"
+                  app:layout_constraintLeft_toLeftOf="parent"
+                  android:padding="10dp">
+        <TextView android:id="@+id/comment_context"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:fontFamily="@font/myfont"
+                  android:textColor="@color/white"
+                  android:text="This movie is fantastic,wonderful, magnificent, significant, out standing, clash of Titan. This movie is at World-Class level."/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

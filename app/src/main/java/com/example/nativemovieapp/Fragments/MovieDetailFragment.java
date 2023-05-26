@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 
@@ -15,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -43,6 +46,7 @@ import org.jetbrains.annotations.NotNull;
 public class MovieDetailFragment extends Fragment implements RcvInterfce {
 
 
+    NavController navController;
     private MovieDetailViewModel detailVM;
     private FavoriteViewModel favVM;
 
@@ -69,6 +73,9 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
     Context context = getContext();
 
     private Fragment fragment = this;
+
+    private LinearLayout back_button;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +89,7 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
         detailVM.loadMovieTrailers(args.getId());
         Log.d("checkidmovie", String.valueOf(id));
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,6 +105,17 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
         rating = root.findViewById(R.id.detail_rating);
         overview = root.findViewById(R.id.detail_overview);
         detail_score = root.findViewById(R.id.detail_score);
+        navController = Navigation.findNavController(getActivity(), R.id.host_fragment);
+        back_button = root.findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.popBackStack();
+                MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
+                Log.d("checkidmovie", String.valueOf(args.getId()));
+            }
+        });
+
         categoryRCV = root.findViewById(R.id.detail_genresRCV);
         MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
         btnFavorite = root.findViewById(R.id.btn_favorite);
@@ -108,6 +127,7 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
                 favVM.loadListFavor();
 
             }
+
             @Override
             public void unLiked(LikeButton likeButton) {
                 MovieDetailFragmentArgs args = MovieDetailFragmentArgs.fromBundle(getArguments());
@@ -115,7 +135,7 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
                 favVM.loadListFavor();
             }
         });
-        detailVM.setFavoriteState(args.getId(),btnFavorite);
+        detailVM.setFavoriteState(args.getId(), btnFavorite);
 
         mtablayout = root.findViewById(R.id.tablayout_detailMovie);
         mviewpager = root.findViewById(R.id.viewpager_detaiMovie);
@@ -125,17 +145,12 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
     }
 
 
-
-
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         detailVM.getMovieDetail().removeObservers(getViewLifecycleOwner());
         ObserveChange();
     }
-
-
 
 
     public void ObserveChange() {
@@ -152,11 +167,9 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
                         .load(Credential.imgBaseUrl + movieDetail.getImageURL())
                         .into(image);
                 //Load Title
-                if(movieDetail.getOriginal_language().equals("vi"))
-                {
+                if (movieDetail.getOriginal_language().equals("vi")) {
                     title.setText(movieDetail.getOriginal_title());
-                }
-                else{
+                } else {
                     title.setText(movieDetail.getTitle());
                 }
                 //Rating
@@ -179,7 +192,6 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
                 detail_score.setText(String.valueOf(movieDetail.getVote_average()));
 
 
-
                 //Category lane
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -192,18 +204,18 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
 
                 //Overview
                 overview.setText(movieDetail.getOverview());
-                mdetailmovieviewpageradapter = new DetailMovieViewPagerAdapter(getActivity(),fragment,detailVM.getId());
+                mdetailmovieviewpageradapter = new DetailMovieViewPagerAdapter(getActivity(), fragment, detailVM.getId());
                 mviewpager.setAdapter(mdetailmovieviewpageradapter);
                 mviewpager.setUserInputEnabled(false);
                 new TabLayoutMediator(mtablayout, mviewpager, new TabLayoutMediator.TabConfigurationStrategy() {
                     @Override
                     public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
-                        switch(position){
+                        switch (position) {
                             case 0:
                                 tab.setText("Trailers");
                                 break;
                             case 1:
-                                tab.setText("Images");
+                                tab.setText("Comments");
                                 break;
                             case 2:
                                 tab.setText("Similar");
@@ -216,7 +228,7 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
                     @Override
                     public void onClick(View view) {
                         if (rcvInterfce != null) {
-                            rcvInterfce.onMovieClick(movie,detailVM.getId());
+                            rcvInterfce.onMovieClick(movie, detailVM.getId());
                         }
                     }
                 });
@@ -229,7 +241,6 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
         Log.d("idPlay", String.valueOf(id));
         NavDirections action = MovieDetailFragmentDirections.actionMovieDetailFragmentToPlayerViewMovieFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
-
         int data = id;
         Bundle bundle = new Bundle();
         bundle.putInt("id", data);

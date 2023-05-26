@@ -26,7 +26,7 @@ import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
 
 import java.util.List;
 
-public class MovieDetailFragmentSimilar extends Fragment implements RcvInterfce{
+public class MovieDetailFragmentSimilar extends Fragment implements RcvInterfce {
 
     private Fragment mParentFragment;
     private int midCurrent;
@@ -48,32 +48,34 @@ public class MovieDetailFragmentSimilar extends Fragment implements RcvInterfce{
         Log.d("similarId", String.valueOf(midCurrent));
         detailVM.loadListSimilarMovie(midCurrent);
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_similar, container, false);
         rcvSimilarMovie = root.findViewById(R.id.rcv_similarMovie);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rcvSimilarMovie.setNestedScrollingEnabled(false);
         rcvSimilarMovie.setLayoutManager(gridLayoutManager);
         ObserveChangeSimilarMovie(this);
         return root;
     }
+
     public void ObserveChangeSimilarMovie(RcvInterfce rcvInterfce) {
         detailVM.getsimilarMovie().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                if(mParentFragment!=null) {
+                if (mParentFragment != null) {
                     Log.d("movieDetail", movies.toString());
                     similarMovieAdapter = new SimilarMovieAdapter(mParentFragment.getContext(), movies, rcvInterfce);
                     rcvSimilarMovie.setAdapter(similarMovieAdapter);
-                }
-                else{
+                } else {
                     Log.d("contextnull", "null");
                 }
             }
         });
     }
+
     @Override
     public void onMovieClick(Movie movie, int idMovie) {
         int id = movie.getId();

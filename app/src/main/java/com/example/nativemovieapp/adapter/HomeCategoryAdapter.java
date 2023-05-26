@@ -45,14 +45,13 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     @Override
     public CategoryViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.homecategory_item, parent, false);
-        return new CategoryViewHolder(view);
+        return new CategoryViewHolder(view, rcvInterfce);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = mdata.get(position);
-        if(category!=null)
-        {
+        if (category != null) {
             holder.ctgTitle.setText(category.getName());
         }
         switch (category.getId()) {
@@ -123,6 +122,10 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         return mdata != null ? 15 : 0;
     }
 
+    public Category getCurrent(int position) {
+        return mdata.get(position);
+    }
+
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
         RecyclerView ctgRcv;
@@ -131,11 +134,22 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
         ImageView ctgImg;
 
 
-        public CategoryViewHolder(@NotNull View itemView) {
+        public CategoryViewHolder(@NotNull View itemView, RcvInterfce rcvInterfce) {
             super(itemView);
             ctgTitle = itemView.findViewById(R.id.category_title);
             ctgRcv = itemView.findViewById(R.id.categoryRcv);
             ctgImg = itemView.findViewById(R.id.category_img);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (rcvInterfce != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                            rcvInterfce.onCategoryClick(getCurrent(position));
+                    }
+                }
+            });
 
         }
     }
@@ -143,6 +157,6 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     public void release() {
         this.mcontext = null;
     }
-    
+
 
 }
