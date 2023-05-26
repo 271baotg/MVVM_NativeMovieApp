@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.nativemovieapp.AppExecutor;
 import com.example.nativemovieapp.Model.*;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -29,6 +28,7 @@ public class LiveDataProvider {
     private static MutableLiveData<List<Movie>> listSimilarMovie;
     private static MutableLiveData<List<Movie>> listFavourite;
     private static MutableLiveData<List<MovieTrailer>> listMovieTrailer;
+    private static MutableLiveData<List<Movie>> listMovieByCategory;
     private static LiveDataProvider _ins;
 
     public static LiveDataProvider getInstance() {
@@ -47,8 +47,12 @@ public class LiveDataProvider {
         movieDetail = new MutableLiveData<>();
         listSimilarMovie = new MutableLiveData<>();
         listMovieTrailer = new MutableLiveData<>();
+        listMovieByCategory = new MutableLiveData<>();
     }
 
+    public static MutableLiveData<List<Movie>> getListMovieByCategory() {
+        return listMovieByCategory;
+    }
 
     public static MutableLiveData<MovieDetail> getMovieDetail() {
         return movieDetail;
@@ -72,7 +76,7 @@ public class LiveDataProvider {
         return listTopRate;
     }
 
-    public static LiveData<List<Movie>> getListSimilarMovie(){
+    public static LiveData<List<Movie>> getListSimilarMovie() {
         return listSimilarMovie;
     }
 
@@ -239,7 +243,7 @@ public class LiveDataProvider {
         final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
 
             TMDB tmdbApi = ApiService.getTmdbApi();
-            Call<Movies> call = tmdbApi.getSimilarMovie(id,api_key, page);
+            Call<Movies> call = tmdbApi.getSimilarMovie(id, api_key, page);
 
             @Override
             public void run() {
@@ -251,10 +255,9 @@ public class LiveDataProvider {
                             if (item.getImageURL() != null) {
                                 movieSimilar.add(item);
                             }
-                            if(movieSimilar.size()==10)
-                            {
+                            if (movieSimilar.size() == 10) {
                                 listSimilarMovie.postValue(movieSimilar);
-                                movieSimilar= new ArrayList<>();
+                                movieSimilar = new ArrayList<>();
                             }
                         }
                     } else {
@@ -315,31 +318,6 @@ public class LiveDataProvider {
 
     }
 
-//    public void loadListMovieTrailer(int id, String api_key, String append_to_response){
-//        ExecutorService executor = Executors.newFixedThreadPool(5);
-//        TMDB tmdbApi = ApiService.getTmdbApi();
-//
-//        tempList = new ArrayList<>();
-//        Call<Trailers> call = tmdbApi.getMovieTrailer(id, api_key, append_to_response);
-//
-//        Future<Trailers> future = executor.submit(new Callable<Trailers>() {
-//            @Override
-//            public Trailers call() throws Exception {
-//                return call.execute().body();
-//            }
-//        });
-//
-//        try {
-//            tempList = future.get().getVideos().getResults();
-//            listMovieTrailer.setValue(tempList);
-//        } catch (Exception e) {
-//            Log.d("failed", "loadListMovieTrailer: ");
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
-//
-//
     public void loadListCategory(String api_key) {
 
         final Future handler = AppExecutor.getInstance().getNetworkIo().submit(new Runnable() {
@@ -390,6 +368,32 @@ public class LiveDataProvider {
 
 
         });
+    }
+
+    public void setNullMovieByCategory() {
+        listMovieByCategory.setValue(null);
+    }
+
+    public void loadListMovieByCategory(int id, String api_key) {
+        TMDB tmdbApi = ApiService.getTmdbApi();
+        Call<Movies> call = tmdbApi.getListByCategory(api_key, id);
+        ExecutorService executors = Executors.newFixedThreadPool(1);
+
+        Future<List<Movie>> listFuture = executors.submit(new Callable<List<Movie>>() {
+            @Override
+            public List<Movie> call() throws Exception {
+                List<Movie> list = call.execute().body().getListMovie();
+                if (list != null)
+                    return list;
+                else return null;
+            }
+        });
+        try {
+            listMovieByCategory.postValue(listFuture.get());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

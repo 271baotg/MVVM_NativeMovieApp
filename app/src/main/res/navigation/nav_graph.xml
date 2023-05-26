@@ -37,25 +37,15 @@
               android:label="fragment_favorite"
               tools:layout="@layout/fragment_favorite">
         <action
-            android:id="@+id/action_favorite_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment"
-            app:enterAnim="@anim/enter"
-            app:exitAnim="@anim/exit" />
+                android:id="@+id/action_favorite_to_movieDetailFragment"
+                app:destination="@id/movieDetailFragment"
+                app:enterAnim="@anim/enter"
+                app:exitAnim="@anim/exit"/>
     </fragment>
     <fragment android:id="@+id/account"
               android:name="com.example.nativemovieapp.Fragments.Account"
               android:label="fragment_account"
               tools:layout="@layout/fragment_account"/>
-    <fragment android:id="@+id/similarMovie"
-              android:name="com.example.nativemovieapp.MovieDetailFragmentSimilar"
-              android:label="fragment_similar"
-              tools:layout="@layout/fragment_similar">
-        <action android:id="@+id/action_similarMovie_to_movieDetailFragment"
-                app:destination="@id/movieDetailFragment"
-                app:enterAnim="@anim/enter"
-                app:exitAnim="@anim/exit"
-        />
-    </fragment>
 
 
     <fragment android:id="@+id/movieDetailFragment"
@@ -65,11 +55,12 @@
     >
         <argument android:name="id"
                   app:argType="integer"/>
-                <action android:id="@+id/action_movieDetailFragment_to_movieDetailFragment"
-                        app:destination="@id/movieDetailFragment"
-                        app:enterAnim="@anim/enter"
-                        app:exitAnim="@anim/exit"
-                />
+        <action android:id="@+id/action_movieDetailFragment_to_movieDetailFragment"
+                app:destination="@id/movieDetailFragment"
+                app:enterAnim="@anim/enter"
+                app:exitAnim="@anim/exit"
+                app:launchSingleTop="true"
+        />
         <action android:id="@+id/action_movieDetailFragment_to_PlayerViewMovieFragment"
                 app:destination="@id/PlayerViewMovieFragment"
                 app:enterAnim="@anim/enter"

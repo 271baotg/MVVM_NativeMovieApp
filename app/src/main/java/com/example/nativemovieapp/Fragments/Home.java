@@ -1,11 +1,13 @@
 package com.example.nativemovieapp.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import android.util.Log;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,24 +18,27 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
 
 import com.example.nativemovieapp.Model.MovieDetail;
 import com.example.nativemovieapp.R;
-import com.example.nativemovieapp.adapter.HomeCategoryAdapter;
-import com.example.nativemovieapp.adapter.HomeSliderAdapter;
-import com.example.nativemovieapp.adapter.HomeUpcomingAdapter;
-import com.example.nativemovieapp.adapter.RcvInterfce;
+import com.example.nativemovieapp.adapter.*;
 import com.example.nativemovieapp.viewmodel.HomeViewModels;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Home extends Fragment implements RcvInterfce {
@@ -57,13 +62,24 @@ public class Home extends Fragment implements RcvInterfce {
     private LinearLayoutManager layoutManager;
     private LinearLayoutManager topratelayoutManager;
     private LinearLayoutManager upComminglayoutManager;
+    private BottomSheetAdapter bottomSheetAdapter;
+    private BottomSheetDialog dialog;
+    private RecyclerView bottomRCV;
+    private ExecutorService executors;
+    private TextView categoryName;
+    View dialogview;
 
-    View layout;
+    private boolean isBottomDialogShowing = false;
+
+
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Gắn ViewModel
         homeVMs = new ViewModelProvider(this).get(HomeViewModels.class);
+        executors = Executors.newFixedThreadPool(3);
+        Log.d("ListByCategory", homeVMs.getListMovieByCategory().toString());
+
 
     }
 
@@ -81,8 +97,8 @@ public class Home extends Fragment implements RcvInterfce {
         upComingRecycler.hasFixedSize();
 
         layoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.HORIZONTAL, false);
-        topratelayoutManager = new LinearLayoutManager(this.getContext(),RecyclerView.HORIZONTAL,false);
-        upComminglayoutManager = new LinearLayoutManager(this.getContext(),RecyclerView.HORIZONTAL,false);
+        topratelayoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.HORIZONTAL, false);
+        upComminglayoutManager = new LinearLayoutManager(this.getContext(), RecyclerView.HORIZONTAL, false);
 
         //Setup Slide
         sliderView = root.findViewById(R.id.imageSlider);
@@ -92,13 +108,18 @@ public class Home extends Fragment implements RcvInterfce {
         sliderView.setScrollTimeInSec(3); //set scroll delay in seconds :
         sliderView.startAutoCycle();
 
+
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ObservePopularChange();
         ObserveCategoryChange(this);
         ObserveTopRateChange(this);
         ObserveUpcomingChange(this);
 
-
-        return root;
     }
 
     //Observe data change
@@ -116,12 +137,12 @@ public class Home extends Fragment implements RcvInterfce {
 
     }
 
-    private void ObserveUpcomingChange(RcvInterfce rcvInterfce){
+    private void ObserveUpcomingChange(RcvInterfce rcvInterfce) {
         homeVMs.getListUpcoming().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
                 upComingRecycler.setLayoutManager(upComminglayoutManager);
-                upComingAdapter=new HomeUpcomingAdapter(movies,rcvInterfce);
+                upComingAdapter = new HomeUpcomingAdapter(movies, rcvInterfce);
                 upComingRecycler.setAdapter(upComingAdapter);
             }
         });
@@ -140,14 +161,24 @@ public class Home extends Fragment implements RcvInterfce {
         });
     }
 
-    private void ObserveTopRateChange(RcvInterfce rcvInterfce){
+    private void ObserveTopRateChange(RcvInterfce rcvInterfce) {
         homeVMs.getListHomeTopRate().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
                 toprateRecycler.setLayoutManager(layoutManager);
-                topRatedAdapter = new HomeUpcomingAdapter(movies,rcvInterfce);
+                topRatedAdapter = new HomeUpcomingAdapter(movies, rcvInterfce);
                 toprateRecycler.setAdapter(topRatedAdapter);
 
+
+            }
+        });
+    }
+
+    private void ObserveListByCategoryChange(RcvInterfce rcvInterfce, String name) {
+        homeVMs.getListMovieByCategory().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                showBottomDialog(movies, rcvInterfce, name);
             }
         });
     }
@@ -156,7 +187,35 @@ public class Home extends Fragment implements RcvInterfce {
     @Override
     public void onStop() {
         super.onStop();
-        categoryAdapter.release();
+    }
+
+    public void showBottomDialog(List<Movie> list, RcvInterfce rcvInterfce, String name) {
+
+
+        dialogview = LayoutInflater.from(getActivity()).inflate(R.layout.bottom_sheet_layout, null);
+        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                isBottomDialogShowing = false;
+                homeVMs.setNull();
+            }
+        });
+        bottomRCV = dialogview.findViewById(R.id.rcv_movie_category);
+        categoryName = dialogview.findViewById(R.id.category_name);
+        categoryName.setText(name);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        bottomSheetAdapter = new BottomSheetAdapter(list, rcvInterfce);
+        bottomRCV.setAdapter(bottomSheetAdapter);
+        homeVMs.getListMovieByCategory().removeObservers(getViewLifecycleOwner());
+        bottomRCV.setLayoutManager(gridLayoutManager);
+        dialog.setContentView(dialogview);
+        // Show the dialog
+        dialog.show();
+        isBottomDialogShowing = true;
+
+
+        Log.d("bottomSheet", "show");
     }
 
 
@@ -165,6 +224,10 @@ public class Home extends Fragment implements RcvInterfce {
         int id = movie.getId();
         NavDirections action = HomeDirections.actionHome2ToMovieDetailFragment(id);
         Navigation.findNavController(getActivity(), R.id.host_fragment).navigate(action);
+        if (isBottomDialogShowing) {
+            dialog.dismiss();
+            isBottomDialogShowing = false;
+        }
 
     }
 
@@ -172,5 +235,22 @@ public class Home extends Fragment implements RcvInterfce {
     public void onMovieFavorClick(MovieDetail movieDetail) {
 
     }
+
+    @Override
+    public void onCategoryClick(Category category) {
+        int id = category.getId();
+        homeVMs.loadListMovieByCategory(id, Credential.apiKey);
+        homeVMs.getListMovieByCategory().observe(getViewLifecycleOwner(), new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                if (movies != null && !movies.isEmpty()) {
+                    showBottomDialog(movies, Home.this, category.getName());
+                }
+            }
+        });
+
+
+    }
+
 
 }

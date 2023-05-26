@@ -6,13 +6,12 @@ import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Api.Repository;
 import com.example.nativemovieapp.Model.Category;
 import com.example.nativemovieapp.Model.Movie;
-import com.google.firebase.FirebaseApp;
 
 import java.util.List;
 
 public class HomeViewModels extends ViewModel {
 
-    
+
     Repository DB = Repository.getInstance();
 
     public LiveData<List<Movie>> getListPopular() {
@@ -23,14 +22,26 @@ public class HomeViewModels extends ViewModel {
         return DB.getListCategory();
     }
 
-    public LiveData<List<Movie>> getListHomeTopRate(){
+    public LiveData<List<Movie>> getListHomeTopRate() {
         return DB.getListTopRate();
     }
-    public LiveData<List<Movie>> getListUpcoming(){return DB.getListUpcoming();}
 
-    public void loadListHomeTopRate(){ DB.loadListTopRateMovie(Credential.apiKey,2);}
+    public LiveData<List<Movie>> getListUpcoming() {
+        return DB.getListUpcoming();
+    }
 
-    public void loadListUpComing(){DB.loadListUpcomingMovie(Credential.apiKey,2);}
+    public LiveData<List<Movie>> getListMovieByCategory() {
+        return DB.getListMovieByCategory();
+    }
+
+    public void loadListHomeTopRate() {
+        DB.loadListTopRateMovie(Credential.apiKey, 2);
+    }
+
+    public void loadListUpComing() {
+        DB.loadListUpcomingMovie(Credential.apiKey, 2);
+    }
+
     ;
 
 
@@ -40,6 +51,15 @@ public class HomeViewModels extends ViewModel {
 
     public void loadListCategory() {
         DB.loadListCategory(Credential.apiKey);
+    }
+
+
+    public void loadListMovieByCategory(int id, String api_key) {
+        DB.loadListMovieByCategory(id, api_key);
+    }
+
+    public void setNull() {
+        DB.setNull();
     }
 
 

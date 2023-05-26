@@ -1,4 +1,4 @@
-package com.example.nativemovieapp;
+package com.example.nativemovieapp.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.nativemovieapp.Model.MovieTrailer;
+import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.SearchAdapter;
 import com.example.nativemovieapp.adapter.TrailersAdapter;
 import com.example.nativemovieapp.viewmodel.MovieDetailViewModel;
@@ -28,6 +29,7 @@ public class MovieDetailFragmentTrailers extends Fragment {
     private MovieDetailViewModel detailVM;
     private RecyclerView rcvTrailers;
     private TrailersAdapter trailersAdapter;
+
     public MovieDetailFragmentTrailers(Fragment parentFragment, int idCurrent) {
         mParentFragment = parentFragment;
         midCurrent = idCurrent;
@@ -47,7 +49,7 @@ public class MovieDetailFragmentTrailers extends Fragment {
         View root = inflater.inflate(R.layout.fragment_trailers, container, false);
 
         rcvTrailers = root.findViewById(R.id.rcv_trailers);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext(), LinearLayoutManager.VERTICAL, false);
         rcvTrailers.setLayoutManager(linearLayoutManager);
 
         ObserveChange();
@@ -58,7 +60,7 @@ public class MovieDetailFragmentTrailers extends Fragment {
         detailVM.getMovieTrailers().observe(getViewLifecycleOwner(), new Observer<List<MovieTrailer>>() {
             @Override
             public void onChanged(List<MovieTrailer> listTrailer) {
-                trailersAdapter = new TrailersAdapter(listTrailer,mParentFragment.getContext());
+                trailersAdapter = new TrailersAdapter(listTrailer, mParentFragment.getContext());
                 rcvTrailers.setAdapter(trailersAdapter);
             }
         });
@@ -67,7 +69,7 @@ public class MovieDetailFragmentTrailers extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(trailersAdapter != null){
+        if (trailersAdapter != null) {
             trailersAdapter.Release();
         }
     }
