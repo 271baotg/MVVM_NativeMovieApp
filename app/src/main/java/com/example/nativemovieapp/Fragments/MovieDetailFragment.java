@@ -31,6 +31,8 @@ import com.chaek.android.RatingBar;
 import com.example.nativemovieapp.Api.Credential;
 import com.example.nativemovieapp.Model.Movie;
 import com.example.nativemovieapp.Model.MovieDetail;
+import com.example.nativemovieapp.MovieDetailFragmentSimilar;
+import com.example.nativemovieapp.MovieDetailFragmentTrailers;
 import com.example.nativemovieapp.PlayerViewMovieFragment;
 import com.example.nativemovieapp.R;
 import com.example.nativemovieapp.adapter.DetailCategoryAdapter;
@@ -43,6 +45,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.smarteist.autoimageslider.IndicatorView.draw.controller.DrawController;
 import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
@@ -185,10 +188,7 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
 
                 detail_score.setText(String.valueOf(movieDetail.getVote_average()));
 
-
-
                 //Category lane
-
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
                 StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
                 if (movieDetail.getGenres().size() > 2) {
@@ -199,9 +199,11 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
 
                 //Overview
                 overview.setText(movieDetail.getOverview());
+
                 mdetailmovieviewpageradapter = new DetailMovieViewPagerAdapter(getActivity(),fragment,detailVM.getId());
                 mviewpager.setAdapter(mdetailmovieviewpageradapter);
                 mviewpager.setUserInputEnabled(false);
+                mviewpager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
                 new TabLayoutMediator(mtablayout, mviewpager, new TabLayoutMediator.TabConfigurationStrategy() {
                     @Override
                     public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
@@ -218,7 +220,6 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
                         }
                     }
                 }).attach();
-
                 button_play.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -230,6 +231,7 @@ public class MovieDetailFragment extends Fragment implements RcvInterfce {
             }
         });
     }
+
 
     @Override
     public void onMovieClick(Movie movie, int id) {

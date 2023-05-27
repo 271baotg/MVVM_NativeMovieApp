@@ -3,20 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:id="@+id/fragment_movie_detail"
     >
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_height="match_parent"
+    <ScrollView
+            android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:scrollbarStyle="insideInset"
         >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context=".MovieDetailFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -208,18 +206,18 @@
                     android:textColor="@color/white"
                     android:fontFamily="@font/myfont"/>
                 <com.google.android.material.tabs.TabLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tablayout_detailMovie"
-                    android:layout_below="@+id/detail_overview"
-                    android:layout_margin="10sp"
-                    app:tabMode="fixed"
-                    >
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tablayout_detailMovie"
+                        android:layout_below="@+id/detail_overview"
+                        app:tabMode="fixed"
+                        android:layout_marginTop="10sp" android:layout_marginStart="10sp"
+                        android:layout_marginEnd="10sp" android:layout_marginBottom="10sp">
 
                 </com.google.android.material.tabs.TabLayout>
 
                 <androidx.viewpager2.widget.ViewPager2 android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/viewpager_detaiMovie"
                     android:layout_below="@+id/tablayout_detailMovie"
                     android:layout_margin="10sp"

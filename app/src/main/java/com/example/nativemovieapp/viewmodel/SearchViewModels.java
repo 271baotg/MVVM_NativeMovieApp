@@ -26,12 +26,12 @@ public class SearchViewModels extends ViewModel {
     }
 
     public void loadListUpcomingMovie() {
-        DB.loadListUpcomingMovie(Credential.apiKey, 1);
+        DB.loadListUpcomingMovie(Credential.apiKey, 2);
     }
     public LiveData<List<Movie>> getListTopRate() {
         return DB.getListTopRate();
     }
     public void loadListTopRateMovie() {
-        DB.loadListTopRateMovie(Credential.apiKey, 1);
+        DB.loadListTopRateMovie(Credential.apiKey, 2);
     }
 }

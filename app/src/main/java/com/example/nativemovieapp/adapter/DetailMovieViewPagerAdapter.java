@@ -1,5 +1,7 @@
 package com.example.nativemovieapp.adapter;
 
+import android.app.FragmentTransaction;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.nativemovieapp.MovieDetailFragmentImages;
 import com.example.nativemovieapp.MovieDetailFragmentSimilar;
 import com.example.nativemovieapp.MovieDetailFragmentTrailers;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import org.jetbrains.annotations.NotNull;
 
 public class DetailMovieViewPagerAdapter extends FragmentStateAdapter {
@@ -28,6 +31,8 @@ public class DetailMovieViewPagerAdapter extends FragmentStateAdapter {
     @NotNull
     @Override
     public Fragment createFragment(int position) {
+
+        Log.d("positionfra", String.valueOf(position));
         switch (position){
             case 0:
                 return new MovieDetailFragmentTrailers(mParentFragment,midCurrent);
@@ -39,9 +44,11 @@ public class DetailMovieViewPagerAdapter extends FragmentStateAdapter {
                 return new MovieDetailFragmentTrailers(mParentFragment, midCurrent);
         }
     }
-
     @Override
     public int getItemCount() {
         return 3;
     }
+
+
+
 }

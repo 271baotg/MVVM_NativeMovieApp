@@ -60,7 +60,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
 
             }
         });
-
     }
     @Override
     public int getItemCount() {
