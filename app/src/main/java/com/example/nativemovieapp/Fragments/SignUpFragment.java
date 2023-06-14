@@ -1,5 +1,8 @@
 package com.example.nativemovieapp.Fragments;
 
+import static com.example.nativemovieapp.utils.Validator.isValidEmail;
+import static com.example.nativemovieapp.utils.Validator.isValidPassword;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -75,7 +78,12 @@ public class SignUpFragment extends Fragment {
                     Toast.makeText(getContext(), "Some field are missing! Please fill all", Toast.LENGTH_SHORT).show();
                 } else if(!isValidEmail(email)){
                     Toast.makeText(getContext(), "Email is not valid, please correct it", Toast.LENGTH_SHORT).show();
-                } else if (!(pass.equals(confirmPass))) {
+                }
+                else if(!isValidPassword(pass)){
+                    Toast.makeText(getContext(), "Your password need to:\n" +
+                            "\tHave minimum length 8 and maximum 20\n" +
+                            "\tHave to contains at least one special character", Toast.LENGTH_SHORT).show();
+                }else if (!(pass.equals(confirmPass))) {
                     Toast.makeText(getContext(), "Password doesn't match", Toast.LENGTH_SHORT).show();
                 } else{
                     getViewModel().register(email, pass, new AuthenticationViewModel.AuthViewModelCallBack() {
@@ -121,10 +129,7 @@ public class SignUpFragment extends Fragment {
         edtConfirmPassword = root.findViewById(R.id.edt_confirm_pass);
         edtUsername = root.findViewById(R.id.edt_username);
     }
-    Boolean isValidEmail(String email)
-    {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
+
     AuthenticationViewModel getViewModel()
     {
         return ((AuthenticationActivity) requireActivity()).getAuthViewModel();

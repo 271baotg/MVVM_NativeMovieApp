@@ -11,4 +11,6 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="signInButtonColor">#FF5757</color>
     <color name="grayEditText">#474a49</color>
+    <color name="dark_red">#8C0A0A</color>
+
 </resources>

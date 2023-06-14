@@ -68,7 +68,7 @@ public class SignInFragment extends Fragment {
                 String email = edtEmail.getText().toString().trim();
                 String pass = edtPass.getText().toString().trim();
 //                String email = "annguyeen0@gmail.com";
-//                String pass = "123456";
+//                String pass = "123123";
 
                 if(email.isEmpty()||pass.isEmpty())
                 {
