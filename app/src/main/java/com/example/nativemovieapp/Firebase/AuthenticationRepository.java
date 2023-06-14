@@ -2,13 +2,17 @@ package com.example.nativemovieapp.Firebase;
 
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -124,12 +128,33 @@ public class AuthenticationRepository {
             }
         });
     }
+    public void updatePassword( String newPassword, UpdatePasswordListener listener)
+    {
+        auth.getCurrentUser().updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                listener.onCompleted(task);
+            }
+        });
+    }
+    public void reAuthenticate(String password, ReAuthenticateListener listener){
+        AuthCredential authCredential = EmailAuthProvider.getCredential(auth.getCurrentUser().getEmail(), password);
+        auth.getCurrentUser().reauthenticate(authCredential).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                    listener.onCompleted(task);
+            }
+        });
+    }
+
+
 
     public void signOut() {
         auth.signOut();
         //userData.postValue(null);
         isLogged.postValue(false);
     }
+
 
     public interface SendEmailVerificationListener{
         void onCompleted(Task<Void> task);
@@ -142,5 +167,11 @@ public class AuthenticationRepository {
         void onLoginCompleted(MutableLiveData<FirebaseUser> user);
 
         void onRegisterCompleted(Task<AuthResult> task);
+    }
+    public interface UpdatePasswordListener{
+        void onCompleted(Task<Void> task);
+    }
+    public interface ReAuthenticateListener {
+        public void onCompleted(Task<Void> task);
     }
 }

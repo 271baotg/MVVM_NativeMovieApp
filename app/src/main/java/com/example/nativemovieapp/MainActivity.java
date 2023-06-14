@@ -34,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomSheetDialog dialog;
     private BottomNavigationView navigation;
     private NavHostFragment navHostFragment;
-
     private NavController navController;
-
     private View layout;
 
     @SuppressLint("MissingInflatedId")
