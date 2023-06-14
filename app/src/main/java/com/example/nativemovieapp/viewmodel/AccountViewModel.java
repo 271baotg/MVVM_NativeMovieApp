@@ -27,7 +27,6 @@ public class AccountViewModel extends ViewModel {
         repository.uploadImage(bm, new StorageRepository.OnImageUploadListener() {
             @Override
             public void onImageUpload(Uri imageUrl) {
-
                 avatarUrl.postValue(imageUrl);
                 listener.onImageUpload(imageUrl);
                 Log.i("Tét in AVM", imageUrl.toString());

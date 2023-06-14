@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,10 @@ import com.example.nativemovieapp.viewmodel.AuthenticationViewModel;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogAnimation;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 
 public class SignUpFragment extends Fragment {
@@ -53,6 +58,7 @@ public class SignUpFragment extends Fragment {
         initView(root);
         return root;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -75,16 +81,42 @@ public class SignUpFragment extends Fragment {
                 String pass = edtPassword.getText().toString().trim();
                 String confirmPass = edtConfirmPassword.getText().toString().trim();
                 if(email.length() * pass.length() * confirmPass.length() == 0) {
-                    Toast.makeText(getContext(), "Some field are missing! Please fill all", Toast.LENGTH_SHORT).show();
+                    AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.WARNING)
+                            .setTitle("Warning")
+                            .setMessage("Some field are missing")
+                            .setGravity(Gravity.TOP)
+                            .setAnimation(DialogAnimation.IN_OUT)
+                            .show();
+                    //Toast.makeText(getContext(), "Some field are missing! Please fill all", Toast.LENGTH_SHORT).show();
                 } else if(!isValidEmail(email)){
-                    Toast.makeText(getContext(), "Email is not valid, please correct it", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Email is not valid, please correct it", Toast.LENGTH_SHORT).show();
+                    AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.WARNING)
+                            .setTitle("Warning")
+                            .setMessage("Email is not valid")
+                            .setGravity(Gravity.TOP)
+                            .setAnimation(DialogAnimation.IN_OUT)
+                            .show();
                 }
                 else if(!isValidPassword(pass)){
-                    Toast.makeText(getContext(), "Your password need to:\n" +
+                    AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.ERROR)
+                            .setTitle("Warning")
+                            .setMessage("Your password need to:\n" +
                             "\tHave minimum length 8 and maximum 20\n" +
-                            "\tHave to contains at least one special character", Toast.LENGTH_SHORT).show();
+                            "\tHave to contains at least one special character")
+                            .setGravity(Gravity.TOP)
+                            .setAnimation(DialogAnimation.IN_OUT)
+                            .show();
+//                    Toast.makeText(getContext(), "Your password need to:\n" +
+//                            "\tHave minimum length 8 and maximum 20\n" +
+//                            "\tHave to contains at least one special character", Toast.LENGTH_SHORT).show();
                 }else if (!(pass.equals(confirmPass))) {
-                    Toast.makeText(getContext(), "Password doesn't match", Toast.LENGTH_SHORT).show();
+                    AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.WARNING)
+                            .setTitle("Warning")
+                            .setMessage("Password doesn't match")
+                            .setGravity(Gravity.TOP)
+                            .setAnimation(DialogAnimation.IN_OUT)
+                            .show();
+//                    Toast.makeText(getContext(), "Password doesn't match", Toast.LENGTH_SHORT).show();
                 } else{
                     getViewModel().register(email, pass, new AuthenticationViewModel.AuthViewModelCallBack() {
                         @Override
@@ -96,22 +128,47 @@ public class SignUpFragment extends Fragment {
                         public void onRegisterCompleted(Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
-                                Toast.makeText(getActivity(), "Register is successful, please verify", Toast.LENGTH_SHORT).show();
+                                AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.SUCCESS)
+                                        .setTitle("Success")
+                                        .setMessage("Register is successful, please check your email")
+                                        .setGravity(Gravity.TOP)
+                                        .setAnimation(DialogAnimation.IN_OUT)
+                                        .show();
+//                                Toast.makeText(getActivity(), "Register is successful, please verify", Toast.LENGTH_SHORT).show();
                                 getViewModel().updateDisplayName(username);
                                 getViewModel().sendEmailVerification(new AuthenticationViewModel.SendEmailVerificationListener() {
                                     @Override
                                     public void onCompleted(Task<Void> task) {
                                         if(task.isSuccessful()){
-                                            Toast.makeText(getContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
+                                            AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.SUCCESS)
+                                                    .setTitle("Success")
+                                                    .setMessage("Verification email was send, please check your email")
+                                                    .setGravity(Gravity.TOP)
+                                                    .setAnimation(DialogAnimation.IN_OUT)
+                                                    .show();
+//                                            Toast.makeText(getContext(), "User registered successfully", Toast.LENGTH_SHORT).show();
                                         }else {
-                                            Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.ERROR)
+                                                    .setTitle("Error")
+                                                    .setMessage(task.getException().getMessage().trim())
+                                                    .setGravity(Gravity.TOP)
+                                                    .setAnimation(DialogAnimation.IN_OUT)
+                                                    .show();
+
+//                                            Toast.makeText(getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
                             }
                             else
                             {
-                                Toast.makeText(getActivity(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.ERROR)
+                                        .setTitle("ERROR")
+                                        .setMessage(task.getException().getMessage().toString())
+                                        .setGravity(Gravity.TOP)
+                                        .setAnimation(DialogAnimation.IN_OUT)
+                                        .show();
+//                                Toast.makeText(getActivity(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
