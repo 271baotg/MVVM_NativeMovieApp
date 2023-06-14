@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.thecode.aestheticdialogs.AestheticDialog;
+import com.thecode.aestheticdialogs.DialogAnimation;
+import com.thecode.aestheticdialogs.DialogStyle;
+import com.thecode.aestheticdialogs.DialogType;
 
 
 public class SignInFragment extends Fragment {
@@ -72,21 +77,38 @@ public class SignInFragment extends Fragment {
 
                 if(email.isEmpty()||pass.isEmpty())
                 {
-                    Toast.makeText(getActivity(), "Email or Password is missing. Please fill it", Toast.LENGTH_SHORT).show();
+                    AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.ERROR)
+                            .setTitle("ERROR")
+                            .setMessage("Email or Password is missing. Please fill it")
+                            .setGravity(Gravity.TOP)
+                            .setAnimation(DialogAnimation.IN_OUT)
+                            .show();
+//                    Toast.makeText(getActivity(), "Email or Password is missing. Please fill it", Toast.LENGTH_SHORT).show();
                 }else{
 
                     ((AuthenticationActivity) getActivity()).getAuthViewModel().login(email, pass, new AuthenticationViewModel.AuthViewModelCallBack() {
                         @Override
                         public void onLoginCompleted(LiveData<FirebaseUser> user) {
                             if(user == null){
-                                Toast.makeText(getActivity(), "Your email or password is not correct", Toast.LENGTH_SHORT).show();
+                                AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.ERROR)
+                                        .setTitle("ERROR")
+                                        .setMessage("Your email or password is not correct")
+                                        .setGravity(Gravity.TOP)
+                                        .setAnimation(DialogAnimation.IN_OUT)
+                                        .show();
+                                //Toast.makeText(getActivity(), "Your email or password is not correct", Toast.LENGTH_SHORT).show();
                             }
                             else if(!user.getValue().isEmailVerified()){
-
                                 getViewModel().sendEmailVerification(new AuthenticationViewModel.SendEmailVerificationListener() {
                                     @Override
                                     public void onCompleted(Task<Void> task) {
-                                        Toast.makeText(getActivity(), "Please verify your email", Toast.LENGTH_SHORT).show();
+                                        AestheticDialog show = new AestheticDialog.Builder(getActivity(), DialogStyle.EMOTION, DialogType.WARNING)
+                                                .setTitle("Warning")
+                                                .setMessage("Please verify your email")
+                                                .setGravity(Gravity.TOP)
+                                                .setAnimation(DialogAnimation.IN_OUT)
+                                                .show();
+//                                        Toast.makeText(getActivity(), "Please verify your email", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }else{

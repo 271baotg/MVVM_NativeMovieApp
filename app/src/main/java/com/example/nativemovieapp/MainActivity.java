@@ -19,12 +19,16 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+
+import com.example.nativemovieapp.Api.Credential;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationBarView;
 import org.jetbrains.annotations.NotNull;
 
 import static androidx.navigation.fragment.FragmentKt.findNavController;
+
+import static com.example.nativemovieapp.utils.Greet.showWelcome;
 
 import java.util.zip.Inflater;
 
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         navigation = findViewById(R.id.nav_bar);
         navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.host_fragment);
         navController = Navigation.findNavController(this, R.id.host_fragment);
+        showWelcome(Credential.getCurrentUser().getDisplayName().toString(), "Have a great date", this);
         NavigationUI.setupWithNavController(navigation, navController);
 
 
